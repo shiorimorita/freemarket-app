@@ -18,8 +18,9 @@ use Illuminate\Support\Facades\Route;
 //     return view('profile');
 // });
 
+Route::get('/', [ProfileController::class,'afterLogin']);
+
 Route::middleware('auth')->group(function (){
-    Route::get('/', [ProfileController::class,'afterLogin']);
-    Route::get('/mypage/profile',[ProfileController::class,'profileView']);
-    Route::post('/mypage/profile',[ProfileController::class,'profileCreate']);
+    Route::get('/mypage',[ProfileController::class,'profileView']);
+    Route::post('/mypage',[ProfileController::class,'profileCreate']);
 });
