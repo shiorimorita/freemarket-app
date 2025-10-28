@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('profile');
+// Route::get('/', function () {
+//     return view('profile');
+// });
+
+Route::middleware('auth')->group(function (){
+    Route::get('/', [ProfileController::class,'afterLogin']);
+    Route::get('/mypage/profile',[ProfileController::class,'profileView']);
+    Route::post('/mypage/profile',[ProfileController::class,'profileCreate']);
 });

@@ -5,7 +5,7 @@
 @endsection
 @section('content')
 <main class="profile">
-    <form action="" method="post" class="profile__form" enctype="multipart/form-data">
+    <form action="/mypage/profile" method="post" class="profile__form" enctype="multipart/form-data">
         @csrf
         <h2 class="profile__title common-sub-title">プロフィール設定</h2>
         <div class="profile__img">
@@ -15,7 +15,7 @@
         </div>
         <div class="profile__group">
             <label for="name" class="profile__label">ユーザー名</label>
-            <input type="text" name="name" id="name" class="profile__input">
+            <input type="text" name="" id="name" class="profile__input">
         </div>
         <div class="profile__group">
             <label for="post_code" class="profile__label">郵便番号</label>
