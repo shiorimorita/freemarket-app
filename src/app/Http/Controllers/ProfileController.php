@@ -1,17 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Requests\ProfileRequest;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
     public function afterLogin()
     {
+        if(!Auth::check()){
+            return view('index');
+        }
         
         $user=Auth::user();
 
+        /* profile が未登録の場合、プロフィール登録ページへ */
         if(!$user->profile){
             return redirect('/mypage/profile');
         }
@@ -25,7 +29,7 @@ class ProfileController extends Controller
         return view ('profile');
     }
     /* profile create*/
-    public function profileCreate(Request $request)
+    public function profileCreate(ProfileRequest $request)
     {
         $profile = $request->only(['post_code','address','building']);
         $profile['user_id'] = Auth::id();

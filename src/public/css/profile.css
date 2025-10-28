@@ -30,6 +30,11 @@
     background: #D9D9D9;
 }
 
+.profile__img-image.has-image {
+    background: none;
+    object-fit: cover;
+}
+
 .profile__label {
     display: block;
     line-height: 1;
@@ -40,7 +45,6 @@
 .profile__input {
     border-radius: 4px;
     border: 1px solid #5F5F5F;
-    margin-bottom: 32px;
     height: 56px;
 }
 
