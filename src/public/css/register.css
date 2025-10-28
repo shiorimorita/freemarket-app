@@ -12,6 +12,10 @@
     margin-bottom: 48px;
 }
 
+.register__group {
+    margin-bottom: 32px;
+}
+
 .register__label {
     display: block;
     line-height: 1;
@@ -23,7 +27,6 @@
     height: 58px;
     border-radius: 4px;
     border: 1px solid #5F5F5F;
-    margin-bottom: 32px;
 }
 
 .register__buttons {

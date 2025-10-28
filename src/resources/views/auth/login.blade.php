@@ -8,13 +8,27 @@
         @csrf
         <div class="login__inner">
             <h2 class="login__title common-sub-title">ログイン</h2>
-            <label for="email" class="login__label">メールアドレス</label>
-            <input type="email" name="email" id="email" class="login__input">
-            <label for="password" class="login__label">パスワード</label>
-            <input type="password" name="password" id="password" class="login__input">
+            <div class="login__group">
+                <label for="email" class="login__label">メールアドレス</label>
+                <input type="mail" name="email" id="email" class="login__input">
+                <p class="login_error input_error">
+                    @error('email')
+                    {{ $message }}
+                    @enderror
+                </p>
+            </div>
+            <div class="login__group">
+                <label for="password" class="login__label">パスワード</label>
+                <input type="password" name="password" id="password" class="login__input">
+                <p class="login_error input_error">
+                    @error('password')
+                    {{ $message }}
+                    @enderror
+                </p>
+            </div>
             <div class="login__buttons">
                 <button type="submit" class="login__button common-btn">ログインする</button>
-                <a href="" class="login__link common-link">会員登録はこちら</a>
+                <a href="/register" class="login__link common-link">会員登録はこちら</a>
             </div>
         </div>
     </form>

@@ -25,6 +25,11 @@ input {
     width: 100%;
 }
 
+.input_error {
+    color: #FF5555;
+    font-size: 16px;
+}
+
 .common-link {
     display: block;
     font-size: 20px;
