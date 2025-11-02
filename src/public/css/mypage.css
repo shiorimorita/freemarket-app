@@ -1,0 +1,76 @@
+.mypage {
+    max-width: 1512px;
+    padding-top: 78px;
+    margin: 0 auto;
+}
+
+.mypage__profile-info {
+    display: flex;
+    align-items: center;
+    width: 1017px;
+    margin: 0 auto 77px auto;
+    text-align: center;
+}
+
+.mypage__profile-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    background: #D9D9D9;
+    margin-right: 57px;
+}
+
+.mypage__profile-user {
+    display: block;
+    font-size: 36px;
+    font-weight: bold;
+    width: 250px;
+    margin-right: 250px;
+}
+
+.mypage__profile-edit {
+    font-size: 26px;
+    width: 310px;
+    line-height: 47px;
+}
+
+.mypage__profile-list {
+    display: flex;
+    align-items: center;
+    gap: 52px;
+    border-bottom: 2px solid #5F5F5F;
+    padding: 0 0 5px 129px;
+}
+
+.mypage__profile-link {
+    display: block;
+    text-align: center;
+    color: #5F5F5F;
+    width: 155px;
+    font-weight: bold;
+    padding: 8px 0;
+}
+
+.mypage__items {
+    padding: 59px 70px 0 70px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.mypage__item {
+    margin-bottom: 77px;
+}
+
+.mypage__item-img {
+    width: 290px;
+    height: 282px;
+    border-radius: 4px;
+    background: #D9D9D9;
+    margin-bottom: 8px;
+}
+
+.mypage__item-name {
+    font-size: 25px;
+}

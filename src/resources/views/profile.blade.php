@@ -5,13 +5,13 @@
 @endsection
 @section('content')
 <main class="profile">
-    <form action="/mypage" method="post" class="profile__form" enctype="multipart/form-data">
+    <form action="/mypage/profile" method="post" class="profile__form" enctype="multipart/form-data">
         @csrf
         <h2 class="profile__title common-sub-title">プロフィール設定</h2>
         <div class="profile__img">
-            <img src="" alt="" class="profile__img-image">
-            <input type="file" name="image_path" class="profile__img-input">
-            <button class="profile__img-button" type="button">画像を選択する</button>
+            <img src="" alt="" class="profile__img-image common__img-image">
+            <input type="file" name="image_path" class="profile__img-input common__img-input">
+            <button class="profile__img-button common__img-button" type="button">画像を選択する</button>
             <p class="profile_error input_error">
                 @error('image_path')
                 {{$message}}
@@ -20,7 +20,7 @@
         </div>
         <div class="profile__group">
             <label for="name" class="profile__label">ユーザー名</label>
-            <input type="text" name="" id="name" class="profile__input" value="{{old('name')}}">
+            <input type="text" name="name" id="name" class="profile__input" value="{{old('name')}}">
             <p class="profile_error input_error">
                 @error('name')
                 {{$message}}

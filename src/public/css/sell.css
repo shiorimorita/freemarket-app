@@ -1,0 +1,143 @@
+.sell {
+    width: 680px;
+    margin: 0 auto;
+}
+
+.sell__title {
+    margin: 51px 0 43px 0;
+}
+
+.sell-images {
+    margin-bottom: 70px;
+}
+
+.sell__img-image {
+    height: 150px;
+}
+
+.sell-images__legend,
+.sell__label {
+    font-weight: bold;
+    line-height: 36px;
+}
+
+.sell__sub-title {
+    height: 48px;
+    margin-bottom: 36px;
+    border-bottom: 1px solid #5f5f5f;
+    font-size: 30px;
+    font-weight: bold;
+    color: #5F5F5F;
+}
+
+.sell__group-category {
+    margin-bottom: 64px;
+}
+
+.sell__img-group {
+    height: 160px;
+    border: 1px dotted #5f5f5f;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.sell__img-button {
+    width: 165px;
+    line-height: 43px;
+    font-size: 16px;
+}
+
+.sell__detail {
+    margin-bottom: 69px;
+}
+
+.sell__group .sell__label {
+    margin-bottom: 11px;
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px 24px;
+    padding-left: 8px;
+    margin: 32px 0;
+}
+
+.chip {
+    text-align: center;
+    cursor: pointer;
+    line-height: 32px;
+    border: 2px solid #FF5655;
+    border-radius: 200px;
+    color: #FF5655;
+    font-size: 15px;
+    padding: 0 14px;
+}
+
+.chip:hover,
+.chip-check:checked+.chip {
+    background: #FF5655;
+    color: #fff;
+}
+
+.chip-check {
+    display: none;
+}
+
+.sell__group-input {
+    margin-bottom: 36px;
+}
+
+.sell__input {
+    border: 1px solid #5F5F5F;
+    height: 45px;
+    border-radius: 4px;
+    padding-left: 12px;
+}
+
+.sell__group-input:last-of-type {
+    margin-bottom: 0;
+}
+
+.sell__textarea {
+    height: 125px;
+    border: 1px solid #5F5F5F;
+    border-radius: 4px;
+}
+
+.sell__button {
+    margin: 118px 0 152px 0;
+    height: 60px;
+    font-size: 26px;
+    border-radius: 5px;
+}
+
+.sell__select {
+    border: 1px solid #5F5F5F;
+    line-height: 45px;
+    width: 100%;
+    font-size: 16px;
+    padding: 0 16px;
+    color: #5F5F5F;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+select,
+::picker(select) {
+    /* appearance: base-select; */
+    border-radius: 5px;
+}
+
+.sell__select option {
+    background-color: #636769;
+    color: #fff;
+    padding-left: 8px;
+}
+
+.sell__select option:hover {
+    background-color: #5599EB;
+}

@@ -1,6 +1,6 @@
-const fileInput = document.querySelector(".profile__img-input");
-const fileButton = document.querySelector(".profile__img-button");
-const imagePreview = document.querySelector(".profile__img-image");
+const fileInput = document.querySelector(".common__img-input");
+const fileButton = document.querySelector(".common__img-button");
+const imagePreview = document.querySelector(".common__img-image");
 
 fileButton.addEventListener("click", () => {
     fileInput.click();

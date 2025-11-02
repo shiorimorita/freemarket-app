@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,13 +15,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('profile');
+// Route::get('/sell', function () {
+//     return view('sell');
 // });
 
 Route::get('/', [ProfileController::class,'afterLogin']);
 
 Route::middleware('auth')->group(function (){
-    Route::get('/mypage',[ProfileController::class,'profileView']);
-    Route::post('/mypage',[ProfileController::class,'profileCreate']);
+    Route::get('/mypage/profile',[ProfileController::class,'profileView']);
+    Route::post('/mypage/profile',[ProfileController::class,'profileCreate']);
+
+    Route::get('/sell', function () {
+        return view('sell');
+    });
+    Route::post('/sell',[ItemController::class,'create']);
+    
 });
