@@ -20,14 +20,11 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', [ProfileController::class,'afterLogin']);
+Route::get('/items',[ItemController::class,'indexView']);
 
 Route::middleware('auth')->group(function (){
     Route::get('/mypage/profile',[ProfileController::class,'profileView']);
     Route::post('/mypage/profile',[ProfileController::class,'profileCreate']);
-
-    Route::get('/sell', function () {
-        return view('sell');
-    });
+    Route::get('/sell',[ItemController::class,'createView']);
     Route::post('/sell',[ItemController::class,'create']);
-    
 });

@@ -26,38 +26,16 @@
                 <legend class="sell__sub-title">商品の詳細</legend>
                 <div class="sell__group-category">
                     <span class="sell__label sell__label--category">カテゴリー</span>
-                    <!--  後でダミーデータが入る -->
+                    <p class="sell_error input_error">
+                        @error('category_ids')
+                        {{ $message }}
+                        @enderror
+                    </p>
                     <div class="chips">
-                        <input type="checkbox" name="cat1" class="chip-check" id="cat1">
-                        <label for="cat1" class="chip">ファッション</label>
-                        <input id="cat2" type="checkbox" class="chip-check">
-                        <label for="cat2" class="chip">家電</label>
-                        <input id="cat3" type="checkbox" class="chip-check">
-                        <label for="cat3" class="chip">インテリア</label>
-                        <input type="checkbox" name="" class="chip-check" id="cat4">
-                        <label for="cat4" class="chip">レディース</label>
-                        <input id="cat4" type="checkbox" class="chip-check">
-                        <label for="cat" class="chip">メンズ</label>
-                        <input id="cat3" type="checkbox" class="chip-check">
-                        <label for="cat3" class="chip">コスメ</label>
-                        <input type="checkbox" name="" class="chip-check">
-                        <label for="cat1" class="chip">本</label>
-                        <input id="cat2" type="checkbox" class="chip-check">
-                        <label for="cat2" class="chip">ゲーム</label>
-                        <input id="cat3" type="checkbox" class="chip-check">
-                        <label for="cat3" class="chip">スポーツ</label>
-                        <input id="cat3" type="checkbox" class="chip-check">
-                        <label for="cat3" class="chip">キッチン</label>
-                        <input id="cat3" type="checkbox" class="chip-check">
-                        <label for="cat3" class="chip">ハンドメイド</label>
-                        <input id="cat3" type="checkbox" class="chip-check">
-                        <label for="cat3" class="chip">アクセサリー</label>
-                        <input id="cat3" type="checkbox" class="chip-check">
-                        <label for="cat3" class="chip">おもちゃ</label>
-                        <input id="cat3" type="checkbox" class="chip-check">
-                        <label for="cat3" class="chip">ベビー・キッズ</label>
-                        <input id="cat3" type="checkbox" class="chip-check">
-                        <label for="cat3" class="chip">スポーツ</label>
+                        @foreach($categories as $category)
+                        <input type="checkbox" name="category_ids[]" class="chip-check" id="{{$category->id}}" value="{{$category->id}}">
+                        <label for="{{$category->id}}" class="chip">{{$category->name}}</label>
+                        @endforeach
                     </div>
                 </div>
                 <div class="sell__group">
@@ -105,7 +83,9 @@
             </div>
             <div class="sell__group-input">
                 <label for="price" class="sell__label">販売価格</label>
-                <input type="number" name="price" class="sell__input" value="{{old('price')}}" id="price">
+                <div class="price-wrapper">
+                    <input type="number" name="price" class="sell__input sell__input--price" value="{{old('price')}}" id="price">
+                </div>
                 <p class="sell_error input_error">
                     @error('price')
                     {{ $message }}

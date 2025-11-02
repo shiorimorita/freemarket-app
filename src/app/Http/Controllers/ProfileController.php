@@ -10,7 +10,7 @@ class ProfileController extends Controller
     public function afterLogin()
     {
         if(!Auth::check()){
-            return view('index');
+            return redirect ('/items');
         }
         
         $user=Auth::user();
@@ -19,8 +19,9 @@ class ProfileController extends Controller
         if(!$user->profile){
             return redirect('/mypage/profile');
         }
+        
+        return redirect ('/items');
 
-        return view('index');
     }
 
     /* profile view */

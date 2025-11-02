@@ -98,6 +98,23 @@
     padding-left: 12px;
 }
 
+.price-wrapper {
+    position: relative;
+}
+
+.price-wrapper::before {
+    content: "¥";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    padding-left: 12px;
+}
+
+.sell__input--price {
+    padding-left: 32px;
+}
+
 .sell__group-input:last-of-type {
     margin-bottom: 0;
 }

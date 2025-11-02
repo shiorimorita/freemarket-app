@@ -29,6 +29,7 @@ class ItemRequest extends FormRequest
             'image_path' => ['required','mimes:jpeg,png'],
             'condition' => ['required'],
             'price'=> ['required','integer','min:0'],
+            'category_ids'=>['required'],
         ];
     }
 
@@ -44,6 +45,7 @@ class ItemRequest extends FormRequest
             'price.required' => '価格を入力してください',
             'price.integer' => '価格は数値で入力してください',
             'price.min' => '価格は0円以上で入力してください',
+            'category_ids.required' => 'カテゴリーを選択してください'
         ];
     }
 }
