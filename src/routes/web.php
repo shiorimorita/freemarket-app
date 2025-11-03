@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -32,4 +33,5 @@ Route::middleware('auth')->group(function (){
     Route::post('/mypage/profile',[ProfileController::class,'profileCreate']);
     Route::get('/sell',[ItemController::class,'createView']);
     Route::post('/sell',[ItemController::class,'create']);
+    Route::post('/item/{id}/comment',[CommentController::class,'comment']);
 });

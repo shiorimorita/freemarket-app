@@ -54,17 +54,19 @@
             <h2 class="item-comment__title">コメント
                 <span class="item__comment-count">(1)</span>
             </h2>
+            @foreach($item->comments as $comment)
             <div class="item-comment__inner">
                 <div class="item-comment__user">
-                    <img src="" alt="" class="comment-user__image">
-                    <p class="comment-user__name">※ユーザー名</p>
+                    <img src="{{asset('storage/' . $comment->user->profile->image_path)}}" alt="" class="comment-user__image">
+                    <p class="comment-user__name">{{$comment->user->name}}</p>
                 </div>
-                <p class="comment__content">※こちらにコメントが入ります。</p>
+                <p class="comment__content">{{$comment->content}}</p>
             </div>
+            @endforeach
             <h2 class="item-comment__sub-title">商品へのコメント</h2>
-            <form action="" method="post" class="comment-form">
+            <form action="/item/{{$item->id}}/comment" method="post" class="comment-form">
                 @csrf
-                <textarea name="" cols="30" rows="5" class="comment__description" placeholder="※コメントを入力してください"></textarea>
+                <textarea name="content" cols="30" rows="5" class="comment__description"></textarea>
                 <div class="comment__button">
                     <button class="comment-button__submit common-btn">コメントを送信する</button>
                 </div>
