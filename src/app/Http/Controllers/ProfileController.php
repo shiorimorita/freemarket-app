@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
@@ -23,7 +24,8 @@ class ProfileController extends Controller
     /* profile view */
     public function profileView()
     {
-        return view ('profile');
+        $user = Auth::user();
+        return view ('profile',compact('user'));
     }
     /* profile create*/
     public function profileCreate(ProfileRequest $request)
@@ -33,8 +35,32 @@ class ProfileController extends Controller
         $image_path = $request->file('image_path')->store('images','public');
         $profile['image_path'] = $image_path;
 
-        Profile::create($profile);
+        Profile::updateOrCreate(
+            ['user_id' =>$profile['user_id']],
+            $profile
+        );
         return redirect('/');
+    }
+
+    public function mypage(Request $request)
+    {
+        if(! $request->has('page')){
+            return redirect('/mypage?page=sell');
+        }
+
+        $user = Auth::user();
+        $items = $user->items;
+
+        $page = $request->page;
+
+        if($page === 'sell'){
+            $items = $user->items;
+            /* 未実装 */
+        }else{
+            $items = collect([]);
+        }
+
+        return view('mypage',compact('user','items','page'));
     }
 
 }

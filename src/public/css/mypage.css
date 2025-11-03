@@ -56,11 +56,10 @@
     padding: 59px 70px 0 70px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
 }
 
 .mypage__item {
-    margin-bottom: 77px;
+    margin: 0 0 77px 24px;
 }
 
 .mypage__item-img {
@@ -73,4 +72,12 @@
 
 .mypage__item-name {
     font-size: 25px;
+}
+
+.mypage__profile-link--active {
+    color: #FF0000;
+}
+
+.mypage__item-link {
+    color: #000;
 }

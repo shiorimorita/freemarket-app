@@ -52,12 +52,12 @@
         </div>
         <div class="item__comment">
             <h2 class="item-comment__title">コメント
-                <span class="item__comment-count">{{$item->comments->count()}}</span>
+                <span class="item__comment-count">({{$item->comments->count()}})</span>
             </h2>
             @foreach($item->comments as $comment)
             <div class="item-comment__inner">
                 <div class="item-comment__user">
-                    <img src="{{asset('storage/' . $comment->user->profile->image_path)}}" alt="" class="comment-user__image">
+                    <img src="{{$comment->user->profile ? asset('storage/' . $comment->user->profile->image_path) : ''}}" alt="" class="comment-user__image">
                     <p class="comment-user__name">{{$comment->user->name}}</p>
                 </div>
                 <p class="comment__content">{{$comment->content}}</p>

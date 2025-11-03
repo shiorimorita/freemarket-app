@@ -17,7 +17,9 @@
     <header class="header">
         <div class="header__inner">
             <h1 class="header-logo">
-                <img src="{{ asset('storage/images/logo.svg') }}" alt="Coachtech freemarket ロゴ" class="header__logo-img">
+                <a href="/" class="header-logo__link">
+                    <img src="{{ asset('storage/images/logo.svg') }}" alt="Coachtech freemarket ロゴ" class="header__logo-img">
+                </a>
             </h1>
             <form class="search-form" action="/search" method="get">
                 <input id="keyword" type="search" name="keyword" class="header__search-input" placeholder="なにをお探しですか？">

@@ -28,9 +28,36 @@ class ItemController extends Controller
         return redirect('/');
     }
 
-    public function indexView(){
-        $items = Item::all();
-        return view('index',compact('items'));
+    public function indexView(Request $request)
+    {
+        $user = Auth::user();
+        $tab  = $request->tab;
+
+        if (!$tab) {
+        $tab = 'recommend';
+    }
+
+    if ($tab === 'mylist') {
+        if (!$user) return redirect('/login');
+        
+        $items = Item::whereHas('likes', function ($q) use ($user) {
+            $q->where('user_id', $user->id);
+        })->get();
+
+    }else 
+    {
+        if ($user) 
+            {
+            // ログイン時は他人の出品のみ
+            $items = Item::where('user_id', '!=', $user->id)->get();
+            } else {
+            // 未ログイン時は全商品
+            $items = Item::all();
+        }
+    }
+
+    return view('index', compact('items', 'tab'));
+
     }
 
     public function detailView($id){

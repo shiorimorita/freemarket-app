@@ -30,6 +30,7 @@ Route::get('/after-login', [ProfileController::class,'redirectToProfileSetup'])
     ->middleware('auth');
 
 Route::middleware('auth')->group(function (){
+    Route::get('/mypage',[ProfileController::class,'mypage']);
     Route::get('/mypage/profile',[ProfileController::class,'profileView']);
     Route::post('/mypage/profile',[ProfileController::class,'profileCreate']);
     Route::get('/sell',[ItemController::class,'createView']);

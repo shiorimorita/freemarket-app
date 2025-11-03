@@ -5,41 +5,29 @@
 @section('content')
 <div class="mypage">
     <div class="mypage__profile-info">
-        <img src="" alt="" class="mypage__profile-img">
-        <p class="mypage__profile-user">ユーザー名</p>
-        <a href="" class="mypage__profile-edit common__img-button">プロフィール編集</a>
+        <img src="{{ optional($user->profile)->image_path ? asset('storage/' . optional($user->profile)->image_path) : '' }}" alt="" class="mypage__profile-img">
+        <p class="mypage__profile-user">{{$user->name}}</p>
+        <a href="/mypage/profile" class="mypage__profile-edit common__img-button">プロフィール編集</a>
     </div>
     <nav class="mypage__profile-links">
         <ul class="mypage__profile-list">
             <li class="mypage__profile-item">
-                <a href="" class="mypage__profile-link mypage__profile-link--active">出品した商品</a>
+                <a href="/mypage?page=sell" class="mypage__profile-link {{$page == 'sell' ? 'mypage__profile-link--active' : ''}}">出品した商品</a>
             </li>
             <li class="mypage__profile-item">
-                <a href="" class="mypage__profile-link mypage__profile-link--active">購入した商品</a>
+                <a href="/mypage?page=buy" class="mypage__profile-link {{$page == 'buy' ? 'mypage__profile-link--active' : ''}}">購入した商品</a>
             </li>
         </ul>
     </nav>
     <div class="mypage__items">
+        @foreach($items as $item)
         <div class="mypage__item">
-            <img src="" alt="" class="mypage__item-img">
-            <p class="mypage__item-name">商品名</p>
+            <a href="/item/{{$item->id}}" class="mypage__item-link">
+                <img src="{{asset('storage/' . $item->image_path)}}" alt="" class="mypage__item-img">
+                <p class="mypage__item-name">{{$item->name}}</p>
+            </a>
         </div>
-        <div class="mypage__item">
-            <img src="" alt="" class="mypage__item-img">
-            <p class="mypage__item-name">商品名</p>
-        </div>
-        <div class="mypage__item">
-            <img src="" alt="" class="mypage__item-img">
-            <p class="mypage__item-name">商品名</p>
-        </div>
-        <div class="mypage__item">
-            <img src="" alt="" class="mypage__item-img">
-            <p class="mypage__item-name">商品名</p>
-        </div>
-        <div class="mypage__item">
-            <img src="" alt="" class="mypage__item-img">
-            <p class="mypage__item-name">商品名</p>
-        </div>
+        @endforeach
     </div>
 </div>
 @endsection

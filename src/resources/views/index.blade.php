@@ -6,10 +6,10 @@
 <div class="products">
     <ul class="product-tabs__list">
         <li class="product-tabs__item">
-            <a href="" class="product-tabs__link">おすすめ</a>
+            <a href="/" class="product-tabs__link {{$tab == 'recommend' ? 'index__link--active' : ''}}">おすすめ</a>
         </li>
         <li class="product-tabs__item">
-            <a href="" class="product-tabs__link">マイリスト</a>
+            <a href="/?tab=mylist" class="product-tabs__link {{$tab == 'mylist' ? 'index__link--active' : ''}}">マイリスト</a>
         </li>
     </ul>
     <div class="product-list">
