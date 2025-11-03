@@ -170,6 +170,9 @@
     height: 246px;
     border: 1px solid #5F5F5F;
     border-radius: 5px;
+}
+
+.comment_error {
     margin-bottom: 48px;
 }
 

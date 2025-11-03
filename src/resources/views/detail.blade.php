@@ -17,17 +17,17 @@
         </p>
         <div class="item__function">
             <div class="like">
-                <form action="" method="post" class="like__form">
+                <form action="/item/{{$item->id}}/like" method="post" class="like__form">
                     @csrf
                     <button type="submit" class="like__button">
                         <img src="{{asset('storage/images/like.png')}}" alt="" class="like__button-img">
                     </button>
-                    <span class="like__count">※1</span>
+                    <span class="like__count">{{$item->likes_count}}</span>
                 </form>
             </div>
             <div class="comment">
                 <img src="{{asset('storage/images/comment.png')}}" alt="" class="comment__icon-img">
-                <span class="comment__count">※1</span>
+                <span class="comment__count">{{$item->comments->count()}}</span>
             </div>
         </div>
         <div class="purchase">
@@ -52,7 +52,7 @@
         </div>
         <div class="item__comment">
             <h2 class="item-comment__title">コメント
-                <span class="item__comment-count">(1)</span>
+                <span class="item__comment-count">{{$item->comments->count()}}</span>
             </h2>
             @foreach($item->comments as $comment)
             <div class="item-comment__inner">
@@ -67,6 +67,11 @@
             <form action="/item/{{$item->id}}/comment" method="post" class="comment-form">
                 @csrf
                 <textarea name="content" cols="30" rows="5" class="comment__description"></textarea>
+                <p class="comment_error input_error">
+                    @error('content')
+                    {{ $message }}
+                    @enderror
+                </p>
                 <div class="comment__button">
                     <button class="comment-button__submit common-btn">コメントを送信する</button>
                 </div>

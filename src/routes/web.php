@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,4 +35,5 @@ Route::middleware('auth')->group(function (){
     Route::get('/sell',[ItemController::class,'createView']);
     Route::post('/sell',[ItemController::class,'create']);
     Route::post('/item/{id}/comment',[CommentController::class,'comment']);
+    Route::post('/item/{id}/like',[LikeController::class,'like']);
 });

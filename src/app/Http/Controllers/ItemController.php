@@ -35,7 +35,7 @@ class ItemController extends Controller
 
     public function detailView($id){
 
-        $item = Item::with(['categories','comments.user.profile'])->find($id);
+        $item = Item::with(['categories','comments.user.profile'])->withCount('likes')->find($id);
         return view('detail',compact('item'));
     }
 
