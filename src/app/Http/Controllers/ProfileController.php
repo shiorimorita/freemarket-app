@@ -7,22 +7,18 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
-    public function afterLogin()
-    {
-        if(!Auth::check()){
-            return redirect ('/items');
-        }
-        
-        $user=Auth::user();
+    public function redirectToProfileSetup()
+{
+    $user = Auth::user();
 
-        /* profile が未登録の場合、プロフィール登録ページへ */
-        if(!$user->profile){
-            return redirect('/mypage/profile');
-        }
-        
-        return redirect ('/items');
-
+    // プロフィール未登録ならプロフィール画面へ
+    if (!$user->profile) {
+        return redirect('/mypage/profile');
     }
+
+    // 登録済みならトップページへ
+    return redirect('/');
+}
 
     /* profile view */
     public function profileView()

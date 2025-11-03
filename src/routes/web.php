@@ -19,8 +19,13 @@ use Illuminate\Support\Facades\Route;
 //     return view('sell');
 // });
 
-Route::get('/', [ProfileController::class,'afterLogin']);
-Route::get('/items',[ItemController::class,'indexView']);
+Route::get('/',[ItemController::class,'indexView']);
+Route::get('/item/{id}',[ItemController::class,'detailView']);
+Route::get('//search',[ItemController::class,'search']);
+
+// ログイン後の遷移制御
+Route::get('/after-login', [ProfileController::class,'redirectToProfileSetup'])
+    ->middleware('auth');
 
 Route::middleware('auth')->group(function (){
     Route::get('/mypage/profile',[ProfileController::class,'profileView']);

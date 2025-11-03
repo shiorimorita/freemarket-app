@@ -33,4 +33,16 @@ class ItemController extends Controller
         return view('index',compact('items'));
     }
 
+    public function detailView($id){
+
+        $item = Item::with('categories')->find($id);
+        return view('detail',compact('item'));
+    }
+
+    public function search(Request $request){
+        $keyword = $request->keyword;
+        $items = Item::searchKeyword($keyword)->get();
+        return view('index',compact('items'));
+    }
+
 }

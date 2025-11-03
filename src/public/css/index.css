@@ -29,7 +29,6 @@
 .product-list {
     margin: 72px 72px 0;
     display: flex;
-    justify-content: space-around;
     flex-wrap: wrap;
 }
 
@@ -39,6 +38,11 @@
     object-fit: cover;
     border-radius: 4px;
     border: 1px solid #5F5F5F;
+    margin-right: 24px;
+}
+
+.product-card__link {
+    color: #000;
 }
 
 .product-card__name {

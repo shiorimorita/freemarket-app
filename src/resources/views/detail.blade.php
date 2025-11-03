@@ -5,14 +5,14 @@
 @section('content')
 <main class="item-detail">
     <div class="item-detail__left">
-        <img src="{{asset('storage/images/Armani+Mens+Clock.jpg')}}" alt="" class="item-detail__img">
+        <img src="{{asset('storage/' . $item->image_path)}}" alt="" class="item-detail__img">
     </div>
     <div class="item-detail__right">
-        <h2 class="item__title">※商品名</h2>
-        <span class="item__brand">※ブランド名</span>
+        <h2 class="item__title">{{$item->name}}</h2>
+        <span class="item__brand">{{$item->brand}}</span>
         <p class="item__price">
             <span class="item__price-symbol">¥</span>
-            <span class="item__price-value">47,000</span>
+            <span class="item__price-value">{{number_format($item->price)}}</span>
             <span class="item__price-tax">(税込)</span>
         </p>
         <div class="item__function">
@@ -22,12 +22,12 @@
                     <button type="submit" class="like__button">
                         <img src="{{asset('storage/images/like.png')}}" alt="" class="like__button-img">
                     </button>
-                    <span class="like__count">1</span>
+                    <span class="like__count">※1</span>
                 </form>
             </div>
             <div class="comment">
                 <img src="{{asset('storage/images/comment.png')}}" alt="" class="comment__icon-img">
-                <span class="comment__count">1</span>
+                <span class="comment__count">※1</span>
             </div>
         </div>
         <div class="purchase">
@@ -35,25 +35,19 @@
         </div>
         <div class="item__description">
             <h2 class="item-sub__title sub-title">商品説明</h2>
-            <p class="item__description-text">
-                ※カラー：グレー
-                新品
-                商品の状態は良好です。傷もありません。
-
-                購入後、即発送いたします。
-            </p>
+            <p class="item__description-text">{{$item->description}}</p>
         </div>
         <div class="item__info">
             <h2 class="item-info__title sub-title">商品の情報</h2>
             <dl class="product-info__list">
                 <dt class="product-info__term">カテゴリー</dt>
-                <!-- あとでダミーデータが入る -->
-                <dd class="product-info__desc">洋服</dd>
-                <dd class="product-info__desc">メンズ</dd>
+                @foreach($item->categories as $category)
+                <dd class="product-info__desc">{{$category->name}}</dd>
+                @endforeach
             </dl>
             <dl class="product-info__list">
                 <dt class="product-info__term">商品の状態</dt>
-                <dd class="product-info__desc">良好</dd>
+                <dd class="product-info__desc">{{$item->condition}}</dd>
             </dl>
         </div>
         <div class="item__comment">

@@ -26,4 +26,11 @@ class Item extends Model
     {
         return $this->belongsToMany(Category::class,'category_item_pivot','item_id','category_id');
     }
+
+    public function scopeSearchKeyword($query,$keyword)
+    {
+        if(!empty($keyword)){
+            $query->where('name', 'like', "%{$keyword}%");
+        }
+    }
 }

@@ -15,8 +15,10 @@
     <div class="product-list">
         @foreach($items as $item)
         <div class="product-card">
-            <img src="{{asset('storage/' . $item->image_path)}}" alt="" class="product-card__img">
-            <p class="product-card__name">{{$item->name}}</p>
+            <a href="{{'item/' . $item->id}}" class="product-card__link">
+                <img src="{{asset('storage/' . $item->image_path)}}" alt="" class="product-card__img">
+                <p class="product-card__name">{{$item->name}}</p>
+            </a>
         </div>
         @endforeach
     </div>
