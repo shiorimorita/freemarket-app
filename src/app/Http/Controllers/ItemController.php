@@ -35,28 +35,33 @@ class ItemController extends Controller
     {
         $user = Auth::user();
 
-        $tab = $request->tab;
-        if (!$tab) {
-            $tab = 'recommend';
-        }
+        $keyword = session('search.keyword');
+
+        $tab = $request->tab ?? 'recommend';
+
         if ($tab === 'mylist') {
+
             if (!$user) {
                 $items = collect();
             } else {
                 $items = Item::whereHas('likes', function ($q) use ($user) {
                     $q->where('user_id', $user->id);
-                })->get();
+                })
+                    ->searchKeyword($keyword)   // ★ 検索適用
+                    ->get();                    // ★ createget → get
             }
         } else {
 
             if ($user) {
                 $items = Item::where('user_id', '!=', $user->id)
                     ->withCount('likes')
-                    ->orderBy('likes_count', 'desc')   // ここは元からOK
+                    ->orderBy('likes_count', 'desc')
+                    ->searchKeyword($keyword)   // ★ 検索適用
                     ->get();
             } else {
                 $items = Item::withCount('likes')
-                    ->orderBy('likes_count', 'desc')   // ★ 昇順→降順に
+                    ->orderBy('likes_count', 'desc')
+                    ->searchKeyword($keyword)   // ★ 検索適用
                     ->get();
             }
         }
@@ -67,7 +72,8 @@ class ItemController extends Controller
                 ->exists();
         }
 
-        return view('index', compact('items', 'tab'));
+        // ★ keyword をビューにも渡す
+        return view('index', compact('items', 'tab', 'keyword'));
     }
 
     public function detail($id)
@@ -89,7 +95,9 @@ class ItemController extends Controller
     public function search(Request $request)
     {
         $keyword = $request->keyword;
+
+        session(['search.keyword' => $keyword]);
         $items = Item::searchKeyword($keyword)->get();
-        return view('index', compact('items'));
+        return view('index', compact('items', 'keyword'));
     }
 }

@@ -20,7 +20,7 @@
                 </a>
             </h1>
             <form class="header__search-form" action="/search" method="get">
-                <input id="keyword" type="search" name="keyword" class="header__search-input" placeholder="なにをお探しですか？" value="{{ request('keyword') }}">
+                <input id="keyword" type="search" name="keyword" class="header__search-input" placeholder="なにをお探しですか？" value="{{ $keyword ?? '' }}">
             </form>
             <nav class="header__nav">
                 <ul class="header__nav-list">
