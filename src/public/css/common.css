@@ -62,7 +62,6 @@ textarea {
     color: #FFF;
 }
 
-/* img button */
 .common__img-input {
     display: none;
 }
@@ -74,6 +73,20 @@ textarea {
     border-radius: 10px;
     font-weight: bold;
     cursor: pointer;
+}
+
+.sold-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 8px 16;
+    text-align: center;
+    background: rgba(255, 0, 0, 0.85);
+    font-weight: bold;
+    border-radius: 4px;
+    color: #fff;
+    letter-spacing: 0.2rem;
 }
 
 /* header */
@@ -108,12 +121,17 @@ textarea {
     color: #000;
 }
 
-.header-nav {
+.header__nav {
     width: 463px;
     padding: 0 26px 0 37px;
 }
 
-.header-nav__list {
+.header__nav-list--disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.header__nav-list {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -121,17 +139,16 @@ textarea {
     gap: 16px;
 }
 
-.header-nav__link,
-.header-nav__form {
+.header__nav-link,
+.header__nav-logout-button {
     color: #FFF;
-    line-height: 47px;
 }
 
-.header-nav__link--sell {
+.header__nav-link--sell {
     background: #FFF;
     display: block;
     width: 100px;
+    line-height: 50px;
     color: #000;
     border-radius: 4px;
-    line-height: 50px;
 }

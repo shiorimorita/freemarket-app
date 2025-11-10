@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ProfileController;
@@ -17,24 +19,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/sell', function () {
-//     return view('sell');
+// Route::get('/purchase/{id}', function () {
+//     return view('checkout');
 // });
 
-Route::get('/',[ItemController::class,'indexView']);
-Route::get('/item/{id}',[ItemController::class,'detailView']);
-Route::get('//search',[ItemController::class,'search']);
+Route::get('/item/{id}', [ItemController::class, 'detail']);
+Route::get('/search', [ItemController::class, 'search']);
 
-// ログイン後の遷移制御
-Route::get('/after-login', [ProfileController::class,'redirectToProfileSetup'])
-    ->middleware('auth');
+Route::middleware('profile.set')->group(function () {
+    Route::get('/', [ItemController::class, 'index']);
+});
 
-Route::middleware('auth')->group(function (){
-    Route::get('/mypage',[ProfileController::class,'mypage']);
-    Route::get('/mypage/profile',[ProfileController::class,'profileView']);
-    Route::post('/mypage/profile',[ProfileController::class,'profileCreate']);
-    Route::get('/sell',[ItemController::class,'createView']);
-    Route::post('/sell',[ItemController::class,'create']);
-    Route::post('/item/{id}/comment',[CommentController::class,'comment']);
-    Route::post('/item/{id}/like',[LikeController::class,'like']);
+Route::middleware('auth', 'profile.set')->group(function () {
+    Route::get('/mypage', [ProfileController::class, 'mypage']);
+    Route::get('/mypage/profile', [ProfileController::class, 'create']);
+    Route::post('/mypage/profile', [ProfileController::class, 'store']);
+    Route::get('/sell', [ItemController::class, 'create']);
+    Route::post('/sell', [ItemController::class, 'store']);
+    Route::post('/item/{id}/comment', [CommentController::class, 'comment']);
+    Route::post('/item/{id}/like', [LikeController::class, 'like']);
+    Route::get('/purchase/{id}', [CheckoutController::class, 'showCheckout']);
+    Route::post('/purchase/{id}', [CheckoutController::class, 'purchase']);
+    Route::get('/purchase/address/{id}', [DeliveryController::class, 'create']);
+    Route::post('/purchase/address/{id}', [DeliveryController::class, 'store']);
 });

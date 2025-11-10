@@ -24,12 +24,12 @@ class Item extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class,'category_item_pivot','item_id','category_id');
+        return $this->belongsToMany(Category::class, 'category_item_pivot', 'item_id', 'category_id');
     }
 
     public function comments()
     {
-        return $this->hasMany(Comment::class)->orderBy('created_at','desc');
+        return $this->hasMany(Comment::class)->orderBy('created_at', 'desc');
     }
 
     public function likes()
@@ -37,9 +37,19 @@ class Item extends Model
         return $this->hasMany(Like::class);
     }
 
-    public function scopeSearchKeyword($query,$keyword)
+    public function delivery()
     {
-        if(!empty($keyword)){
+        return $this->hasOne(Delivery::class);
+    }
+
+    public function sold()
+    {
+        return $this->hasOne(Sold::class);
+    }
+
+    public function scopeSearchKeyword($query, $keyword)
+    {
+        if (!empty($keyword)) {
             $query->where('name', 'like', "%{$keyword}%");
         }
     }

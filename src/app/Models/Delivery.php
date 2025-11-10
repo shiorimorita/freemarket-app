@@ -5,21 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Profile extends Model
+class Delivery extends Model
 {
     use HasFactory;
 
-    protected $fillable =
-    [
-        'user_id',
+    protected $fillable = [
+        'item_id',
         'post_code',
         'address',
-        'building',
-        'image_path'
+        'building'
     ];
 
-    public function user()
+    public function item()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Item::class);
     }
 }

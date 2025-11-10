@@ -84,7 +84,7 @@
             <div class="sell__group-input">
                 <label for="price" class="sell__label">販売価格</label>
                 <div class="price-wrapper">
-                    <input type="number" name="price" class="sell__input sell__input--price" value="{{old('price')}}" id="price">
+                    <input type="text" name="price" class="sell__input sell__input--price" value="{{old('price')}}" id="price">
                 </div>
                 <p class="sell_error input_error">
                     @error('price')

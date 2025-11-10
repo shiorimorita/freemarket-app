@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Like;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 
 class LikeController extends Controller
 {
-    public function like(Request $request,$id)
+    public function like($id)
     {
         $user_id = Auth::id();
 
@@ -17,9 +16,9 @@ class LikeController extends Controller
             'item_id' => $id,
         ]);
 
-        if($like->exists){
+        if ($like->exists) {
             $like->delete();
-        }else {
+        } else {
             $like->save();
         }
 

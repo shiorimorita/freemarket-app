@@ -25,11 +25,11 @@ class ItemRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'description' => ['required','max:255'],
-            'image_path' => ['required','mimes:jpeg,png'],
+            'description' => ['required', 'max:255'],
+            'image_path' => ['required', 'mimes:jpeg,png'],
             'condition' => ['required'],
-            'price'=> ['required','integer','min:0'],
-            'category_ids'=>['required'],
+            'price' => ['required', 'integer', 'min:0'],
+            'category_ids' => ['required'],
         ];
     }
 
@@ -38,9 +38,9 @@ class ItemRequest extends FormRequest
         return [
             'name.required' => '商品名を入力してください',
             'description.required' => '詳細を入力してください',
-            'description.max' => '詳細は255文字以下で入力してください',
+            'description.max' => '詳細は255文字以内で入力してください',
             'image_path.required' => '画像を選択してください',
-            'image_path.mimes' => '画像はjpeg、png形式を選択してください',
+            'image_path.mimes' => '画像は .jpeg または .png 形式のファイルを選択してください。',
             'condition.required' => '状態を入力してください',
             'price.required' => '価格を入力してください',
             'price.integer' => '価格は数値で入力してください',

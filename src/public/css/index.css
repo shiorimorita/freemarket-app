@@ -23,6 +23,16 @@
     margin: 0 0 24px 24px;
 }
 
+.product-card__image {
+    position: relative;
+}
+
+.sold-badge--list {
+    width: 150px;
+    line-height: 50px;
+    font-size: 20px;
+}
+
 .product-list {
     margin: 72px 72px 0;
     display: flex;

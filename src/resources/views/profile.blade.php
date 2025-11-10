@@ -20,7 +20,7 @@
         </div>
         <div class="profile__group">
             <label for="name" class="profile__label">ユーザー名</label>
-            <input type="text" name="name" id="name" class="profile__input" value="{{old('name',$user->name) ?? ''}}">
+            <input type="text" name="name" id="name" class="profile__input" value="{{old('name',$user->name,optional($user->name)) ?? ''}}">
             <p class="profile_error input_error">
                 @error('name')
                 {{$message}}
