@@ -40,7 +40,7 @@ class ProfileController extends Controller
             $profileData
         );
 
-        return redirect('/');
+        return redirect('/?tab=mylist');
     }
 
     public function mypage(Request $request)

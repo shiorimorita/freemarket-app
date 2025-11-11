@@ -21,11 +21,13 @@ class UserSeeder extends Seeder
                     'name' => 'テストユーザー01',
                     'email' => 'test@example.com',
                     'password' => Hash::make('password'),
+                    'email_verified_at' => now(),
                 ],
                 [
                     'name' => 'テストユーザー02',
                     'email' => 'test02@example.com',
                     'password' => Hash::make('password'),
+                    'email_verified_at' => now(),
                 ],
             ];
 

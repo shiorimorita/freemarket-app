@@ -4,6 +4,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -61,3 +62,9 @@ Route::middleware('auth')->group(function () {
         return back()->with('status', 'verification-link-sent');
     })->middleware('throttle:6,1')->name('verification.send');
 });
+
+Route::get('/pay/card/{item_id}', [StripePaymentController::class, 'payByCard'])
+    ->name('stripe.card');
+
+Route::get('/pay/konbini/{item_id}', [StripePaymentController::class, 'payByKonbini'])
+    ->name('stripe.konbini');

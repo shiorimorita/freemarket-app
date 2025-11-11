@@ -61,6 +61,16 @@ class CheckoutController extends Controller
                 ]);
             }
         }
+
+        /* カード決済 */
+        if ($request->method === 'カード払い') {
+            return redirect()->route('stripe.card', ['item_id' => $item_id]);
+        }
+
+        if ($request->method === 'コンビニ払い') {
+            return redirect()->route('stripe.konbini', ['item_id' => $item_id]);
+        }
+
         return redirect('/');
     }
 }
