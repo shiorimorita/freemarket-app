@@ -1,0 +1,22 @@
+[33m7734411[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m 修正
+[33ma6ce257[m 修正
+[33m650cf13[m 機能追加
+[33m88235eb[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m メール認証機能の修正
+[33m6408aef[m 二段階認証実装
+[33m3e4295b[m 検索保持機能
+[33mb00f856[m テーブル修正
+[33m70a5e26[m 出品した商品実装
+[33m1744558[m likes機能追加
+[33m2cd6f0e[m コメント投稿機能追加
+[33ma4a54ed[m search機能追加
+[33m1d178b4[m 出品機能
+[33m61b6e37[m category_item_pivot テーブルの作成
+[33mb7b5b85[m fortify機能追加
+[33m91c6515[m fortify導入
+[33mde54c86[m add  register login profile html,css
+[33mbd2ccea[m 環境構築
+[33ma0cdd90[m 環境構築
+[33mc2112db[m Ignore docker/mysql/data directory
+[33m7846f64[m change php version
+[33m8db8971[m push
+[33m1d25341[m first commit
