@@ -10,19 +10,19 @@
         <h2 class="sell__title common-sub-title">商品の出品</h2>
         <fieldset class="sell-images">
             <legend class="sell-images__legend">商品画像</legend>
-            <div class="sell__img-group">
-                <img src="" alt="" class="sell__img-image common__img-image">
+            <div class="sell__image-group">
+                <img src="" class="sell__image common__img-image">
                 <input type="file" name="image_path" class="sell__img-input common__img-input">
-                <label for="image" class="sell__img-button common__img-button">画像を選択する</label>
+                <label class="sell__img-button common__img-button">画像を選択する</label>
             </div>
-            <p class="sell_error input_error">
+            <p class="input-error sell__error">
                 @error('image_path')
                 {{ $message }}
                 @enderror
             </p>
         </fieldset>
         <div class="sell__detail">
-            <fieldset class="sell__sub-title-inner">
+            <fieldset class="sell__section">
                 <legend class="sell__sub-title">商品の詳細</legend>
                 <div class="sell__group-category">
                     <span class="sell__label sell__label--category">カテゴリー</span>
@@ -57,7 +57,7 @@
                 </div>
             </fieldset>
         </div>
-        <fieldset class="sell__sub-title-inner">
+        <fieldset class="sell__section">
             <legend class="sell__sub-title">商品名と説明</legend>
             <div class="sell__group-input">
                 <label for="name" class="sell__label">商品名</label>

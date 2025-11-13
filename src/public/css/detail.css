@@ -32,32 +32,32 @@
     width: 690px;
 }
 
-.item__title {
+.item-detail__title {
     font-size: 45px;
     line-height: 77px;
 }
 
-.item__brand {
+.item-detail__brand {
     display: block;
     font-size: 20px;
     line-height: 28px;
     margin-bottom: 28px;
 }
 
-.item__price {
+.item-detail__price {
     margin-bottom: 28px;
 }
 
-.item__price-value {
+.item-detail__value {
     font-size: 45px;
 }
 
-.item__price-span,
-.item__price-symbol {
+.item-detail__span,
+.item-detail__symbol {
     font-size: 30px;
 }
 
-.item__function {
+.item-detail__function {
     display: flex;
     margin-left: 45px;
     gap: 64px;
@@ -82,22 +82,23 @@
 }
 
 .purchase__button {
+    display: block;
     line-height: 56px;
     border-radius: 4px;
 }
 
-.item-sub__title {
+.item-detail__section-title {
     line-height: 74px;
 }
 
-.item__description-text {
+.item-detail__info .item-detail__section-title {
+    line-height: 100px;
+}
+
+.item-detail__description-text {
     height: 247px;
     padding: 16px 0;
     white-space: pre-line;
-}
-
-.item-info__title {
-    line-height: 100px;
 }
 
 .product-info__list {
@@ -105,12 +106,12 @@
     align-items: center;
 }
 
-.product-info__term {
-    font-weight: bold;
-}
-
 .product-info__list:first-of-type .product-info__term {
     margin-right: 60px;
+}
+
+.product-info__term {
+    font-weight: bold;
 }
 
 .product-info__list:first-of-type .product-info__desc {
@@ -119,10 +120,11 @@
     line-height: 30px;
     padding: 0 24px;
     margin-right: 22px;
+    font-size: 20px;
 }
 
 .product-info__list:nth-of-type(2) .product-info__term {
-    padding: 38px 0;
+    line-height: 100px;
     margin-right: 84px;
 }
 
@@ -131,9 +133,7 @@
 }
 
 .item-comment__title,
-.item__comment-count {
-    font-size: 36px;
-    font-weight: bold;
+.item-comment__count {
     color: #5F5F5F;
     line-height: 100px;
 }
@@ -157,6 +157,7 @@
     object-fit: cover;
 }
 
+/* 画像無しユーザー */
 .comment__no-img-bg {
     background: #D9D9D9;
 }
@@ -169,22 +170,21 @@
     line-height: 70px;
     border-radius: 5px;
     white-space: pre-line;
-    font-weight: light;
+    font-weight: 300;
 }
 
 .item-comment__sub-title {
     font-size: 28px;
-    font-weight: bold;
     line-height: 50px;
 }
 
 .comment__description {
     height: 246px;
-    border: 1px solid #5F5F5F;
+    border: 2px solid #5F5F5F;
     border-radius: 5px;
 }
 
-.comment_error {
+.comment__error {
     margin-bottom: 48px;
 }
 
@@ -192,11 +192,10 @@
     height: 56px;
     font-size: 25px;
     border-radius: 4px;
-    margin-bottom: 22px;
 }
 
+/* 購入不可ボタン */
 .purchase__button--disabled {
-    pointer-events: none;
     opacity: 0.5;
     cursor: not-allowed;
     background-color: #5F5F5F;

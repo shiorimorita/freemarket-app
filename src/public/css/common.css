@@ -6,10 +6,18 @@ body {
     font-size: 24px;
 }
 
+/*-------------------------------------------
+ 調整中
+-------------------------------------------*/
+.content {
+    max-width: 1512px;
+    margin: 0 auto;
+}
+
 .common-sub-title {
     text-align: center;
-    font-size: 36px;
-    font-weight: bold;
+    /* font-size: 36px;
+    font-weight: bold; */
 }
 
 li {
@@ -43,19 +51,19 @@ textarea {
     padding: 8px 0 0 16px;
 }
 
-.input_error {
+.input-error {
     color: #FF5555;
     font-size: 16px;
 }
 
 .common-link {
-    display: block;
+    display: inline-block;
     font-size: 20px;
     color: #0073CC;
 }
 
 .common-btn {
-    display: block;
+    /* display: block; */
     width: 100%;
     background: #FF5555;
     font-weight: bold;
@@ -67,7 +75,6 @@ textarea {
 }
 
 .common__img-button {
-    display: block;
     color: #FF5555;
     border: 2px solid #FF5555;
     border-radius: 10px;
@@ -80,7 +87,7 @@ textarea {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 8px 16;
+    padding: 8px 16px;
     text-align: center;
     background: rgba(255, 0, 0, 0.85);
     font-weight: bold;
@@ -126,11 +133,6 @@ textarea {
     padding: 0 26px 0 37px;
 }
 
-.header__nav-list--disabled {
-    pointer-events: none;
-    opacity: 0.5;
-}
-
 .header__nav-list {
     display: flex;
     justify-content: flex-end;
@@ -140,15 +142,16 @@ textarea {
 }
 
 .header__nav-link,
-.header__nav-logout-button {
+.header__nav-button {
     color: #FFF;
+    line-height: 47px;
 }
 
 .header__nav-link--sell {
     background: #FFF;
     display: block;
     width: 100px;
-    line-height: 50px;
     color: #000;
     border-radius: 4px;
+    line-height: 50px;
 }

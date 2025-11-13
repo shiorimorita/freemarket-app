@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Item extends Model
 {
@@ -52,5 +53,14 @@ class Item extends Model
         if (!empty($keyword)) {
             $query->where('name', 'like', "%{$keyword}%");
         }
+
+        return $query;
+    }
+
+    public function getIsSoldAttribute()
+    {
+        return DB::table('solds')
+            ->where('item_id', $this->id)
+            ->exists();
     }
 }

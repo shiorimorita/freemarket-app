@@ -1,16 +1,16 @@
 .profile {
     width: 680px;
-    margin: 0 auto;
+    margin: 59px auto 127px auto;
 }
 
 .profile__title {
-    margin: 59px 0 47px 0;
+    margin-bottom: 47px;
 }
 
 .profile__img {
     display: flex;
     align-items: center;
-    margin: 56px 0 76px 0;
+    margin-bottom: 76px;
     gap: 40px;
 }
 
@@ -27,22 +27,20 @@
     font-size: 20px;
 }
 
+/* imgがあるときは画像を表示する */
 .profile__img-image.has-image {
     background: none;
     object-fit: cover;
 }
 
-.profile__group:nth-of-type(2) {
+.profile__group:nth-of-type(2),
+.profile__group:last-of-type {
     margin-bottom: 62px;
 }
 
 .profile__group:nth-of-type(3),
 .profile__group:nth-of-type(4) {
     margin-bottom: 43px;
-}
-
-.profile__group:last-of-type {
-    margin-bottom: 67px;
 }
 
 .profile__label {
@@ -58,5 +56,4 @@
 
 .profile__button {
     height: 60px;
-    margin-bottom: 127px;
 }

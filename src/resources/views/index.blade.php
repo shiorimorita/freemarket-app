@@ -6,10 +6,10 @@
 <div class="products">
     <ul class="product-tabs__list">
         <li class="product-tabs__item">
-            <a href="/" class="product-tabs__link  {{ request('tab','recommend')==='recommend' ? 'index__link--active' : '' }}">おすすめ</a>
+            <a href="/" class="product-tabs__link  {{ request('tab','recommend')==='recommend' ? 'product-tabs__link--active' : '' }}">おすすめ</a>
         </li>
         <li class="product-tabs__item">
-            <a href="/?tab=mylist" class="product-tabs__link {{ request('tab','recommend')==='mylist' ? 'index__link--active' : '' }}">マイリスト</a>
+            <a href="/?tab=mylist" class="product-tabs__link {{ request('tab','recommend')==='mylist' ? 'product-tabs__link--active' : '' }}">マイリスト</a>
         </li>
     </ul>
     <div class="product-list">
@@ -19,7 +19,7 @@
                 <div class="product-card__image">
                     <img src="{{asset('storage/' . $item->image_path)}}" alt="" class="product-card__img">
                     @if($item->isSold)
-                    <span class="sold-badge  sold-badge--list">Sold</span>
+                    <span class="sold-badge--list sold-badge">Sold</span>
                     @endif
                 </div>
                 <p class="product-card__name">{{$item->name}}</p>

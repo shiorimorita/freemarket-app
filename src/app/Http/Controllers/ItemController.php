@@ -34,10 +34,15 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-
         $keyword = session('search.keyword');
-
         $tab = $request->tab ?? 'recommend';
+
+        if ($tab !== 'mylist') {
+            session()->forget('search.keyword');
+            $keyword = null;
+        } else {
+            $keyword = session('search.keyword');
+        }
 
         if ($tab === 'mylist') {
 
@@ -66,13 +71,6 @@ class ItemController extends Controller
             }
         }
 
-        foreach ($items as $item) {
-            $item->isSold = DB::table('solds')
-                ->where('item_id', $item->id)
-                ->exists();
-        }
-
-        // ★ keyword をビューにも渡す
         return view('index', compact('items', 'tab', 'keyword'));
     }
 
@@ -95,9 +93,11 @@ class ItemController extends Controller
     public function search(Request $request)
     {
         $keyword = $request->keyword;
+        $tab = $request->tab;
 
         session(['search.keyword' => $keyword]);
         $items = Item::searchKeyword($keyword)->get();
+
         return view('index', compact('items', 'keyword'));
     }
 }

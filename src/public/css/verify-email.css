@@ -2,11 +2,11 @@
     width: 720px;
     margin: 237px auto 0 auto;
     text-align: center;
-    height: 294px;
 }
 
 .verify-email__message {
     font-weight: bold;
+    margin-bottom: 62px;
 }
 
 .verify-email__button {
@@ -18,11 +18,9 @@
     border-radius: 10px;
     color: #000;
     font-weight: bold;
-    margin: 62px auto 52px auto;
+    margin: 0 auto 52px auto;
 }
 
 .verify-email__link {
-    width: 257px;
     height: 53px;
-    margin: 0 auto;
 }

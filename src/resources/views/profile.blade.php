@@ -7,12 +7,12 @@
 <main class="profile">
     <form action="/mypage/profile" method="post" class="profile__form" enctype="multipart/form-data">
         @csrf
-        <h2 class="profile__title common-sub-title">プロフィール設定</h2>
+        <h2 class="common-sub-title profile__title">プロフィール設定</h2>
         <div class="profile__img">
-            <img src="{{optional($user->profile)->image_path ? asset('storage/' . optional($user->profile)->image_path) : '' }}" alt="" class="profile__img-image common__img-image">
+            <img src="{{optional($user->profile)->image_path ? asset('storage/' . optional($user->profile)->image_path) : '' }}" class="profile__img-image common__img-image">
             <input type="file" name="image_path" class="profile__img-input common__img-input">
-            <button class="profile__img-button common__img-button" type="button">画像を選択する</button>
-            <p class="profile_error input_error">
+            <button class="common__img-button profile__img-button" type="button">画像を選択する</button>
+            <p class="input-error profile_error">
                 @error('image_path')
                 {{$message}}
                 @enderror
@@ -20,8 +20,8 @@
         </div>
         <div class="profile__group">
             <label for="name" class="profile__label">ユーザー名</label>
-            <input type="text" name="name" id="name" class="profile__input" value="{{old('name',$user->name,optional($user->name)) ?? ''}}">
-            <p class="profile_error input_error">
+            <input type="text" name="name" id="name" class="profile__input" value="{{old('name',$user->name)}}">
+            <p class="input-error profile__error">
                 @error('name')
                 {{$message}}
                 @enderror
@@ -30,7 +30,7 @@
         <div class="profile__group">
             <label for="post_code" class="profile__label">郵便番号</label>
             <input type="text" name="post_code" id="post_code" class="profile__input" value="{{old('post_code',optional($user->profile)->post_code)}}">
-            <p class="profile_error input_error">
+            <p class="input-error profile__error">
                 @error('post_code')
                 {{$message}}
                 @enderror
@@ -38,11 +38,11 @@
         </div>
         <div class="profile__group">
             <label for="address" class="profile__label">住所</label>
-            <input type="text" name="address" id="address" class="profile__input" value="{{old('address',optional($user->profile)->address)}}"">
-            <p class=" profile_error input_error">
-            @error('address')
-            {{$message}}
-            @enderror
+            <input type="text" name="address" id="address" class="profile__input" value="{{old('address',optional($user->profile)->address)}}">
+            <p class="input-error profile__error">
+                @error('address')
+                {{$message}}
+                @enderror
             </p>
         </div>
         <div class="profile__group">

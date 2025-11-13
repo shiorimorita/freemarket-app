@@ -1,11 +1,6 @@
 .register {
     width: 680px;
-    margin: 0 auto;
-}
-
-.register__inner {
-    height: 678px;
-    margin-top: 96px;
+    margin: 96px auto 0 auto;
 }
 
 .register__title {
@@ -16,12 +11,16 @@
     margin-bottom: 38px;
 }
 
+.register__group:nth-of-type(4) {
+    margin-bottom: 116px;
+}
+
 .register__label {
     line-height: 35px;
 }
 
 .register__input {
-    height: 59px;
+    height: 58px;
     border-radius: 4px;
     border: 1px solid #5F5F5F;
     padding-left: 16px;
@@ -31,12 +30,11 @@
     height: 65px;
     border-radius: 5px;
     font-size: 26px;
-    margin: 32px 0 19px 0;
+    margin-bottom: 19px;
 }
 
 .register__link {
-    width: 257px;
     line-height: 53px;
     text-align: center;
-    margin: 0 auto;
+    margin-bottom: 43px;
 }

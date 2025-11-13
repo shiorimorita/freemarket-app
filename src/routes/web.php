@@ -66,5 +66,8 @@ Route::middleware('auth')->group(function () {
 Route::get('/pay/card/{item_id}', [StripePaymentController::class, 'payByCard'])
     ->name('stripe.card');
 
-Route::get('/pay/konbini/{item_id}', [StripePaymentController::class, 'payByKonbini'])
-    ->name('stripe.konbini');
+Route::get('/purchase/{item_id}/konbini', [StripePaymentController::class, 'purchase'])->name('pay.konbini');
+
+
+// Route::get('/pay/konbini/{item_id}', [StripePaymentController::class, 'payByKonbini'])
+//     ->name('stripe.konbini');

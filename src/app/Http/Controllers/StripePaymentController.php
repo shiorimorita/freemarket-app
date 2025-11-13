@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
-use App\Models\Delivery;
-use Illuminate\Support\Facades\Auth;
+use Stripe\Stripe;
+use Illuminate\Http\Request;
+use Stripe\StripeClient;
 
 class StripePaymentController extends Controller
 {
@@ -32,48 +33,32 @@ class StripePaymentController extends Controller
         return redirect($session->url);
     }
 
-    public function payByKonbini($item_id)
+    public function purchase($item_id, Request $request)
     {
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-
         $item = Item::find($item_id);
-        $user = Auth::user();
-        $delivery = Delivery::where('item_id', $item_id)->first();
+        $stripe = new StripeClient(config('stripe.stripe_secret_key'));
 
-        $pi = \Stripe\PaymentIntent::create([
-            'amount' => intval($item->price),
-            'currency' => 'jpy',
-            'payment_method_types' => ['konbini'],
-
-            // 請求先
-            'payment_method_data' => [
-                'type' => 'konbini',
-                'billing_details' => [
-                    'name'  => $user->name,
-                    'email' => $user->email,
-                    'address' => [
-                        'postal_code' => $user->profile->post_code,
-                        'line1'       => $user->profile->address,
-                        'line2'       => $user->profile->building,
-                    ],
-                ],
+        $session = $stripe->checkout->sessions->create([
+            'payment_method_types' => [$request->payment_method],
+            'payment_method_options' => [
+                'konbini' => ['expires_after_days' => 7],
             ],
-
-            // 配送先
-            'shipping' => [
-                'name' => $user->name,
-                'address' => [
-                    'postal_code' => $delivery->post_code,
-                    'line1'       => $delivery->address,
-                    'line2'       => $delivery->building,
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'jpy',
+                    'product_data' => ['name' => $item->name],
+                    'unit_amount' => $item->price,
                 ],
-            ],
-
-            'confirm' => true,
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => url('/'), // 通常は使われないが念のため
+            'cancel_url' => url('/purchase/' . $item_id),
         ]);
 
-        $url = $pi->next_action->konbini_display_details->hosted_voucher_url;
-
-        return redirect()->away($url);
+        // セッションURLをビューに渡す
+        return view('konbini_redirect', [
+            'checkoutUrl' => $session->url,
+        ]);
     }
 }

@@ -19,17 +19,17 @@
                     <img src="{{ asset('storage/images/logo.svg') }}" alt="Coachtech freemarket ロゴ" class="header__logo-img">
                 </a>
             </h1>
+            @unless (request()->is('login','register','verify-email'))
             <form class="header__search-form" action="/search" method="get">
                 <input id="keyword" type="search" name="keyword" class="header__search-input" placeholder="なにをお探しですか？" value="{{ $keyword ?? '' }}">
             </form>
             <nav class="header__nav">
                 <ul class="header__nav-list">
-                    @unless (request()->is('login','register'))
                     @if (Auth::check())
                     <li class="header__nav-item">
-                        <form action="/logout" method="post" class="logout__form">
+                        <form action="/logout" method="post" class="header__logout-form">
                             @csrf
-                            <button type="submit" class="header__nav-logout-button">ログアウト</button>
+                            <button type="submit" class="header__nav-button">ログアウト</button>
                         </form>
                     </li>
                     @else
