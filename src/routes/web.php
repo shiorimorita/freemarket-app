@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use App\Http\Controllers\StripeWebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,8 +67,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/pay/card/{item_id}', [StripePaymentController::class, 'payByCard'])
     ->name('stripe.card');
 
-Route::get('/purchase/{item_id}/konbini', [StripePaymentController::class, 'purchase'])->name('pay.konbini');
-
-
-// Route::get('/pay/konbini/{item_id}', [StripePaymentController::class, 'payByKonbini'])
-//     ->name('stripe.konbini');
+// Route::get('/pay/konbini/{item_id}', [StripePaymentController::class, 'payKonbini'])->name('stripe.konbini');
+Route::post('/pay/konbini/{item_id}', [StripePaymentController::class, 'payKonbini'])
+    ->name('pay.konbini');
+Route::post('/stripe_webhook', [StripeWebhookController::class, 'handle']);

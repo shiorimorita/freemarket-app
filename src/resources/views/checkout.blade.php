@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 <main class="checkout">
-    <form action="/purchase/{{$item->id}}" method="post" class="checkout__form">
+    <form action="/purchase/{{$item->id}}" method="post" class="checkout__form" id="pay-form">
         @csrf
         <div class="checkout__left">
             <div class="checkout__item">
@@ -61,6 +61,32 @@
     document.querySelector('#payment_method').addEventListener('change', (e) => {
         const selected = e.target.value;
         document.querySelector('#selected_payment').textContent = selected;
+    });
+
+    const form = document.getElementById('pay-form');
+    const method = document.getElementById('payment_method');
+
+    method.addEventListener('change', function () {
+        const selected = this.value;
+
+        if (selected === 'コンビニ払い') {
+            form.setAttribute('target', '_blank');
+            form.setAttribute('action', '/pay/konbini/{{ $item->id }}');
+        } else {
+            form.removeAttribute('target');
+            form.setAttribute('action', '/purchase/{{ $item->id }}');
+        }
+
+        document.querySelector('#selected_payment').textContent = selected;
+    });
+
+    form.addEventListener('submit', function () {
+        if (method.value === 'コンビニ払い') {
+            // 別タブに送信することを確実にしてから遷移
+            setTimeout(() => {
+                window.location.href = "/";
+            }, 300);
+        }
     });
 </script>
 @endsection
