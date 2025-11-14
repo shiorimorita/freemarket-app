@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
-use App\Models\Delivery;
-use App\Models\Profile;
 use App\Models\Item;
 use App\Models\Sold;
 use Illuminate\Support\Facades\Auth;
@@ -14,63 +11,99 @@ class CheckoutController extends Controller
 {
     public function showCheckout($id)
     {
-        $user = Auth::user();
-        $item = Item::find($id);
+        $item = Item::findOrFail($id);
 
-        if ($item->user_id == $user->id) {
-            abort(403, '自分の商品は購入できません');
+        $tempDelivery = session("delivery_temp_{$id}");
+
+        if ($tempDelivery) {
+            $post_code = $tempDelivery['post_code'];
+            $address = $tempDelivery['address'];
+            $building = $tempDelivery['building'];
+        } else {
+            $user = Auth::user();
+            $post_code = $user->profile->post_code;
+            $address   = $user->profile->address;
+            $building  = $user->profile->building;
         }
 
-        $isSold = DB::table('solds')
-            ->where('item_id', $item->id)
-            ->exists();
-
-        if ($isSold) {
-            abort(403, 'この商品はすでに売れています');
-        }
-
-        $delivery = Delivery::where('item_id', $item->id)->first();
-        if (! $delivery) {
-            $delivery = Profile::where('user_id', $user->id)->first();
-        }
-
-        return view('checkout', compact('item', 'delivery'));
+        return view('checkout', compact('item', 'post_code', 'address', 'building'));
     }
 
     public function purchase(PurchaseRequest $request, $item_id)
     {
         $user_id = Auth::id();
-
-        $sold = $request->only(['method']);
+        $sold = $request->only(['method', 'post_code', 'address', 'building']);
         $sold['user_id'] = $user_id;
         $sold['item_id'] = $item_id;
-
         Sold::create($sold);
 
-        $delivery = Delivery::where('item_id', $item_id)->first();
-
-        if (!$delivery) {
-            $profile = Profile::where('user_id', $user_id)->first();
-
-            if ($profile) {
-                Delivery::create([
-                    'item_id' => $item_id,
-                    'post_code' => $profile->post_code,
-                    'address' => $profile->address,
-                    'building' => $profile->building,
-                ]);
-            }
-        }
-
-        /* カード決済 */
         if ($request->method === 'カード払い') {
-            return redirect()->route('stripe.card', ['item_id' => $item_id]);
+
+            return redirect()->route('stripe.card', ['id' => $item_id]);
         }
 
         if ($request->method === 'コンビニ払い') {
-            return redirect()->route('stripe.konbini', ['item_id' => $item_id]);
-        }
 
-        return redirect('/');
+            $url = route('pay.konbini', ['id' => $item_id]);
+
+            return response(
+                " 
+            <script>
+            window.open('$url', '_blank');  // 別タブで開く
+            window.location.href = '/';      // 元タブはトップへ
+            </script>"
+            );
+        }
+    }
+
+    public function purchaseCard($item_id)
+    {
+        $item = Item::findOrFail($item_id);
+
+        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+
+        $session = \Stripe\Checkout\Session::create([
+            'mode' => 'payment',
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency'    => 'jpy',
+                    'unit_amount' => intval($item->price),
+                    'product_data' => ['name' => $item->name],
+                ],
+                'quantity' => 1,
+            ]],
+            'success_url' => url('/'),
+            'cancel_url'  => url('/purchase/' . $item_id),
+        ]);
+
+        return redirect($session->url);
+    }
+
+    public function purchaseKonbini($item_id)
+    {
+        $item = Item::findOrFail($item_id);
+
+        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+
+        $session = \Stripe\Checkout\Session::create([
+            'mode' => 'payment',
+            'payment_method_types' => ['konbini'],
+            'payment_method_options' => [
+                'konbini' => ['expires_after_days' => 7],
+            ],
+            'line_items' => [[
+                'price_data' => [
+                    'currency'    => 'jpy',
+                    'unit_amount' => intval($item->price),
+                    'product_data' => ['name' => $item->name],
+                ],
+                'quantity' => 1,
+            ]],
+            'success_url' => url('/'),
+            'cancel_url'  => url('/purchase/' . $item_id),
+        ]);
+
+        return redirect($session->url);
     }
 }

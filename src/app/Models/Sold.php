@@ -12,7 +12,10 @@ class Sold extends Model
     protected $fillable = [
         'user_id',
         'item_id',
-        'method'
+        'method',
+        'post_code',
+        'address',
+        'building,'
     ];
 
     public function user()

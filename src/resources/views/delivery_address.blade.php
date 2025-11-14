@@ -10,7 +10,7 @@
         <div class="delivery__group">
             <label for="post_code" class="delivery__label">郵便番号</label>
             <input type="text" name="post_code" id="post_code" class="delivery__input" value="{{old('post_code',optional($delivery)->post_code)}}">
-            <p class="delivery__error input_error">
+            <p class="delivery__error input-error">
                 @error('post_code')
                 {{$message}}
                 @enderror
@@ -19,7 +19,7 @@
         <div class="delivery__group">
             <label for="address" class="delivery__label">住所</label>
             <input type="text" name="address" id="address" class="delivery__input" value="{{old('address',optional($delivery)->address)}}">
-            <p class="delivery__error input_error">
+            <p class="delivery__error input-error">
                 @error('address')
                 {{$message}}
                 @enderror
@@ -28,13 +28,17 @@
         <div class="delivery__group">
             <label for="building" class="delivery__label">建物名</label>
             <input type="text" name="building" id="building" class="delivery__input" value="{{old('building',optional($delivery)->building)}}">
-            <p class="delivery__error input_error">
+            <p class="delivery__error input-error">
                 @error('')
                 {{$message}}
                 @enderror
             </p>
         </div>
+        @if($item->is_sold)
+        <button type="submit" class="delivery__button common-btn" disabled style="background: #ccc; cursor: not-allowed;">購入後は配送先を変更できません</button>
+        @else
         <button type="submit" class="delivery__button common-btn">更新する</button>
+        @endif
     </form>
 </main>
 @endsection

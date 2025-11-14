@@ -23,7 +23,7 @@
                     <option value="コンビニ払い" {{old('method')==='コンビニ払い' ? 'selected' : '' }}>コンビニ払い</option>
                     <option value="カード払い" {{old('method')==='カード払い' ? 'selected' : '' }}>カード払い</option>
                 </select>
-                <p class="checkout_error input_error">
+                <p class="checkout_error input-error">
                     @error('method')
                     {{ $message }}
                     @enderror
@@ -35,11 +35,14 @@
                     <a href="/purchase/address/{{$item->id}}" class="checkout__delivery-link common-link">変更する</a>
                 </div>
                 <div class="checkout__delivery-address">
-                    <p class="checkout__delivery-post-code">{{ optional($delivery)->post_code}}</p>
-                    <p class="checkout__delivery-text">{{optional($delivery)->address}}</p>
-                    <p class="checkout__delivery-text">{{optional($delivery)->building}}</p>
+                    <p class="checkout__delivery-post-code">{{$post_code}}</p>
+                    <input type="hidden" name="post_code" value="{{$post_code}}">
+                    <p class="checkout__delivery-text">{{$address}}</p>
+                    <input type="hidden" name="address" value="{{$address}}">
+                    <p class="checkout__delivery-text">{{$building}}</p>
+                    <input type="hidden" name="building" value="{{$building}}">
                 </div>
-                <p class="checkout_error input_error">
+                <p class="checkout_error input-error">
                     @error('delivery')
                     {{ $message }}
                     @enderror
@@ -53,40 +56,36 @@
                 <dt class="checkout__detail-title">支払い方法</dt>
                 <dd class="checkout__detail-term" id="selected_payment"></dd>
             </dl>
+            @if($item->is_sold)
+            <button type="submit" class="checkout__button common-btn" disabled style="background: #ccc; cursor: not-allowed;">購入できません</button>
+            @else
             <button type="submit" class="checkout__button common-btn">購入する</button>
+            @endif
         </div>
     </form>
 </main>
 <script>
-    document.querySelector('#payment_method').addEventListener('change', (e) => {
-        const selected = e.target.value;
-        document.querySelector('#selected_payment').textContent = selected;
-    });
-
     const form = document.getElementById('pay-form');
     const method = document.getElementById('payment_method');
+    const itemId = "{{ $item->id }}";
 
+    // 支払い方法変更時
     method.addEventListener('change', function () {
         const selected = this.value;
 
         if (selected === 'コンビニ払い') {
-            form.setAttribute('target', '_blank');
-            form.setAttribute('action', '/pay/konbini/{{ $item->id }}');
+            // 別タブで開くのは purchase() が返す JS が実行する
+            form.setAttribute('target', '_self'); // GET にしない
+            form.setAttribute('method', 'POST');  // purchase にPOSTする
+            form.setAttribute('action', `/purchase/${itemId}`); // purchase を必ず通す
         } else {
-            form.removeAttribute('target');
-            form.setAttribute('action', '/purchase/{{ $item->id }}');
+            // カード払い（通常フォーム）
+            form.setAttribute('target', '_self');
+            form.setAttribute('method', 'POST');
+            form.setAttribute('action', `/purchase/${itemId}`);
         }
 
         document.querySelector('#selected_payment').textContent = selected;
-    });
-
-    form.addEventListener('submit', function () {
-        if (method.value === 'コンビニ払い') {
-            // 別タブに送信することを確実にしてから遷移
-            setTimeout(() => {
-                window.location.href = "/";
-            }, 300);
-        }
     });
 </script>
 @endsection
