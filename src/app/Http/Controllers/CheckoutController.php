@@ -44,15 +44,8 @@ class CheckoutController extends Controller
 
         if ($request->method === 'コンビニ払い') {
 
-            $url = route('pay.konbini', ['id' => $item_id]);
-
-            return response(
-                " 
-            <script>
-            window.open('$url', '_blank');  // 別タブで開く
-            window.location.href = '/';      // 元タブはトップへ
-            </script>"
-            );
+            // JS が別タブ開くので controller では開かない
+            return redirect('/');
         }
     }
 

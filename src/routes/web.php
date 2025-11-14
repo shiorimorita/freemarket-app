@@ -79,5 +79,3 @@ Route::get('/pay/konbini/{id}', [CheckoutController::class, 'purchaseKonbini'])
 /* カード決済 */
 Route::get('/pay/card/{id}', [CheckoutController::class, 'purchaseCard'])
     ->name('stripe.card');
-
-Route::post('/stripe_webhook', [StripeWebhookController::class, 'handle']);

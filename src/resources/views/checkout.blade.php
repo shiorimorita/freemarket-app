@@ -68,24 +68,24 @@
     const form = document.getElementById('pay-form');
     const method = document.getElementById('payment_method');
     const itemId = "{{ $item->id }}";
+    const selectedPayment = document.getElementById('selected_payment');
 
-    // 支払い方法変更時
+    // 支払い方法選択時に表示更新
     method.addEventListener('change', function () {
-        const selected = this.value;
+        selectedPayment.textContent = this.value;
+    });
 
-        if (selected === 'コンビニ払い') {
-            // 別タブで開くのは purchase() が返す JS が実行する
-            form.setAttribute('target', '_self'); // GET にしない
-            form.setAttribute('method', 'POST');  // purchase にPOSTする
-            form.setAttribute('action', `/purchase/${itemId}`); // purchase を必ず通す
-        } else {
-            // カード払い（通常フォーム）
-            form.setAttribute('target', '_self');
-            form.setAttribute('method', 'POST');
-            form.setAttribute('action', `/purchase/${itemId}`);
+    form.addEventListener('submit', function (e) {
+        if (method.value === 'コンビニ払い') {
+            // Edge でも確実に開く
+            const konbiniUrl = `/pay/konbini/${itemId}`;
+            window.open(konbiniUrl, '_blank');
+
+            // 元のタブは / に戻す
+            setTimeout(() => {
+                window.location.href = "/";
+            }, 200);
         }
-
-        document.querySelector('#selected_payment').textContent = selected;
     });
 </script>
 @endsection

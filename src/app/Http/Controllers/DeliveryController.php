@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Delivery;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\DeliveryRequest;
 use App\Models\Item;
@@ -13,14 +12,17 @@ class DeliveryController extends Controller
     {
         $user = Auth::user();
         $item = Item::find($item_id);
-        $delivery = Delivery::where('item_id', $item_id)->first();
-        if (! $delivery) {
-            $delivery = new Delivery();
-            $delivery->post_code = $user->profile->post_code;
-            $delivery->address = $user->profile->address;
-            $delivery->building = $user->profile->building;
+        $delivery = session("delivery_temp_{$item_id}");
+
+        if (!$delivery) {
+            $delivery = [
+                'post_code' => $user->profile->post_code,
+                'address' => $user->profile->address,
+                'building' => $user->profile->building,
+            ];
         }
 
+        $delivery = (object)$delivery;
         return view('delivery_address', compact('delivery', 'item_id', 'item'));
     }
 
