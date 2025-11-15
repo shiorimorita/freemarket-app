@@ -20,8 +20,9 @@
                 </a>
             </h1>
             @unless (request()->is('login','register','verify-email'))
-            <form class="header__search-form" action="/search" method="get">
-                <input id="keyword" type="search" name="keyword" class="header__search-input" placeholder="なにをお探しですか？" value="{{ $keyword ?? '' }}">
+            <form class="header__search-form" action="/" method="get">
+                <input id="keyword" type="search" name="keyword" class="header__search-input" placeholder="なにをお探しですか？" value="{{$keyword ?? ''}}" oninput="handleSearchInput(this.value)">
+                <input type="hidden" name="tab" value="{{$tab ?? 'recommend'}}">
             </form>
             <nav class="header__nav">
                 <ul class="header__nav-list">
@@ -47,6 +48,14 @@
                 </ul>
             </nav>
         </div>
+        <script>
+            function handleSearchInput(val) {
+                if (val === '') {
+                    const currentTab = "{{$tab ?? 'recommend'}}";
+                    window.location.href = "/?tab=" + currentTab + "&keyword=";
+                }
+            }
+        </script>
     </header>
     <div class="content">
         @yield('content')

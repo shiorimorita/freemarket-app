@@ -41,3 +41,7 @@
 .login__link {
     line-height: 53px;
 }
+
+.register__link {
+    display: block;
+}

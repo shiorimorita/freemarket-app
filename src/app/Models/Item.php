@@ -38,11 +38,6 @@ class Item extends Model
         return $this->hasMany(Like::class);
     }
 
-    public function delivery()
-    {
-        return $this->hasOne(Delivery::class);
-    }
-
     public function sold()
     {
         return $this->hasOne(Sold::class);

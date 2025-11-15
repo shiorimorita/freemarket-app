@@ -34,41 +34,39 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        $keyword = session('search.keyword');
         $tab = $request->tab ?? 'recommend';
 
-        if ($tab !== 'mylist') {
-            session()->forget('search.keyword');
-            $keyword = null;
-        } else {
-            $keyword = session('search.keyword');
+        if ($request->has('keyword')) {
+            // keyword パラメータが存在する
+
+            if ($request->keyword === '') {
+                // 空 → リセット
+                session()->forget('search.keyword');
+            } else {
+                // 空でなければ保存
+                session(['search.keyword' => $request->keyword]);
+            }
         }
 
-        if ($tab === 'mylist') {
+        // ▼ 3. セッションの keyword を取得
+        $keyword = session('search.keyword', null);
 
+        // ▼ 4. 商品取得
+        if ($tab === 'mylist') {
             if (!$user) {
                 $items = collect();
             } else {
                 $items = Item::whereHas('likes', function ($q) use ($user) {
                     $q->where('user_id', $user->id);
                 })
-                    ->searchKeyword($keyword)   // ★ 検索適用
-                    ->get();                    // ★ createget → get
+                    ->searchKeyword($keyword)
+                    ->get();
             }
         } else {
-
-            if ($user) {
-                $items = Item::where('user_id', '!=', $user->id)
-                    ->withCount('likes')
-                    ->orderBy('likes_count', 'desc')
-                    ->searchKeyword($keyword)   // ★ 検索適用
-                    ->get();
-            } else {
-                $items = Item::withCount('likes')
-                    ->orderBy('likes_count', 'desc')
-                    ->searchKeyword($keyword)   // ★ 検索適用
-                    ->get();
-            }
+            $items = Item::withCount('likes')
+                ->orderBy('likes_count', 'desc')
+                ->searchKeyword($keyword)
+                ->get();
         }
 
         return view('index', compact('items', 'tab', 'keyword'));
