@@ -16,7 +16,7 @@ use Laravel\Fortify\Contracts\LoginViewResponse;
 use Laravel\Fortify\Contracts\LogoutResponse;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
-use Laravel\Fortify\Http\Requests\LoginRequest;
+use App\Http\Requests\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -52,7 +52,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Attempt to authenticate a new session.
      *
-     * @param  \Laravel\Fortify\Http\Requests\LoginRequest  $request
+     * @param  \App\Http\Requests\LoginRequest  $request
      * @return mixed
      */
     public function store(LoginRequest $request)
