@@ -69,8 +69,10 @@ php artisan db:seed
 3. .env の設定
    取得したキーを `.env` に設定します。
 
+```
    STRIPE_KEY=pk_test_xxxxxxxxxxxxxxxxx
    STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxx
+```
 
 ## 使用技術(実行環境)
 
@@ -78,9 +80,9 @@ php artisan db:seed
 - Laravel 8.83.8
 - MySQL 11.8.3
 
-## テーブル設計
-
 ## ER 図
+
+<img width="941" height="1521" alt="Image" src="https://github.com/user-attachments/assets/2ecc3507-2ad5-4913-9e09-41a217c59dd4" />
 
 ## URL
 
