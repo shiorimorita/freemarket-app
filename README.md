@@ -58,13 +58,15 @@ php artisan db:seed
    上記よりアカウントを作成してください。
 
 2. API キー取得
-   Stripe ダッシュボードへログインし、検索窓で **「API キー」** と検索してアクセスします。
+   Stripe ダッシュボードへログインし、検索窓で **「API キー」** と検索し "開発者＞ API キー" へアクセスします。
    「テストデータを表示する」を ON にし、以下の 2 つのキーを控えてください。
 
    ※ **必ずテストキー（pk_test / sk_test）を使用してください。**
 
 - 公開可能キー（Publishable key）
 - 秘密キー（Secret key）
+
+<img width="1920" height="198" alt="Image" src="https://github.com/user-attachments/assets/308bc7cb-16e5-40c6-96fe-7f0a37f3d183" />
 
 3. .env の設定
    取得したキーを `.env` に設定します。
