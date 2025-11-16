@@ -65,8 +65,7 @@ php artisan db:seed
 
 - 公開可能キー（Publishable key）
 - 秘密キー（Secret key）
-
-<img width="1920" height="198" alt="Image" src="https://github.com/user-attachments/assets/308bc7cb-16e5-40c6-96fe-7f0a37f3d183" />
+  <img width="1920" height="198" alt="Image" src="https://github.com/user-attachments/assets/308bc7cb-16e5-40c6-96fe-7f0a37f3d183" />
 
 3. .env の設定
    取得したキーを `.env` に設定します。
