@@ -49,11 +49,28 @@ php artisan migrate
 php artisan db:seed
 ```
 
-7. シンボリックリンク作成
+### Stripe 決済の設定
 
-```
-php artisan storage:link
-```
+本プロジェクトで Stripe 決済を利用するために、各開発者は以下の設定を行ってください。
+
+1. Stripe アカウント作成（未作成の場合）
+   https://dashboard.stripe.com/register  
+   上記よりアカウントを作成してください。
+
+2. API キー取得
+   Stripe ダッシュボードへログインし、検索窓で **「API キー」** と検索してアクセスします。
+   「テストデータを表示する」を ON にし、以下の 2 つのキーを控えてください。
+
+   ※ **必ずテストキー（pk_test / sk_test）を使用してください。**
+
+- 公開可能キー（Publishable key）
+- 秘密キー（Secret key）
+
+3. .env の設定
+   取得したキーを `.env` に設定します。
+
+   STRIPE_KEY=pk_test_xxxxxxxxxxxxxxxxx
+   STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxx
 
 ## 使用技術(実行環境)
 

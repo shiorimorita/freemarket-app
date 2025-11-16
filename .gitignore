@@ -14,4 +14,18 @@ yarn-error.log
 /.idea
 /.vscode
 docker/mysql/data/
-!storage/app/public/images/**
+# ↓ ここから storage 関連を src に合わせる
+/src/storage/*
+
+# allow src/storage/app
+!/src/storage/app
+
+# allow src/storage/app/public
+!/src/storage/app/public
+
+# ignore public 全体
+/src/storage/app/public/*
+
+# allow images と中身
+!/src/storage/app/public/images
+!/src/storage/app/public/images/*
