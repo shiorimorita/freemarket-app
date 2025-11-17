@@ -1,17 +1,24 @@
 # freemarket-app
 
+## テストユーザー（Seeder）
+
+- test@example.com / password
+  ※出品者として商品を 10 件登録済みです。
+
+- test02@example.com / password
+
 ## 環境構築
 
 ### Doker ビルド
 
-1. GitHub からリポジトリをクローン
+1. GitHub からリポジトリをクローンします。
 
 ```
 git clone git@github.com:shiorimorita/freemarket-app.git
 ```
 
-2. クローンしたリポジトリのディレクトリに移動する
-3. DockerDesktop アプリを立ち上げる
+2. クローンしたリポジトリのディレクトリに移動します。
+3. DockerDesktop アプリを立ち上げます。
 
 ```
 docker-compose up -d --build
@@ -28,33 +35,36 @@ mysql:
 
 ### Laravel 環境構築
 
-1. docker-compose exec php bash
-2. composer install
-3. 「.env.example」ファイルを 「.env」ファイルに命名を変更。
-4. アプリケーションキーの作成
+1. PHP コンテナに入ります。
+
+```
+docker-compose exec php bash
+```
+
+2. Laravel の必要パッケージをインストールします。
+
+```
+composer install
+```
+
+3. 「.env.example」ファイルを 「.env」ファイルにコピーまたはリネームします。
+4. アプリケーションキーを生成します。
 
 ```
 php artisan key:generate
 ```
 
-5. マイグレーションの実行
+5. データベースをマイグレーションします。
 
 ```
 php artisan migrate
 ```
 
-6. シーディングの実行
+6. シーディングを実行します。
 
 ```
 php artisan db:seed
 ```
-
-### テストユーザー（Seeder）
-
-- test@example.com / password
-  ※出品者として商品を 10 件登録済みです。
-
-- test02@example.com / password
 
 ### Stripe 決済の設定
 
