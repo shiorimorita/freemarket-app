@@ -46,6 +46,21 @@ Route::middleware('auth', 'verified', 'profile.set')->group(function () {
     Route::post('/purchase/{id}', [CheckoutController::class, 'purchase']);
     Route::get('/purchase/address/{id}', [DeliveryController::class, 'create']);
     Route::post('/purchase/address/{id}', [DeliveryController::class, 'store']);
+    // 購入画面
+    Route::get('/purchase/{id}', [CheckoutController::class, 'showCheckout'])
+        ->name('purchase.show');
+
+    // 購入処理（カード・コンビニ共通 POST）
+    Route::post('/purchase/{id}', [CheckoutController::class, 'purchase'])
+        ->name('purchase');
+
+    // コンビニ決済（別タブ GET ※重要）
+    Route::get('/pay/konbini/{id}', [CheckoutController::class, 'purchaseKonbini'])
+        ->name('pay.konbini');
+
+    /* カード決済 */
+    Route::get('/pay/card/{id}', [CheckoutController::class, 'purchaseCard'])
+        ->name('stripe.card');
 });
 
 Route::middleware('auth')->group(function () {
@@ -63,19 +78,3 @@ Route::middleware('auth')->group(function () {
         return back()->with('status', 'verification-link-sent');
     })->middleware('throttle:6,1')->name('verification.send');
 });
-
-// 購入画面
-Route::get('/purchase/{id}', [CheckoutController::class, 'showCheckout'])
-    ->name('purchase.show');
-
-// 購入処理（カード・コンビニ共通 POST）
-Route::post('/purchase/{id}', [CheckoutController::class, 'purchase'])
-    ->name('purchase');
-
-// コンビニ決済（別タブ GET ※重要）
-Route::get('/pay/konbini/{id}', [CheckoutController::class, 'purchaseKonbini'])
-    ->name('pay.konbini');
-
-/* カード決済 */
-Route::get('/pay/card/{id}', [CheckoutController::class, 'purchaseCard'])
-    ->name('stripe.card');

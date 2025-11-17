@@ -6,9 +6,6 @@ body {
     font-size: 24px;
 }
 
-/*-------------------------------------------
- 調整中
--------------------------------------------*/
 .content {
     max-width: 1512px;
     margin: 0 auto;
@@ -16,8 +13,6 @@ body {
 
 .common-sub-title {
     text-align: center;
-    /* font-size: 36px;
-    font-weight: bold; */
 }
 
 li {
@@ -49,6 +44,7 @@ label {
 textarea {
     width: 100%;
     padding: 8px 0 0 16px;
+    display: block;
 }
 
 .input-error {
@@ -57,13 +53,11 @@ textarea {
 }
 
 .common-link {
-    display: inline-block;
     font-size: 20px;
     color: #0073CC;
 }
 
 .common-btn {
-    /* display: block; */
     width: 100%;
     background: #FF5555;
     font-weight: bold;

@@ -24,7 +24,7 @@
         <div class="mypage__item">
             <a href="/item/{{$item->id}}" class="mypage__item-link">
                 <div class="mypage__item-wrapper">
-                    <img src="{{asset('storage/' . $item->image_path)}}" alt="" class="mypage__item-img">
+                    <img src="{{asset('storage/' . $item->image_path)}}" alt="商品名" class="mypage__item-img">
                     <p class="mypage__item-name">{{$item->name}}</p>
                     @if($item->sold)
                     <span class="sold-badge  sold-badge--mypage">Sold</span>

@@ -11,11 +11,11 @@
         <fieldset class="sell-images">
             <legend class="sell-images__legend">商品画像</legend>
             <div class="sell__image-group">
-                <img src="" class="sell__image common__img-image">
+                <img src="" class="sell__image js-img-preview">
                 <input type="file" name="image_path" class="sell__img-input common__img-input">
                 <label class="sell__img-button common__img-button">画像を選択する</label>
             </div>
-            <p class="input-error sell__error">
+            <p class="sell__error input-error">
                 @error('image_path')
                 {{ $message }}
                 @enderror
@@ -25,31 +25,31 @@
             <fieldset class="sell__section">
                 <legend class="sell__sub-title">商品の詳細</legend>
                 <div class="sell__group-category">
-                    <span class="sell__label sell__label--category">カテゴリー</span>
-                    <p class="sell_error input_error">
+                    <span class="sell__label--category sell__label">カテゴリー</span>
+                    <div class="chips">
+                        @foreach($categories as $category)
+                        <input type="checkbox" name="category_ids[]" class="chip-check" id="{{$category->id}}" value="{{$category->id}}" {{(is_array(old('category_ids')) && in_array($category->id,old('category_ids'))) ? 'checked': ''}}>
+                        <label for="{{$category->id}}" class="chip">{{$category->name}}</label>
+                        @endforeach
+                    </div>
+                    <p class="sell__error input-error">
                         @error('category_ids')
                         {{ $message }}
                         @enderror
                     </p>
-                    <div class="chips">
-                        @foreach($categories as $category)
-                        <input type="checkbox" name="category_ids[]" class="chip-check" id="{{$category->id}}" value="{{$category->id}}">
-                        <label for="{{$category->id}}" class="chip">{{$category->name}}</label>
-                        @endforeach
-                    </div>
                 </div>
                 <div class="sell__group">
                     <label for="condition" class="sell__label">商品の状態</label>
                     <div class="select__inner">
                         <select name="condition" id="condition" class="sell__select">
-                            <option value="" disabled selected hidden>選択してください</option>
-                            <option value="良好" {{old('condition')=='良好' ? 'selected' : '' }}>良好</option>
-                            <option value="目立った傷や汚れなし" {{old('condition')=='目立った傷や汚れなし' ? 'selected' : '' }}>目立った傷や汚れなし</option>
-                            <option value="やや傷や汚れあり" {{old('condition')=='やや傷や汚れあり' ? 'selected' : '' }}>やや傷や汚れあり</option>
-                            <option value="状態が悪い" {{old('condition')=='状態が悪い' ? 'selected' : '' }}>状態が悪い</option>
+                            <option value="" disabled selected>選択してください</option>
+                            <option value="良好" {{old('condition')==='良好' ? 'selected' : '' }}>良好</option>
+                            <option value="目立った傷や汚れなし" {{old('condition')==='目立った傷や汚れなし' ? 'selected' : '' }}>目立った傷や汚れなし</option>
+                            <option value="やや傷や汚れあり" {{old('condition')==='やや傷や汚れあり' ? 'selected' : '' }}>やや傷や汚れあり</option>
+                            <option value="状態が悪い" {{old('condition')==='状態が悪い' ? 'selected' : '' }}>状態が悪い</option>
                         </select>
                     </div>
-                    <p class="sell_error input_error">
+                    <p class="sell__error input-error">
                         @error('condition')
                         {{ $message }}
                         @enderror
@@ -62,7 +62,7 @@
             <div class="sell__group-input">
                 <label for="name" class="sell__label">商品名</label>
                 <input type="text" name="name" class="sell__input" id="name" value="{{old('name')}}">
-                <p class="sell_error input_error">
+                <p class="sell__error input-error">
                     @error('name')
                     {{ $message }}
                     @enderror
@@ -75,7 +75,7 @@
             <div class="sell__group-input">
                 <label for="description" class="sell__label">商品の説明</label>
                 <textarea name="description" id="description" class="sell__textarea" cols="30" rows="5">{{old('description')}}</textarea>
-                <p class="sell_error input_error">
+                <p class="sell__error input-error">
                     @error('description')
                     {{ $message }}
                     @enderror
@@ -84,9 +84,9 @@
             <div class="sell__group-input">
                 <label for="price" class="sell__label">販売価格</label>
                 <div class="price-wrapper">
-                    <input type="text" name="price" class="sell__input sell__input--price" value="{{old('price')}}" id="price">
+                    <input type="text" name="price" class="sell__input--price sell__input" value="{{old('price')}}" id="price">
                 </div>
-                <p class="sell_error input_error">
+                <p class="sell__error input-error">
                     @error('price')
                     {{ $message }}
                     @enderror

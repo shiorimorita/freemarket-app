@@ -9,10 +9,10 @@
         @csrf
         <h2 class="common-sub-title profile__title">プロフィール設定</h2>
         <div class="profile__img">
-            <img src="{{optional($user->profile)->image_path ? asset('storage/' . optional($user->profile)->image_path) : '' }}" class="profile__img-image common__img-image">
+            <img src="{{optional($user->profile)->image_path ? asset('storage/' . optional($user->profile)->image_path) : '' }}" class="profile__img-image js-img-preview">
             <input type="file" name="image_path" class="profile__img-input common__img-input">
-            <button class="common__img-button profile__img-button" type="button">画像を選択する</button>
-            <p class="input-error profile_error">
+            <button class="profile__img-button common__img-button" type="button">画像を選択する</button>
+            <p class="profile_error input-error">
                 @error('image_path')
                 {{$message}}
                 @enderror
@@ -21,7 +21,7 @@
         <div class="profile__group">
             <label for="name" class="profile__label">ユーザー名</label>
             <input type="text" name="name" id="name" class="profile__input" value="{{old('name',$user->name)}}">
-            <p class="input-error profile__error">
+            <p class="profile__error input-error">
                 @error('name')
                 {{$message}}
                 @enderror
@@ -30,7 +30,7 @@
         <div class="profile__group">
             <label for="post_code" class="profile__label">郵便番号</label>
             <input type="text" name="post_code" id="post_code" class="profile__input" value="{{old('post_code',optional($user->profile)->post_code)}}">
-            <p class="input-error profile__error">
+            <p class="profile__error input-error">
                 @error('post_code')
                 {{$message}}
                 @enderror
@@ -39,7 +39,7 @@
         <div class="profile__group">
             <label for="address" class="profile__label">住所</label>
             <input type="text" name="address" id="address" class="profile__input" value="{{old('address',optional($user->profile)->address)}}">
-            <p class="input-error profile__error">
+            <p class="profile__error input-error">
                 @error('address')
                 {{$message}}
                 @enderror
