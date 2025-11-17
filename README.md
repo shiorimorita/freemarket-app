@@ -49,6 +49,13 @@ php artisan migrate
 php artisan db:seed
 ```
 
+### テストユーザー（Seeder）
+
+- test@example.com / password
+  ※出品者として商品を 10 件登録済みです。
+
+- test02@example.com / password
+
 ### Stripe 決済の設定
 
 本プロジェクトで Stripe 決済を利用するために、各開発者は以下の設定を行ってください。
