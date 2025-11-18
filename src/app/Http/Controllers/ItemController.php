@@ -78,9 +78,7 @@ class ItemController extends Controller
 
         $item = Item::with(['categories', 'comments.user.profile'])->withCount('likes')->find($id);
 
-        $isSold = DB::table('solds')
-            ->where('item_id', $item->id)
-            ->exists();
+        $isSold = $item->is_sold;
 
         $liked = Like::where('user_id', Auth::id())
             ->where('item_id', $id)

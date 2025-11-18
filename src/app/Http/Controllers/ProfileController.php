@@ -58,22 +58,22 @@ class ProfileController extends Controller
         if (! $request->has('page')) {
             return redirect('/mypage?page=sell');
         }
-
+        /** @var \App\Models\User $user */
         $user = Auth::user();
         $items = $user->items;
 
         $page = $request->page;
 
         if ($page === 'sell') {
-            $items = $user->items;
+            $items = $user->items()->orderBy('created_at', 'desc')->get();
         } else {
             $user_id = $user->id;
 
-            $items = Item::whereExists(function ($q) use ($user_id) {
-                $q->from('solds')
-                    ->whereColumn('solds.item_id', 'items.id')
-                    ->where('solds.user_id', $user_id);
-            })->get();
+            $items = Item::join('solds', 'solds.item_id', '=', 'items.id')
+                ->where('solds.user_id', $user_id)
+                ->orderBy('solds.created_at', 'desc')
+                ->select('items.*')
+                ->get();
         }
 
         return view('mypage', compact('user', 'items', 'page'));

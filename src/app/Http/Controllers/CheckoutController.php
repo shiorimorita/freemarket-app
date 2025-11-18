@@ -31,6 +31,18 @@ class CheckoutController extends Controller
 
     public function purchase(PurchaseRequest $request, $item_id)
     {
+        $item = Item::find($item_id);
+
+        /* 自分の商品は購入禁止 */
+        if ($item->user_id === Auth::id()) {
+            return abort(403, '自分が出品した商品は購入できません');
+        }
+
+        /* 売り切れ商品の場合 */
+        if ($item->isSold) {
+            abort(403, 'この商品はすでに売れています');
+        }
+
         $user_id = Auth::id();
         $sold = $request->only(['method', 'post_code', 'address', 'building']);
         $sold['user_id'] = $user_id;

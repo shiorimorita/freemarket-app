@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class PurchaseRequest extends FormRequest
 {
@@ -39,10 +40,10 @@ class PurchaseRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             $itemId = $this->route('item_id');
-
             $tempDelivery = session("delivery_temp_{$itemId}");
+            $profile = Auth::user()->profile;
 
-            if (! $tempDelivery) {
+            if (!$tempDelivery && (!$profile->post_code || !$profile->address)) {
                 $validator->errors()->add('delivery', '配送先住所を登録してください');
             }
         });

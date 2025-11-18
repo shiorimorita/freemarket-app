@@ -57,7 +57,9 @@
                 <dd class="checkout__detail-term" id="selected_payment"></dd>
             </dl>
             @if($item->is_sold)
-            <button type="submit" class="checkout__button common-btn" disabled style="background: #ccc; cursor: not-allowed;">購入できません</button>
+            <button type="submit" class="checkout__button common-btn" disabled style="background: #ccc; cursor: not-allowed;">売り切れのため購入できません</button>
+            @elseif($item->user_id===Auth::id())
+            <button type="submit" class="checkout__button common-btn" disabled style="background: #ccc; cursor: not-allowed;">自分の商品は購入できません</button>
             @else
             <button type="submit" class="checkout__button common-btn">購入する</button>
             @endif
@@ -70,17 +72,26 @@
     const itemId = "{{ $item->id }}";
     const selectedPayment = document.getElementById('selected_payment');
 
-    // 支払い方法選択時に表示更新
+    // 支払い方法選択→リアルタイム表示
     method.addEventListener('change', function () {
         selectedPayment.textContent = this.value;
     });
 
     form.addEventListener('submit', function (e) {
+
+        const isMyItem = "{{ $item->user_id === Auth::id()}}";
+        const isSold = "{{$item->isSold}}";
+
+        /* 二重購入、自分の商品の購入防止 */
+        if (isMine || isSold) {
+            e.preventDefault();
+            return;
+        }
+
         if (method.value === 'コンビニ払い') {
-            // Edge でも確実に開く
+
             const konbiniUrl = `/pay/konbini/${itemId}`;
             window.open(konbiniUrl, '_blank');
-
             // 元のタブは / に戻す
             setTimeout(() => {
                 window.location.href = "/";

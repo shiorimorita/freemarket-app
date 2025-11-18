@@ -30,8 +30,8 @@ class DeliveryController extends Controller
     {
         $item = Item::find($item_id);
 
-        if ($item->is_sold) {
-            abort(403, 'この商品はすでに売れているため配送先を変更できません');
+        if ($item->is_sold || $item->user_id === Auth::id()) {
+            abort(403, 'こちらの商品の配送先は変更できません');
         }
 
         session([

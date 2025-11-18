@@ -35,7 +35,9 @@
             </p>
         </div>
         @if($item->is_sold)
-        <button type="submit" class="delivery__button common-btn" disabled style="background: #ccc; cursor: not-allowed;">購入後は配送先を変更できません</button>
+        <button type="submit" class="delivery__button common-btn" disabled style="background: #ccc; cursor: not-allowed;">配送先を変更できません</button>
+        @elseif($item->user_id===Auth::id())
+        <button type="submit" class="delivery__button common-btn" disabled style="background: #ccc; cursor: not-allowed;">自分の商品は配送先の設定ができません</button>
         @else
         <button type="submit" class="delivery__button common-btn">更新する</button>
         @endif
