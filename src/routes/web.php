@@ -4,13 +4,11 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DeliveryController;
 use App\Http\Controllers\ItemController;
-use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
-use App\Http\Controllers\StripeWebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,17 +21,33 @@ use App\Http\Controllers\StripeWebhookController;
 |
 */
 
-// Route::get('/purchase/{id}', function () {
-//     return view('checkout');
-// });
+/* すべてのユーザーが表示できる画面 */
 
 Route::get('/item/{id}', [ItemController::class, 'detail']);
 Route::get('/search', [ItemController::class, 'search']);
 
+/* プロフィール設定なし→プロフィール編集画面のみ表示可能 */
 Route::middleware('profile.set')->group(function () {
     Route::get('/', [ItemController::class, 'index']);
 });
 
+/* メール認証 */
+Route::middleware('auth')->group(function () {
+
+    Route::get('/email/verify', fn() => view('auth.verify-email'))
+        ->name('verification.notice');
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect('/mypage/profile');
+    })->middleware('signed')->name('verification.verify');
+
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('status', 'verification-link-sent');
+    })->middleware('throttle:6,1')->name('verification.send');
+});
+
+/* 会員登録済みかつ、プロフィール作成ユーザーが表示できる画面 */
 Route::middleware('auth', 'verified', 'profile.set')->group(function () {
     Route::get('/mypage', [ProfileController::class, 'mypage']);
     Route::get('/mypage/profile', [ProfileController::class, 'create']);
@@ -46,35 +60,12 @@ Route::middleware('auth', 'verified', 'profile.set')->group(function () {
     Route::post('/purchase/{id}', [CheckoutController::class, 'purchase']);
     Route::get('/purchase/address/{id}', [DeliveryController::class, 'create']);
     Route::post('/purchase/address/{id}', [DeliveryController::class, 'store']);
-    // 購入画面
     Route::get('/purchase/{id}', [CheckoutController::class, 'showCheckout'])
         ->name('purchase.show');
-
-    // 購入処理（カード・コンビニ共通 POST）
     Route::post('/purchase/{id}', [CheckoutController::class, 'purchase'])
         ->name('purchase');
-
-    // コンビニ決済（別タブ GET ※重要）
     Route::get('/pay/konbini/{id}', [CheckoutController::class, 'purchaseKonbini'])
         ->name('pay.konbini');
-
-    /* カード決済 */
     Route::get('/pay/card/{id}', [CheckoutController::class, 'purchaseCard'])
         ->name('stripe.card');
-});
-
-Route::middleware('auth')->group(function () {
-
-    Route::get('/email/verify', fn() => view('auth.verify-email'))
-        ->name('verification.notice');
-
-    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        $request->fulfill();
-        return redirect('/mypage/profile');
-    })->middleware('signed')->name('verification.verify');
-
-    Route::post('/email/verification-notification', function (Request $request) {
-        $request->user()->sendEmailVerificationNotification();
-        return back()->with('status', 'verification-link-sent');
-    })->middleware('throttle:6,1')->name('verification.send');
 });

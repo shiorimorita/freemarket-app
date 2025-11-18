@@ -64,6 +64,7 @@ class ItemController extends Controller
             }
         } else {
             $items = Item::withCount('likes')
+                ->when($user, fn($q) => $q->where('user_id', '!=', $user->id))
                 ->orderBy('likes_count', 'desc')
                 ->searchKeyword($keyword)
                 ->get();

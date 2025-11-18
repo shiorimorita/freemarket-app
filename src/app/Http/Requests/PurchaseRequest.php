@@ -38,11 +38,11 @@ class PurchaseRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            $user = $this->user();
-            $profile = $user->profile;
-            $delivery = $user->delivery;
+            $itemId = $this->route('item_id');
 
-            if (! $delivery && ! $profile) {
+            $tempDelivery = session("delivery_temp_{$itemId}");
+
+            if (! $tempDelivery) {
                 $validator->errors()->add('delivery', '配送先住所を登録してください');
             }
         });

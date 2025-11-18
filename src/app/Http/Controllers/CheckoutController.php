@@ -37,12 +37,12 @@ class CheckoutController extends Controller
         $sold['item_id'] = $item_id;
         Sold::create($sold);
 
-        if ($request->method === 'カード払い') {
+        if ($request->input('method') === 'カード払い') {
 
             return redirect()->route('stripe.card', ['id' => $item_id]);
         }
 
-        if ($request->method === 'コンビニ払い') {
+        if ($request->input('method') === 'コンビニ払い') {
 
             // JS が別タブ開くので controller では開かない
             return redirect('/');
