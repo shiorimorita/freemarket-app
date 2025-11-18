@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ItemRequest;
 use App\Models\Category;
 use App\Models\Like;
-use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
 {
@@ -63,7 +62,8 @@ class ItemController extends Controller
                     ->get();
             }
         } else {
-            $items = Item::withCount('likes')
+            $items = Item::with(['sold'])
+                ->withCount('likes')
                 ->when($user, fn($q) => $q->where('user_id', '!=', $user->id))
                 ->orderBy('likes_count', 'desc')
                 ->searchKeyword($keyword)
@@ -76,7 +76,9 @@ class ItemController extends Controller
     public function detail($id)
     {
 
-        $item = Item::with(['categories', 'comments.user.profile'])->withCount('likes')->find($id);
+        $item = Item::with(['categories', 'comments.user.profile', 'sold'])
+            ->withCount('likes')
+            ->find($id);
 
         $isSold = $item->is_sold;
 

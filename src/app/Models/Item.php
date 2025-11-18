@@ -43,6 +43,11 @@ class Item extends Model
         return $this->hasOne(Sold::class);
     }
 
+    public function getIsSoldAttribute()
+    {
+        return $this->sold()->exists();
+    }
+
     public function scopeSearchKeyword($query, $keyword)
     {
         if (!empty($keyword)) {
@@ -50,12 +55,5 @@ class Item extends Model
         }
 
         return $query;
-    }
-
-    public function getIsSoldAttribute()
-    {
-        return DB::table('solds')
-            ->where('item_id', $this->id)
-            ->exists();
     }
 }
