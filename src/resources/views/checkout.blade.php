@@ -83,7 +83,7 @@
         const isSold = "{{$item->isSold}}";
 
         /* 二重購入、自分の商品の購入防止 */
-        if (isMine || isSold) {
+        if (isMyItem || isSold) {
             e.preventDefault();
             return;
         }

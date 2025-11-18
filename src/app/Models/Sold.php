@@ -15,7 +15,7 @@ class Sold extends Model
         'method',
         'post_code',
         'address',
-        'building,'
+        'building',
     ];
 
     public function user()

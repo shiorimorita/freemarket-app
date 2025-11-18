@@ -26,6 +26,7 @@ class DeliveryRequest extends FormRequest
         return [
             'post_code' => ['required', 'regex:/^\d{3}-\d{4}$/'],
             'address' => ['required'],
+            'building' => ['nullable', 'string'],
         ];
     }
 

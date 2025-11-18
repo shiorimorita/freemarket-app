@@ -21,14 +21,13 @@ use Illuminate\Http\Request;
 |
 */
 
-/* すべてのユーザーが表示できる画面 */
-
+Route::get('/', [ItemController::class, 'index'])->middleware('profile.set');
 Route::get('/item/{id}', [ItemController::class, 'detail']);
-Route::get('/search', [ItemController::class, 'search']);
 
-/* プロフィール設定なし→プロフィール編集画面のみ表示可能 */
-Route::middleware('profile.set')->group(function () {
-    Route::get('/', [ItemController::class, 'index']);
+/* プロフィール設定なし→プロフィール編集画面のみ表示し登録 */
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/mypage/profile', [ProfileController::class, 'create']);
+    Route::post('/mypage/profile', [ProfileController::class, 'store']);
 });
 
 /* メール認証 */
@@ -50,14 +49,10 @@ Route::middleware('auth')->group(function () {
 /* 会員登録済みかつ、プロフィール作成ユーザーが表示できる画面 */
 Route::middleware('auth', 'verified', 'profile.set')->group(function () {
     Route::get('/mypage', [ProfileController::class, 'mypage']);
-    Route::get('/mypage/profile', [ProfileController::class, 'create']);
-    Route::post('/mypage/profile', [ProfileController::class, 'store']);
     Route::get('/sell', [ItemController::class, 'create']);
     Route::post('/sell', [ItemController::class, 'store']);
     Route::post('/item/{id}/comment', [CommentController::class, 'comment']);
     Route::post('/item/{id}/like', [LikeController::class, 'like']);
-    Route::get('/purchase/{id}', [CheckoutController::class, 'showCheckout']);
-    Route::post('/purchase/{id}', [CheckoutController::class, 'purchase']);
     Route::get('/purchase/address/{id}', [DeliveryController::class, 'create']);
     Route::post('/purchase/address/{id}', [DeliveryController::class, 'store']);
     Route::get('/purchase/{id}', [CheckoutController::class, 'showCheckout'])

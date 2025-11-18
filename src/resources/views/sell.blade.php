@@ -42,7 +42,7 @@
                     <label for="condition" class="sell__label">商品の状態</label>
                     <div class="select__inner">
                         <select name="condition" id="condition" class="sell__select">
-                            <option value="" disabled selected>選択してください</option>
+                            <option value="" disabled hidden selected>選択してください</option>
                             <option value="良好" {{old('condition')==='良好' ? 'selected' : '' }}>良好</option>
                             <option value="目立った傷や汚れなし" {{old('condition')==='目立った傷や汚れなし' ? 'selected' : '' }}>目立った傷や汚れなし</option>
                             <option value="やや傷や汚れあり" {{old('condition')==='やや傷や汚れあり' ? 'selected' : '' }}>やや傷や汚れあり</option>
