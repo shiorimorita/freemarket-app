@@ -1,6 +1,6 @@
 const fileInput = document.querySelector(".common__img-input");
 const fileButton = document.querySelector(".common__img-button");
-const imagePreview = document.querySelector(".js-img-preview");
+const imagePreview = document.querySelector(".common-img-preview");
 
 fileButton.addEventListener("click", () => {
     fileInput.click();

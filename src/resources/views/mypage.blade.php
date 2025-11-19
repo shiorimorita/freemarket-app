@@ -22,15 +22,15 @@
     <div class="mypage__items">
         @foreach($items as $item)
         <div class="mypage__item">
-            <a href="/item/{{$item->id}}" class="mypage__item-link">
-                <div class="mypage__item-wrapper">
+            <div class="mypage__item-wrapper">
+                <a href="/item/{{$item->id}}" class="mypage__item-link">
                     <img src="{{asset('storage/' . $item->image_path)}}" alt="商品名" class="mypage__item-img">
-                    <p class="mypage__item-name">{{$item->name}}</p>
                     @if($item->sold)
                     <span class="sold-badge  sold-badge--mypage">Sold</span>
                     @endif
-                </div>
-            </a>
+                </a>
+            </div>
+            <p class="mypage__item-name">{{$item->name}}</p>
         </div>
         @endforeach
     </div>

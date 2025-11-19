@@ -27,6 +27,10 @@ input {
     width: 100%;
 }
 
+button {
+    width: 100%;
+}
+
 fieldset {
     border: none;
 }
@@ -49,7 +53,7 @@ textarea {
 
 .input-error {
     color: #FF5555;
-    font-size: 16px;
+    font-size: 20px;
 }
 
 .common-link {
@@ -58,8 +62,16 @@ textarea {
 }
 
 .common-btn {
-    width: 100%;
     background: #FF5555;
+    font-weight: bold;
+    color: #FFF;
+}
+
+/* 購入不可リンクボタン */
+.btn--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #5F5F5F;
     font-weight: bold;
     color: #FFF;
 }
@@ -81,13 +93,37 @@ textarea {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 8px 16px;
-    text-align: center;
     background: rgba(255, 0, 0, 0.85);
     font-weight: bold;
     border-radius: 4px;
     color: #fff;
     letter-spacing: 0.2rem;
+}
+
+select {
+    border: 1px solid #5F5F5F;
+    width: 100%;
+    font-size: 16px;
+    padding: 0 16px;
+    color: #5F5F5F;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+select,
+::picker(select) {
+    appearance: base-select;
+    border-radius: 5px;
+}
+
+select option:hover {
+    background-color: #5599EB;
+}
+
+select option {
+    background-color: #636769;
+    color: #fff;
+    padding-left: 8px;
 }
 
 /* header */

@@ -26,11 +26,6 @@
     padding-left: 16px;
 }
 
-.login__buttons {
-    margin-top: 8px;
-    text-align: center;
-}
-
 .login__button {
     height: 65px;
     border-radius: 5px;
@@ -39,9 +34,7 @@
 }
 
 .login__link {
-    line-height: 53px;
-}
-
-.register__link {
     display: block;
+    line-height: 53px;
+    text-align: center;
 }

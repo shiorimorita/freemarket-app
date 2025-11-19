@@ -27,7 +27,7 @@ class RegisterRequest extends FormRequest
             'name' => ['required'],
             'email' => ['required', 'email'],
             'password' => ['required', 'min:8'],
-            'password_confirmation' => ['required', 'min:8', 'same:password'],
+            'password_confirmation' => ['required', 'min:8'],
         ];
     }
 
@@ -43,5 +43,13 @@ class RegisterRequest extends FormRequest
             'password_confirmation.same' => 'パスワードと一致しません',
             'password_confirmation.min' => '確認用パスワードは8文字以上で入力してください',
         ];
+    }
+
+    /* パスワードが入力されているときは、確認用パスワードの 'パスワードと一致しません' エラーを表示させない */
+    public function withValidator($validator)
+    {
+        $validator->sometimes('password_confirmation', 'same:password', function ($input) {
+            return !empty($input->password);
+        });
     }
 }

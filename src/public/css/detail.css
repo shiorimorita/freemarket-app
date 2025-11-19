@@ -52,8 +52,8 @@
     font-size: 45px;
 }
 
-.item-detail__span,
-.item-detail__symbol {
+.item-detail__symbol,
+.item-detail__tax {
     font-size: 30px;
 }
 
@@ -87,11 +87,17 @@
     border-radius: 4px;
 }
 
-.item-detail__section-title {
+.item-detail__description .item-detail__section-title {
     line-height: 74px;
 }
 
 .item-detail__info .item-detail__section-title {
+    line-height: 100px;
+}
+
+.item-comment__title,
+.item-comment__count {
+    color: #5F5F5F;
     line-height: 100px;
 }
 
@@ -114,28 +120,24 @@
     font-weight: bold;
 }
 
+.product-info__desc {
+    font-size: 20px;
+}
+
 .product-info__list:first-of-type .product-info__desc {
     background: #D9D9D9;
     border-radius: 15px;
     line-height: 30px;
     padding: 0 24px;
     margin-right: 22px;
-    font-size: 20px;
+}
+
+.product-info__list:nth-of-type(2) {
+    line-height: 100px;
 }
 
 .product-info__list:nth-of-type(2) .product-info__term {
-    line-height: 100px;
     margin-right: 84px;
-}
-
-.product-info__desc {
-    font-size: 20px;
-}
-
-.item-comment__title,
-.item-comment__count {
-    color: #5F5F5F;
-    line-height: 100px;
 }
 
 .item-comment__user {
@@ -192,11 +194,4 @@
     height: 56px;
     font-size: 25px;
     border-radius: 4px;
-}
-
-/* 購入不可ボタン */
-.purchase__button--disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background-color: #5F5F5F;
 }

@@ -1,10 +1,10 @@
 .delivery {
     width: 680px;
-    margin: 0 auto;
+    margin: 48px auto 0 auto;
 }
 
 .delivery__title {
-    margin: 48px 0 103px 0;
+    margin-bottom: 103px;
 }
 
 .delivery__label {

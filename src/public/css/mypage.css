@@ -1,7 +1,5 @@
 .mypage {
-    max-width: 1512px;
     padding-top: 78px;
-    margin: 0 auto;
 }
 
 .mypage__profile-info {
@@ -37,7 +35,6 @@
 
 .mypage__profile-list {
     display: flex;
-    align-items: center;
     gap: 52px;
     border-bottom: 2px solid #5F5F5F;
     padding: 0 0 5px 129px;
@@ -53,20 +50,27 @@
 }
 
 .mypage__items {
-    padding: 59px 70px 0 70px;
-    display: flex;
-    flex-wrap: wrap;
+    margin: 60px 70px;
+    display: grid;
+    grid-template-columns: repeat(4, 290px);
+    justify-content: space-between;
 }
 
 .mypage__item {
-    margin: 0 0 77px 24px;
+    margin-bottom: 77px;
+}
+
+.mypage__item-wrapper {
+    position: relative;
+    width: 290px;
+    height: 280px;
+    margin-bottom: 8px;
 }
 
 .mypage__item-img {
-    width: 290px;
-    height: 282px;
+    width: 100%;
+    height: 100%;
     border-radius: 4px;
-    background: #D9D9D9;
 }
 
 .mypage__item-name {
@@ -77,16 +81,8 @@
     color: #FF0000;
 }
 
-.mypage__item-link {
-    color: #000;
-}
-
-.mypage__item-wrapper {
-    position: relative;
-    margin-bottom: 8px;
-}
-
 .sold-badge--mypage {
     width: 200px;
     line-height: 50px;
+    text-align: center;
 }

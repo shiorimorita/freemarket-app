@@ -6,11 +6,11 @@
 <main class="login">
     <form action="/login" method="post" class="login__form">
         @csrf
-        <h2 class="common-sub-title login__title">ログイン</h2>
+        <h2 class="login__title common-sub-title">ログイン</h2>
         <div class="login__group">
             <label for="email" class="login__label">メールアドレス</label>
             <input type="mail" name="email" id="email" class="login__input" value="{{old('email')}}">
-            <p class="input-error login__error">
+            <p class="login__error input-error">
                 @error('email')
                 {{ $message }}
                 @enderror
@@ -19,7 +19,7 @@
         <div class="login__group">
             <label for="password" class="login__label">パスワード</label>
             <input type="password" name="password" id="password" class="login__input">
-            <p class="input-error login__error">
+            <p class="login__error input-error">
                 @error('password')
                 {{ $message }}
                 @enderror

@@ -31,7 +31,7 @@ class CheckoutController extends Controller
 
     public function purchase(PurchaseRequest $request, $item_id)
     {
-        $item = Item::find($item_id);
+        $item = Item::findOrFail($item_id);
 
         /* 自分の商品は購入禁止 */
         if ($item->user_id === Auth::id()) {

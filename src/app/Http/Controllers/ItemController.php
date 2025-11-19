@@ -78,7 +78,7 @@ class ItemController extends Controller
 
         $item = Item::with(['categories', 'comments.user.profile', 'sold'])
             ->withCount('likes')
-            ->find($id);
+            ->findOrFail($id);
 
         $isSold = $item->is_sold;
 
@@ -87,16 +87,5 @@ class ItemController extends Controller
             ->exists();
 
         return view('detail', compact('item', 'isSold', 'liked'));
-    }
-
-    public function search(Request $request)
-    {
-        $keyword = $request->keyword;
-        $tab = $request->tab;
-
-        session(['search.keyword' => $keyword]);
-        $items = Item::searchKeyword($keyword)->get();
-
-        return view('index', compact('items', 'keyword'));
     }
 }

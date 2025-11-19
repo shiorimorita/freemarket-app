@@ -9,11 +9,14 @@
         <div class="checkout__left">
             <div class="checkout__item">
                 <div class="checkout__item-img">
-                    <img src="{{asset('storage/'. $item->image_path)}}" alt="" class="checkout__item-image">
+                    <img src="{{asset('storage/'. $item->image_path)}}" alt="商品の画像" class="checkout__item-image">
                 </div>
                 <div class="checkout__item-info">
                     <h2 class="checkout__item-name">{{$item->name}}</h2>
-                    <p class="checkout__item-price">¥&nbsp;{{$item->price}}</p>
+                    <p class="checkout__item-price">
+                        <span class="checkout__item-symbol">¥</span>
+                        <span class="checkout__item-value">{{number_format($item->price)}}</span>
+                    </p>
                 </div>
             </div>
             <div class="checkout__method">
@@ -23,7 +26,7 @@
                     <option value="コンビニ払い" {{old('method')==='コンビニ払い' ? 'selected' : '' }}>コンビニ払い</option>
                     <option value="カード払い" {{old('method')==='カード払い' ? 'selected' : '' }}>カード払い</option>
                 </select>
-                <p class="checkout_error input-error">
+                <p class="checkout__error input-error">
                     @error('method')
                     {{ $message }}
                     @enderror
@@ -35,14 +38,14 @@
                     <a href="/purchase/address/{{$item->id}}" class="checkout__delivery-link common-link">変更する</a>
                 </div>
                 <div class="checkout__delivery-address">
-                    <p class="checkout__delivery-post-code">{{$post_code}}</p>
-                    <input type="hidden" name="post_code" value="{{$post_code}}">
-                    <p class="checkout__delivery-text">{{$address}}</p>
-                    <input type="hidden" name="address" value="{{$address}}">
-                    <p class="checkout__delivery-text">{{$building}}</p>
-                    <input type="hidden" name="building" value="{{$building}}">
+                    <div class="checkout__post-code-wrapper">
+                        <span class="checkout__post-code-prefix">〒</span>
+                        <input type="text" name="post_code" value="{{$post_code}}" class="checkout__delivery-post-code">
+                    </div>
+                    <input type="text" name="address" value="{{$address}}" class="checkout__delivery-text">
+                    <input type="text" name="building" value="{{$building}}" class="checkout__delivery-text">
                 </div>
-                <p class="checkout_error input-error">
+                <p class="checkout__error input-error">
                     @error('delivery')
                     {{ $message }}
                     @enderror
@@ -57,9 +60,9 @@
                 <dd class="checkout__detail-term" id="selected_payment"></dd>
             </dl>
             @if($item->is_sold)
-            <button type="submit" class="checkout__button common-btn" disabled style="background: #ccc; cursor: not-allowed;">売り切れのため購入できません</button>
+            <button type="submit" class="checkout__button btn--disabled">売り切れのため購入できません</button>
             @elseif($item->user_id===Auth::id())
-            <button type="submit" class="checkout__button common-btn" disabled style="background: #ccc; cursor: not-allowed;">自分の商品は購入できません</button>
+            <button type="submit" class="checkout__button btn--disabled">自分の商品は購入できません</button>
             @else
             <button type="submit" class="checkout__button common-btn">購入する</button>
             @endif

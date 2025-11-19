@@ -41,19 +41,19 @@
         </div>
         @elseif(Auth::id() === $item->user_id)
         <div class="purchase">
-            <a href="#" class="purchase__button common-btn purchase__button--disabled">自分の商品は購入できません</a>
+            <a href="#" class="purchase__button btn--disabled">自分の商品は購入できません</a>
         </div>
         @else
         <div class="purchase">
-            <a href="#" class="purchase__button common-btn purchase__button--disabled">売り切れのため購入できません</a>
+            <a href="#" class="purchase__button btn--disabled">売り切れのため購入できません</a>
         </div>
         @endif
         <div class="item-detail__description">
-            <h2 class="item-detail__section-title sub-title">商品説明</h2>
+            <h2 class="item-detail__section-title">商品説明</h2>
             <p class="item-detail__description-text">{{ $item->description }}</p>
         </div>
         <div class="item-detail__info">
-            <h2 class="item-detail__section-title sub-title">商品の情報</h2>
+            <h2 class="item-detail__section-title">商品の情報</h2>
             <dl class="product-info__list">
                 <dt class="product-info__term">カテゴリー</dt>
                 @foreach ($item->categories as $category)
@@ -69,7 +69,7 @@
             <h2 class="item-detail__section-title item-comment__title">コメント
                 <span class="item-comment__count">({{ $item->comments->count() }})</span>
             </h2>
-            @foreach ($item->comments as $comment)
+            @foreach ( $item->comments as $comment )
             <div class="item-comment__inner">
                 <div class="item-comment__user">
                     @if (optional($comment->user->profile)->image_path)
@@ -85,18 +85,18 @@
             <h2 class="item-comment__sub-title">商品へのコメント</h2>
             <form action="/item/{{ $item->id }}/comment" method="post" class="comment-form">
                 @csrf
-                <textarea name="content" cols="30" rows="5" class="comment__description">{{ old("content") }}</textarea>
+                <textarea name="content" cols="22" class="comment__description">{{ old("content") }}</textarea>
                 <p class="input-error comment__error">
                     @error('content')
                     {{ $message }}
                     @enderror
                 </p>
                 <div class="comment__button">
-                    @auth
+                    @if(Auth::check() && Auth::user()->profile)
                     <button class="comment-button__submit common-btn">コメントを送信する</button>
                     @else
                     <button class="comment-button__submit common-btn" type="button">コメントを送信する</button>
-                    @endauth
+                    @endif
                 </div>
             </form>
         </div>

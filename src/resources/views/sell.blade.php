@@ -11,7 +11,7 @@
         <fieldset class="sell-images">
             <legend class="sell-images__legend">商品画像</legend>
             <div class="sell__image-group">
-                <img src="" class="sell__image js-img-preview">
+                <img src="" class="sell__image common-img-preview">
                 <input type="file" name="image_path" class="sell__img-input common__img-input">
                 <label class="sell__img-button common__img-button">画像を選択する</label>
             </div>
@@ -74,7 +74,7 @@
             </div>
             <div class="sell__group-input">
                 <label for="description" class="sell__label">商品の説明</label>
-                <textarea name="description" id="description" class="sell__textarea" cols="30" rows="5">{{old('description')}}</textarea>
+                <textarea name="description" id="description" class="sell__textarea" cols="27">{{old('description')}}</textarea>
                 <p class="sell__error input-error">
                     @error('description')
                     {{ $message }}
