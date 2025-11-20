@@ -5,7 +5,7 @@
     <div class="item-detail__left">
         <div class="item-detail__image">
             <img src="{{ asset('storage/' . $item->image_path) }}" alt="商品画像" class="item-detail__img" />
-            @if ($isSold)
+            @if ($item->isSold)
             <span class="sold-badge--detail sold-badge">Sold</span>
             @endif
         </div>
@@ -35,7 +35,7 @@
                 <span class="comment__count">{{ $item->comments->count() }}</span>
             </div>
         </div>
-        @if (Auth::id() !== $item->user_id && !$isSold)
+        @if (Auth::id() !== $item->user_id && !$item->isSold)
         <div class="purchase">
             <a href="/purchase/{{ $item->id }}" class="purchase__button common-btn">購入手続きへ</a>
         </div>

@@ -13,20 +13,18 @@ class CheckoutController extends Controller
     {
         $item = Item::findOrFail($id);
 
-        $tempDelivery = session("delivery_temp_{$id}");
+        $delivery = session("delivery_temp_{$id}");
 
-        if ($tempDelivery) {
-            $post_code = $tempDelivery['post_code'];
-            $address = $tempDelivery['address'];
-            $building = $tempDelivery['building'];
-        } else {
+        if (! $delivery) {
             $user = Auth::user();
-            $post_code = $user->profile->post_code;
-            $address   = $user->profile->address;
-            $building  = $user->profile->building;
+            $delivery = [
+                'post_code' => $user->profile->post_code,
+                'address'   => $user->profile->address,
+                'building'  => $user->profile->building,
+            ];
         }
 
-        return view('checkout', compact('item', 'post_code', 'address', 'building'));
+        return view('checkout', compact('item', 'delivery'));
     }
 
     public function purchase(PurchaseRequest $request, $item_id)
@@ -40,7 +38,7 @@ class CheckoutController extends Controller
 
         /* 売り切れ商品の場合 */
         if ($item->isSold) {
-            abort(403, 'この商品はすでに売れています');
+            return abort(403, 'この商品はすでに売れています');
         }
 
         $user_id = Auth::id();
@@ -54,9 +52,8 @@ class CheckoutController extends Controller
             return redirect()->route('stripe.card', ['id' => $item_id]);
         }
 
+        // JS にて stripe 決済へつながるため、/ へリダイレクト設定
         if ($request->input('method') === 'コンビニ払い') {
-
-            // JS が別タブ開くので controller では開かない
             return redirect('/');
         }
     }

@@ -21,10 +21,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', [ItemController::class, 'index'])->middleware('profile.set');
+Route::get('/', [ItemController::class, 'index']);
 Route::get('/item/{id}', [ItemController::class, 'detail']);
 
-/* プロフィール設定なし→プロフィール編集画面のみ表示し登録 */
+/* 会員のみプロフィールの作成、編集ができる */
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/mypage/profile', [ProfileController::class, 'create']);
     Route::post('/mypage/profile', [ProfileController::class, 'store']);

@@ -11,7 +11,7 @@ class DeliveryController extends Controller
     public function create($item_id)
     {
         $user = Auth::user();
-        $item = Item::find($item_id);
+        $item = Item::findOrFail($item_id);
         $delivery = session("delivery_temp_{$item_id}");
 
         if (!$delivery) {
@@ -23,23 +23,21 @@ class DeliveryController extends Controller
         }
 
         $delivery = (object)$delivery;
-        return view('delivery_address', compact('delivery', 'item_id', 'item'));
+        return view('delivery_address', compact('delivery', 'item'));
     }
 
     public function store(DeliveryRequest $request, $item_id)
     {
-        $item = Item::find($item_id);
+        $item = Item::findOrFail($item_id);
 
         if ($item->is_sold || $item->user_id === Auth::id()) {
             abort(403, 'こちらの商品の配送先は変更できません');
         }
 
+        $delivery = $request->only(['post_code', 'address', 'building']);
+
         session([
-            "delivery_temp_{$item_id}" => [
-                'post_code' => $request->post_code,
-                'address' => $request->address,
-                'building' => $request->building,
-            ]
+            "delivery_temp_{$item_id}" => $delivery
         ]);
 
         return redirect("/purchase/{$item_id}");

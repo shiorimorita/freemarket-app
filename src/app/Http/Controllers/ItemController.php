@@ -36,32 +36,30 @@ class ItemController extends Controller
         $tab = $request->tab ?? 'recommend';
 
         if ($request->has('keyword')) {
-            // keyword パラメータが存在する
-
             if ($request->keyword === '') {
-                // 空 → リセット
                 session()->forget('search.keyword');
             } else {
-                // 空でなければ保存
                 session(['search.keyword' => $request->keyword]);
             }
         }
 
-        // ▼ 3. セッションの keyword を取得
-        $keyword = session('search.keyword', null);
+        $keyword = session('search.keyword');
 
-        // ▼ 4. 商品取得
+        /* マイリストタブ */
         if ($tab === 'mylist') {
             if (!$user) {
                 $items = collect();
             } else {
-                $items = Item::whereHas('likes', function ($q) use ($user) {
-                    $q->where('user_id', $user->id);
-                })
+                $items = Item::whereHas(
+                    'likes',
+                    fn($q) =>
+                    $q->where('user_id', $user->id)
+                )
                     ->searchKeyword($keyword)
                     ->get();
             }
-        } else {
+        }
+        /* おすすめタブ */ else {
             $items = Item::with(['sold'])
                 ->withCount('likes')
                 ->when($user, fn($q) => $q->where('user_id', '!=', $user->id))
@@ -80,12 +78,14 @@ class ItemController extends Controller
             ->withCount('likes')
             ->findOrFail($id);
 
-        $isSold = $item->is_sold;
+        if (Auth::user()) {
+            $liked = Like::where('user_id', Auth::id())
+                ->where('item_id', $id)
+                ->exists();
+        } else {
+            $liked = false;
+        }
 
-        $liked = Like::where('user_id', Auth::id())
-            ->where('item_id', $id)
-            ->exists();
-
-        return view('detail', compact('item', 'isSold', 'liked'));
+        return view('detail', compact('item', 'liked'));
     }
 }

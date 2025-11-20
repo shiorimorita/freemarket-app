@@ -8,9 +8,12 @@
 }
 
 .profile__img {
+    margin-bottom: 76px;
+}
+
+.profile__img-wrapper {
     display: flex;
     align-items: center;
-    margin-bottom: 76px;
     gap: 40px;
 }
 

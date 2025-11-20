@@ -40,10 +40,10 @@
                 <div class="checkout__delivery-address">
                     <div class="checkout__post-code-wrapper">
                         <span class="checkout__post-code-prefix">〒</span>
-                        <input type="text" name="post_code" value="{{$post_code}}" class="checkout__delivery-post-code">
+                        <input type="text" name="post_code" value="{{$delivery['post_code']}}" class="checkout__delivery-post-code">
                     </div>
-                    <input type="text" name="address" value="{{$address}}" class="checkout__delivery-text">
-                    <input type="text" name="building" value="{{$building}}" class="checkout__delivery-text">
+                    <input type="text" name="address" value="{{$delivery['address']}}" class="checkout__delivery-text">
+                    <input type="text" name="building" value="{{$delivery['building']}}" class="checkout__delivery-text">
                 </div>
                 <p class="checkout__error input-error">
                     @error('delivery')
@@ -60,9 +60,9 @@
                 <dd class="checkout__detail-term" id="selected_payment"></dd>
             </dl>
             @if($item->is_sold)
-            <button type="submit" class="checkout__button btn--disabled">売り切れのため購入できません</button>
+            <button type="button" class="checkout__button btn--disabled">売り切れのため購入できません</button>
             @elseif($item->user_id===Auth::id())
-            <button type="submit" class="checkout__button btn--disabled">自分の商品は購入できません</button>
+            <button type="button" class="checkout__button btn--disabled">自分の商品は購入できません</button>
             @else
             <button type="submit" class="checkout__button common-btn">購入する</button>
             @endif
@@ -80,25 +80,13 @@
         selectedPayment.textContent = this.value;
     });
 
+    /* コンビニ払い 別タブ表示 */
     form.addEventListener('submit', function (e) {
-
-        const isMyItem = "{{ $item->user_id === Auth::id()}}";
-        const isSold = "{{$item->isSold}}";
-
-        /* 二重購入、自分の商品の購入防止 */
-        if (isMyItem || isSold) {
-            e.preventDefault();
-            return;
-        }
 
         if (method.value === 'コンビニ払い') {
 
             const konbiniUrl = `/pay/konbini/${itemId}`;
             window.open(konbiniUrl, '_blank');
-            // 元のタブは / に戻す
-            setTimeout(() => {
-                window.location.href = "/";
-            }, 200);
         }
     });
 </script>

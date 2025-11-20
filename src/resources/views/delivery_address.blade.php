@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 <main class="delivery">
-    <form action="/purchase/address/{{$item_id}}" method="post" class="delivery__form">
+    <form action="/purchase/address/{{$item->id}}" method="post" class="delivery__form">
         @csrf
         <h2 class="delivery__title common-sub-title">住所の変更</h2>
         <div class="delivery__group">
@@ -35,9 +35,9 @@
             </p>
         </div>
         @if($item->is_sold)
-        <button type="submit" class="delivery__button btn--disabled">配送先を変更できません</button>
+        <button type="button" class="delivery__button btn--disabled">配送先を変更できません</button>
         @elseif($item->user_id===Auth::id())
-        <button type="submit" class="delivery__button btn--disabled">自分の商品は配送先の設定ができません</button>
+        <button type="button" class="delivery__button btn--disabled">自分の商品は配送先の設定ができません</button>
         @else
         <button type="submit" class="delivery__button common-btn">更新する</button>
         @endif

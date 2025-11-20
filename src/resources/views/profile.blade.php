@@ -9,9 +9,11 @@
         @csrf
         <h2 class="profile__title common-sub-title">プロフィール設定</h2>
         <div class="profile__img">
-            <img src="{{optional($user->profile)->image_path ? asset('storage/' . optional($user->profile)->image_path) : '' }}" class="profile__img-image common-img-preview">
-            <input type="file" name="image_path" class="profile__img-input common__img-input">
-            <button class="profile__img-button common__img-button" type="button">画像を選択する</button>
+            <div class="profile__img-wrapper">
+                <img src="{{optional($user->profile)->image_path ? asset('storage/' . optional($user->profile)->image_path) : '' }}" class="profile__img-image common-img-preview">
+                <input type="file" name="image_path" class="profile__img-input common__img-input">
+                <button class="profile__img-button common__img-button" type="button">画像を選択する</button>
+            </div>
             <p class="profile_error input-error">
                 @error('image_path')
                 {{$message}}
