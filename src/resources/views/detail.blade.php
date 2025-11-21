@@ -1,11 +1,12 @@
-@extends('layouts.common') @section('css')
+@extends('layouts.common')
+@section('css')
 <link rel="stylesheet" href="{{ asset('css/detail.css') }}" />
 @endsection @section('content')
 <main class="item-detail">
     <div class="item-detail__left">
         <div class="item-detail__image">
             <img src="{{ asset('storage/' . $item->image_path) }}" alt="商品画像" class="item-detail__img" />
-            @if ($item->isSold)
+            @if ($item->is_sold)
             <span class="sold-badge--detail sold-badge">Sold</span>
             @endif
         </div>

@@ -21,7 +21,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', [ItemController::class, 'index']);
+Route::get('/', [ItemController::class, 'index'])->middleware('profile.set');
 Route::get('/item/{id}', [ItemController::class, 'detail']);
 
 /* 会員のみプロフィールの作成、編集ができる */

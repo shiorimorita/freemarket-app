@@ -12,7 +12,6 @@ class CheckoutController extends Controller
     public function showCheckout($id)
     {
         $item = Item::findOrFail($id);
-
         $delivery = session("delivery_temp_{$id}");
 
         if (! $delivery) {
@@ -37,7 +36,7 @@ class CheckoutController extends Controller
         }
 
         /* 売り切れ商品の場合 */
-        if ($item->isSold) {
+        if ($item->is_sold) {
             return abort(403, 'この商品はすでに売れています');
         }
 
@@ -51,7 +50,6 @@ class CheckoutController extends Controller
 
             return redirect()->route('stripe.card', ['id' => $item_id]);
         }
-
         // JS にて stripe 決済へつながるため、/ へリダイレクト設定
         if ($request->input('method') === 'コンビニ払い') {
             return redirect('/');
@@ -61,9 +59,7 @@ class CheckoutController extends Controller
     public function purchaseCard($item_id)
     {
         $item = Item::findOrFail($item_id);
-
         \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-
         $session = \Stripe\Checkout\Session::create([
             'mode' => 'payment',
             'payment_method_types' => ['card'],
@@ -85,9 +81,7 @@ class CheckoutController extends Controller
     public function purchaseKonbini($item_id)
     {
         $item = Item::findOrFail($item_id);
-
         \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-
         $session = \Stripe\Checkout\Session::create([
             'mode' => 'payment',
             'payment_method_types' => ['konbini'],

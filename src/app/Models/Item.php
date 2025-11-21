@@ -53,7 +53,6 @@ class Item extends Model
         if (!empty($keyword)) {
             $query->where('name', 'like', "%{$keyword}%");
         }
-
         return $query;
     }
 }

@@ -25,7 +25,7 @@
             <div class="mypage__item-wrapper">
                 <a href="/item/{{$item->id}}" class="mypage__item-link">
                     <img src="{{asset('storage/' . $item->image_path)}}" alt="商品名" class="mypage__item-img">
-                    @if($item->sold)
+                    @if($item->is_sold)
                     <span class="sold-badge  sold-badge--mypage">Sold</span>
                     @endif
                 </a>

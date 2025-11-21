@@ -67,10 +67,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Sold::class);
     }
 
-    /* 売れた商品のユーザー情報とアイテム情報を取得 */
-    public function purchasedItems()
+    /* ユーザーがいいねした商品、いいねした日時を取得 */
+    public function likesItem()
     {
-        return $this->belongsToMany(Item::class, 'solds', 'user_id', 'item_id')
+        return $this->belongsToMany(Item::class, 'likes', 'user_id', 'item_id')
             ->withPivot('created_at');
     }
 }

@@ -24,6 +24,11 @@ class EnsureProfileIsSet
             return $next($request);
         }
 
+        // メール未認証
+        if (!$user->hasVerifiedEmail()) {
+            return redirect('/email/verify');
+        }
+
         if (!$user->profile) {
 
             if ($request->is('mypage/profile*')) {

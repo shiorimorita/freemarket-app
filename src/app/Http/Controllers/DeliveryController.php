@@ -26,9 +26,9 @@ class DeliveryController extends Controller
         return view('delivery_address', compact('delivery', 'item'));
     }
 
-    public function store(DeliveryRequest $request, $item_id)
+    public function store(DeliveryRequest $request, $id)
     {
-        $item = Item::findOrFail($item_id);
+        $item = Item::findOrFail($id);
 
         if ($item->is_sold || $item->user_id === Auth::id()) {
             abort(403, 'こちらの商品の配送先は変更できません');
@@ -37,9 +37,9 @@ class DeliveryController extends Controller
         $delivery = $request->only(['post_code', 'address', 'building']);
 
         session([
-            "delivery_temp_{$item_id}" => $delivery
+            "delivery_temp_{$id}" => $delivery
         ]);
 
-        return redirect("/purchase/{$item_id}");
+        return redirect("/purchase/{$id}");
     }
 }

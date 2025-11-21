@@ -12,13 +12,15 @@
             <a href="/?tab=mylist" class="product-tabs__link {{request('tab', 'recommend') === 'mylist' ? 'product-tabs__link--active': ''}}">マイリスト</a>
         </li>
     </ul>
+
+
     <div class="product-list">
         @foreach ($items as $item)
         <div class="product-card">
             <div class="product-card__image">
                 <a href="/item/{{ $item->id }}" class="product-card__link">
                     <img src="{{ asset('storage/' . $item->image_path) }}" alt="商品の画像" class="product-card__img" />
-                    @if ($item->isSold)
+                    @if ($item->is_sold)
                     <span class="sold-badge--list sold-badge">Sold</span>
                     @endif
                 </a>

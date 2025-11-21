@@ -28,11 +28,6 @@
         <div class="delivery__group">
             <label for="building" class="delivery__label">建物名</label>
             <input type="text" name="building" id="building" class="delivery__input" value="{{old('building',optional($delivery)->building)}}">
-            <p class="delivery__error input-error">
-                @error('')
-                {{$message}}
-                @enderror
-            </p>
         </div>
         @if($item->is_sold)
         <button type="button" class="delivery__button btn--disabled">配送先を変更できません</button>

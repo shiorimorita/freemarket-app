@@ -116,14 +116,15 @@ select,
     border-radius: 5px;
 }
 
-select option:hover {
-    background-color: #5599EB;
-}
-
 select option {
     background-color: #636769;
     color: #fff;
     padding-left: 8px;
+}
+
+/* Windows Chrome/Edge では効くが macOS/Linux では無効になることが多いので参考用に残します */
+select option:hover {
+    background-color: #5599EB;
 }
 
 /* header */

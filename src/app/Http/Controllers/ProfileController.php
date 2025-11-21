@@ -19,14 +19,12 @@ class ProfileController extends Controller
     /* profile store*/
     public function store(ProfileRequest $request)
     {
-        /** @var \App\Models\User $user */
         $user = Auth::user();
         $profileData = $request->only(['post_code', 'address', 'building']);
         $profileData['user_id'] = $user->id;
 
         if ($request->hasFile('image_path')) {
-            $image_path = $request->file('image_path')->store('images', 'public');
-            $profileData['image_path'] = $image_path;
+            $profileData['image_path'] = $request->file('image_path')->store('images', 'public');
         }
 
         $user->name = $request->name;
@@ -47,16 +45,17 @@ class ProfileController extends Controller
             return redirect('/mypage?page=sell');
         }
 
-        /** @var \App\Models\User $user */
         $user = Auth::user();
         $page = $request->page;
 
         if ($page === 'sell') {
             $items = $user->items()->orderBy('created_at', 'desc')->get();
         } else {
-            $items = $user->purchasedItems()
-                ->orderBy('pivot_created_at', 'desc')
-                ->get();
+            $items = $user->solds()
+                ->with('item')
+                ->orderBy('created_at', 'desc')
+                ->get()
+                ->map(fn($sold) => $sold->item);
         }
 
         return view('mypage', compact('user', 'items', 'page'));

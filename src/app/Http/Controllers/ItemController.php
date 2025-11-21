@@ -27,7 +27,7 @@ class ItemController extends Controller
         $item = Item::create($data);
         $item->categories()->attach($request->category_ids);
 
-        return redirect('/');
+        return redirect('/?tab=mylist');
     }
 
     public function index(Request $request)
@@ -44,22 +44,18 @@ class ItemController extends Controller
         }
 
         $keyword = session('search.keyword');
-
         /* マイリストタブ */
         if ($tab === 'mylist') {
             if (!$user) {
                 $items = collect();
             } else {
-                $items = Item::whereHas(
-                    'likes',
-                    fn($q) =>
-                    $q->where('user_id', $user->id)
-                )
+                $items = $user->likesItem()
+                    ->orderByPivot('created_at', 'desc')
                     ->searchKeyword($keyword)
                     ->get();
             }
-        }
-        /* おすすめタブ */ else {
+        } else {
+            /* おすすめタブ */
             $items = Item::with(['sold'])
                 ->withCount('likes')
                 ->when($user, fn($q) => $q->where('user_id', '!=', $user->id))
@@ -73,7 +69,6 @@ class ItemController extends Controller
 
     public function detail($id)
     {
-
         $item = Item::with(['categories', 'comments.user.profile', 'sold'])
             ->withCount('likes')
             ->findOrFail($id);
