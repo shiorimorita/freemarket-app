@@ -12,8 +12,6 @@
             <a href="/?tab=mylist" class="product-tabs__link {{request('tab', 'recommend') === 'mylist' ? 'product-tabs__link--active': ''}}">マイリスト</a>
         </li>
     </ul>
-
-
     <div class="product-list">
         @foreach ($items as $item)
         <div class="product-card">

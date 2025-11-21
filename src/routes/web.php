@@ -21,7 +21,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', [ItemController::class, 'index'])->middleware('profile.set');
+Route::get('/', [ItemController::class, 'index'])->middleware('user.onboarded');
 Route::get('/item/{id}', [ItemController::class, 'detail']);
 
 /* 会員のみプロフィールの作成、編集ができる */
@@ -47,7 +47,7 @@ Route::middleware('auth')->group(function () {
 });
 
 /* 会員登録済みかつ、プロフィール作成ユーザーが表示できる画面 */
-Route::middleware('auth', 'verified', 'profile.set')->group(function () {
+Route::middleware('auth', 'verified', 'user.onboarded')->group(function () {
     Route::get('/mypage', [ProfileController::class, 'mypage']);
     Route::get('/sell', [ItemController::class, 'create']);
     Route::post('/sell', [ItemController::class, 'store']);
