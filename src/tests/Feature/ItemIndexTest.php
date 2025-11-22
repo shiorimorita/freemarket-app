@@ -74,11 +74,12 @@ class ItemIndexTest extends TestCase
     }
 
     /* 自分が出品した商品は表示されない */
-    public function test_item_sell()
+    public function test_user_cannot_see_their_own_items_in_index()
     {
         $seller = User::factory()->withProfile()->create();
         $myItem = Item::factory()->create([
             'user_id' => $seller->id,
+            'name' => 'MY_TEST_ITEM_SHIORI_001',
         ]);
         $this->actingAs($seller);
         $response = $this->get('/');

@@ -33,7 +33,7 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        $tab = $request->tab ?? 'recommend';
+        $tab = $request->tab;
 
         if ($request->has('keyword')) {
             if ($request->keyword === '') {
