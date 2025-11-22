@@ -27,7 +27,7 @@ class ItemSeeder extends Seeder
             [
                 'name' => 'HDD',
                 'price' => 5000,
-                'brand' =>'西芝',
+                'brand' => '西芝',
                 'description' => '高速で信頼性の高いハードディスク',
                 'image_path' => 'images/HDD+Hard+Disk.jpg',
                 'condition' => '目立った傷や汚れなし',

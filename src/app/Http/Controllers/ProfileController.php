@@ -35,7 +35,7 @@ class ProfileController extends Controller
             $profileData
         );
 
-        return redirect('/?tab=mylist');
+        return redirect('/');
     }
 
     /* mypage view */

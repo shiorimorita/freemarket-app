@@ -27,7 +27,7 @@ class ItemController extends Controller
         $item = Item::create($data);
         $item->categories()->attach($request->category_ids);
 
-        return redirect('/?tab=mylist');
+        return redirect('/');
     }
 
     public function index(Request $request)

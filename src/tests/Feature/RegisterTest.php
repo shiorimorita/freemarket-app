@@ -91,7 +91,7 @@ class RegisterTest extends TestCase
             'email' => 'test0000@example.com',
         ]);
 
-        $user = \App\Models\User::where('email', 'test0000@example.com')->first();
+        $user = User::where('email', 'test0000@example.com')->first();
         $user->markEmailAsVerified();
         $this->actingAs($user);
         $redirect = $this->get('/');

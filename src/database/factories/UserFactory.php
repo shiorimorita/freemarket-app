@@ -36,4 +36,13 @@ class UserFactory extends Factory
             ];
         });
     }
+
+    public function withProfile()
+    {
+        return $this->afterCreating(function ($user) {
+            \App\Models\Profile::factory()->create([
+                'user_id' => $user->id,
+            ]);
+        });
+    }
 }
