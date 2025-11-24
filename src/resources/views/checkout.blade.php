@@ -23,8 +23,8 @@
                 <label class="checkout__method-label">支払い方法</label>
                 <select name="method" class="checkout__method-select" id="payment_method">
                     <option disabled selected hidden>選択してください</option>
-                    <option value="コンビニ払い" {{old('method')==='コンビニ払い' ? 'selected' : '' }}>コンビニ払い</option>
-                    <option value="カード払い" {{old('method')==='カード払い' ? 'selected' : '' }}>カード払い</option>
+                    <option value="コンビニ払い" {{session("method_{$item->id}")==='コンビニ払い' ? 'selected' : ''}}>コンビニ払い</option>
+                    <option value="カード払い" {{session("method_{$item->id}")==='カード払い' ? 'selected' : ''}}>カード払い</option>
                 </select>
                 <p class="checkout__error input-error">
                     @error('method')
@@ -40,10 +40,10 @@
                 <div class="checkout__delivery-address">
                     <div class="checkout__post-code-wrapper">
                         <span class="checkout__post-code-prefix">〒</span>
-                        <input type="text" name="post_code" value="{{$delivery['post_code']}}" class="checkout__delivery-post-code">
+                        <p class="checkout__delivery-post-code">{{$delivery['post_code']}}</p>
                     </div>
-                    <input type="text" name="address" value="{{$delivery['address']}}" class="checkout__delivery-text">
-                    <input type="text" name="building" value="{{$delivery['building']}}" class="checkout__delivery-text">
+                    <p class="checkout__delivery-text">{{$delivery['address']}}</p>
+                    <p class="checkout__delivery-text">{{$delivery['building']}}</p>
                 </div>
                 <p class="checkout__error input-error">
                     @error('delivery')
@@ -57,7 +57,7 @@
                 <dt class="checkout__detail-title">商品代金</dt>
                 <dd class="checkout__detail-term">¥ {{ number_format($item->price)}}</dd>
                 <dt class="checkout__detail-title">支払い方法</dt>
-                <dd class="checkout__detail-term" id="selected_payment"></dd>
+                <dd class="checkout__detail-term" id="selected_payment">{{$method}}</dd>
             </dl>
             @if($item->is_sold)
             <button type="button" class="checkout__button btn--disabled">売り切れのため購入できません</button>
@@ -77,8 +77,20 @@
 
     // 支払い方法選択→リアルタイム表示
     method.addEventListener('change', function () {
+
+        const data = new FormData();
+        data.append('method', this.value);
+
+        fetch(`/purchase/method/{{$item->id}}`, {
+            method: "POST", headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: data
+        });
+
         selectedPayment.textContent = this.value;
     });
+
 
     /* コンビニ払い 別タブ表示 */
     form.addEventListener('submit', function (e) {

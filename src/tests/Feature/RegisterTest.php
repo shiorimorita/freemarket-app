@@ -10,7 +10,6 @@ class RegisterTest extends TestCase
 {
     use RefreshDatabase;
 
-
     /* 名前が入力されていない場合、バリデーションメッセージが表示される */
     public function test_register_name_required()
     {
@@ -27,7 +26,6 @@ class RegisterTest extends TestCase
     /* メールアドレスが入力されていない場合、バリデーションメッセージが表示される */
     public function test_register_email_required()
     {
-
         $response = $this->post('/register', [
             'name' => 'テストユーザー',
             'email' => '',
@@ -80,7 +78,7 @@ class RegisterTest extends TestCase
     /* 全ての項目が入力されている場合、会員情報が登録され、プロフィール設定画面に遷移される */
     public function test_register_success_register()
     {
-        $response = $this->post('/register', [
+        $this->post('/register', [
             'name' => 'テストユーザー',
             'email' => 'test0000@example.com',
             'password' => 'password',

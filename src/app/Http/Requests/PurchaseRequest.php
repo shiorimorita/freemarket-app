@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class PurchaseRequest extends FormRequest
 {
@@ -24,26 +23,31 @@ class PurchaseRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'method' => ['required'],
-        ];
+        return [];
     }
 
     public function messages()
     {
-        return [
-            'method.required' => '支払い方法を選択してください'
-        ];
+        return [];
     }
 
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            $itemId = $this->route('item_id');
-            $tempDelivery = session("delivery_temp_{$itemId}");
-            $profile = Auth::user()->profile;
+            $itemId = $this->route('id');
 
-            if (!$tempDelivery && (!$profile->post_code || !$profile->address)) {
+            $method = session("method_{$itemId}");
+            $delivery = session("delivery_temp_{$itemId}");
+
+            if (!$method) {
+                $validator->errors()->add('method', '支払い方法を選択してください');
+            }
+
+            if (
+                !$delivery ||
+                empty($delivery['post_code']) ||
+                empty($delivery['address'])
+            ) {
                 $validator->errors()->add('delivery', '配送先住所を登録してください');
             }
         });

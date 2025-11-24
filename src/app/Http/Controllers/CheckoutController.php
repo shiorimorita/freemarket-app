@@ -6,13 +6,21 @@ use App\Models\Item;
 use App\Models\Sold;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PurchaseRequest;
+use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
+    public function method(Request $request, $id)
+    {
+        session(["method_{$id}" => $request->input('method')]);
+        return response()->json(['status' => 'ok']);
+    }
+
     public function showCheckout($id)
     {
         $item = Item::findOrFail($id);
         $delivery = session("delivery_temp_{$id}");
+        $method = session("method_{$id}");
 
         if (! $delivery) {
             $user = Auth::user();
@@ -21,9 +29,10 @@ class CheckoutController extends Controller
                 'address'   => $user->profile->address,
                 'building'  => $user->profile->building,
             ];
+            session(["delivery_temp_{$id}" => $delivery]);
         }
 
-        return view('checkout', compact('item', 'delivery'));
+        return view('checkout', compact('item', 'delivery', 'method'));
     }
 
     public function purchase(PurchaseRequest $request, $item_id)
@@ -40,14 +49,19 @@ class CheckoutController extends Controller
             return abort(403, 'この商品はすでに売れています');
         }
 
-        $user_id = Auth::id();
-        $sold = $request->only(['method', 'post_code', 'address', 'building']);
-        $sold['user_id'] = $user_id;
-        $sold['item_id'] = $item_id;
-        Sold::create($sold);
+        $delivery = session("delivery_temp_{$item_id}");
+        $method = session("method_{$item_id}");
+
+        Sold::create([
+            'user_id' => Auth::id(),
+            'item_id' => $item_id,
+            'method' => $method,
+            'post_code' => $delivery['post_code'],
+            'address' => $delivery['address'],
+            'building' => $delivery['building'],
+        ]);
 
         if ($request->input('method') === 'カード払い') {
-
             return redirect()->route('stripe.card', ['id' => $item_id]);
         }
         // JS にて stripe 決済へつながるため、/ へリダイレクト設定

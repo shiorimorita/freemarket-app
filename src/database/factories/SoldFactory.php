@@ -25,7 +25,7 @@ class SoldFactory extends Factory
             'method' => 'コンビニ払い',
             'post_code' => '123-4567',
             'address' => '東京都渋谷区1-1-1',
-            'building' => 'null',
+            'building' => 'テストA101号室',
         ];
     }
 }

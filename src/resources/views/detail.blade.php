@@ -94,7 +94,7 @@
                 </p>
                 <div class="comment__button">
                     @if(Auth::check() && Auth::user()->profile)
-                    <button class="comment-button__submit common-btn">コメントを送信する</button>
+                    <button class="comment-button__submit common-btn" type="submit">コメントを送信する</button>
                     @else
                     <button class="comment-button__submit common-btn" type="button">コメントを送信する</button>
                     @endif

@@ -11,7 +11,6 @@ use App\Models\Like;
 
 class ItemController extends Controller
 {
-
     public function create()
     {
         $categories = Category::all();

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LikeController extends Controller
 {
-    public function  like($id)
+    public function like($id)
     {
         $user = Auth::user();
 
@@ -21,6 +21,7 @@ class LikeController extends Controller
                 'item_id' => $id,
             ]);
         }
+
         return redirect("/item/{$id}");
     }
 }

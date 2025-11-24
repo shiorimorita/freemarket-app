@@ -32,7 +32,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 /* メール認証 */
 Route::middleware('auth')->group(function () {
-
     Route::get('/email/verify', fn() => view('auth.verify-email'))
         ->name('verification.notice');
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
@@ -63,4 +62,5 @@ Route::middleware('auth', 'verified', 'user.onboarded')->group(function () {
         ->name('pay.konbini');
     Route::get('/pay/card/{id}', [CheckoutController::class, 'purchaseCard'])
         ->name('stripe.card');
+    Route::post('/purchase/method/{id}', [CheckoutController::class, 'method'])->name('paymentMethod');
 });

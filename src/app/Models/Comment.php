@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Dom\Comment as DomComment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
