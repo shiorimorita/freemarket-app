@@ -17,6 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ProfileSeeder::class);
         $this->call(CategorySeeder::class);
         $this->call(ItemSeeder::class);
-        $this->call(CategoryItemPivotSeeder::class);
+        $this->call(CategoryItemSeeder::class);
     }
 }

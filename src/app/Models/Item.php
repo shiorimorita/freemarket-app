@@ -25,7 +25,7 @@ class Item extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_item_pivot', 'item_id', 'category_id');
+        return $this->belongsToMany(Category::class, 'category_item', 'item_id', 'category_id');
     }
 
     public function comments()

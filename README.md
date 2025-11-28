@@ -71,7 +71,7 @@ php artisan db:seed
 本プロジェクトで Stripe 決済を利用するために、各開発者は以下の設定を行ってください。
 
 1. Stripe アカウント作成（未作成の場合）
-   https://dashboard.stripe.com/register  
+   https://dashboard.stripe.com/register
    上記よりアカウントを作成してください。
 
 2. API キー取得
@@ -100,7 +100,7 @@ php artisan db:seed
 
 ## ER 図
 
-<img width="941" height="1521" alt="Image" src="https://github.com/user-attachments/assets/2ecc3507-2ad5-4913-9e09-41a217c59dd4" />
+<img width="941" height="1521" alt="Image" src="https://github.com/user-attachments/assets/2e6b8262-6b6f-42f6-9aaa-d56918475dcf" />
 
 ## URL
 

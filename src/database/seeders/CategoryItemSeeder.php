@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Item;
 
-class CategoryItemPivotSeeder extends Seeder
+class CategoryItemSeeder extends Seeder
 {
     /**
      * Run the database seeds.

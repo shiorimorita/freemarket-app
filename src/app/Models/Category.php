@@ -9,12 +9,12 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable =[
+    protected $fillable = [
         'name'
     ];
 
-    public function items (){
-        return $this->belongsToMany(Item::class, 'category_item_pivot', 'category_id', 'item_id');
+    public function items()
+    {
+        return $this->belongsToMany(Item::class, 'category_item', 'category_id', 'item_id');
     }
 }
-

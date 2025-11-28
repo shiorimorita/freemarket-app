@@ -53,7 +53,7 @@ class ItemStoreTest extends TestCase
         $item = Item::first();
 
         foreach ($data['categories'] as $category) {
-            $this->assertDatabaseHas('category_item_pivot', [
+            $this->assertDatabaseHas('category_item', [
                 'item_id'     => $item->id,
                 'category_id' => $category->id,
             ]);
