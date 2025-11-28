@@ -52,6 +52,7 @@ class EmailVerificationTest extends TestCase
         $response->assertSee('http://localhost:8025');
     }
 
+    /* メール認証サイトのメール認証を完了すると、プロフィール設定画面に遷移する */
     public function test_verified_user_redirects_to_profile_setting_page()
     {
         $user = User::factory()->create([
@@ -71,5 +72,6 @@ class EmailVerificationTest extends TestCase
         $response = $this->actingAs($user)->get($verificationUrl);
         $this->assertNotNull($user->fresh()->email_verified_at);
         $response->assertRedirect('/mypage/profile');
+        $this->get('/mypage/profile')->assertStatus(200);
     }
 }

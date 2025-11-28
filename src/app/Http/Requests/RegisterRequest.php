@@ -39,9 +39,7 @@ class RegisterRequest extends FormRequest
             'email.email' => 'メールアドレスはメール形式で入力してください',
             'password.required' => 'パスワードを入力してください',
             'password.min' => 'パスワードは8文字以上で入力してください',
-            'password_confirmation.required' => 'パスワードと一致しません',
-            'password_confirmation.same' => 'パスワードと一致しません',
-            'password_confirmation.min' => 'パスワードと一致しません',
+            'password_confirmation.*' => 'パスワードと一致しません',
         ];
     }
 }

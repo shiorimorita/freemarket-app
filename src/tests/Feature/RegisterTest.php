@@ -13,6 +13,8 @@ class RegisterTest extends TestCase
     /* 名前が入力されていない場合、バリデーションメッセージが表示される */
     public function test_register_name_required()
     {
+        $this->get('/register')->assertStatus(200);
+
         $response = $this->post('/register', [
             'name' => '',
             'email' => 'test0000@example.com',
@@ -26,6 +28,8 @@ class RegisterTest extends TestCase
     /* メールアドレスが入力されていない場合、バリデーションメッセージが表示される */
     public function test_register_email_required()
     {
+        $this->get('/register')->assertStatus(200);
+
         $response = $this->post('/register', [
             'name' => 'テストユーザー',
             'email' => '',
@@ -39,6 +43,8 @@ class RegisterTest extends TestCase
     /* パスワードが入力されていない場合、バリデーションメッセージが表示される */
     public function test_register_password_required()
     {
+        $this->get('/register')->assertStatus(200);
+
         $response = $this->post('/register', [
             'name' => 'テストユーザー',
             'email' => 'test0000@example.com',
@@ -49,9 +55,11 @@ class RegisterTest extends TestCase
         $response->assertSessionHasErrors(['password' => 'パスワードを入力してください']);
     }
 
-    /* パスワードは8文字以上で入力してください」というバリデーションメッセージが表示される */
+    /* パスワードが7文字以下の場合、バリデーションメッセージが表示される */
     public function test_register_password_min()
     {
+        $this->get('/register')->assertStatus(200);
+
         $response = $this->post('/register', [
             'name' => 'テストユーザー',
             'email' => 'test0000@example.com',
@@ -65,6 +73,8 @@ class RegisterTest extends TestCase
     /* パスワードが確認用パスワードと一致しない場合、バリデーションメッセージが表示される */
     public function test_register_password_confirmation_mismatch()
     {
+        $this->get('/register')->assertStatus(200);
+
         $response = $this->post('/register', [
             'name' => 'テストユーザー',
             'email' => 'test0000@example.com',
@@ -78,6 +88,8 @@ class RegisterTest extends TestCase
     /* 全ての項目が入力されている場合、会員情報が登録され、プロフィール設定画面に遷移される */
     public function test_register_success_register()
     {
+        $this->get('/register')->assertStatus(200);
+
         $this->post('/register', [
             'name' => 'テストユーザー',
             'email' => 'test0000@example.com',
@@ -91,9 +103,10 @@ class RegisterTest extends TestCase
 
         $user = User::where('email', 'test0000@example.com')->first();
         $user->markEmailAsVerified();
-        $this->actingAs($user);
-        $redirect = $this->get('/');
-        $redirect->assertRedirect('/mypage/profile');
+
+        $response = $this->actingAs($user)->get('/');
+
+        $response->assertRedirect('/mypage/profile');
         $this->assertAuthenticatedAs($user);
     }
 }

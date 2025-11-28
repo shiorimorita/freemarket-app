@@ -32,7 +32,7 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        $tab = $request->tab;
+        $tab = $request->tab ?? 'recommend';
 
         if ($request->has('keyword')) {
             if ($request->keyword === '') {
@@ -43,6 +43,7 @@ class ItemController extends Controller
         }
 
         $keyword = session('search.keyword');
+
         /* マイリストタブ */
         if ($tab === 'mylist') {
             if (!$user) {
@@ -66,15 +67,15 @@ class ItemController extends Controller
         return view('index', compact('items', 'tab', 'keyword'));
     }
 
-    public function detail($id)
+    public function detail($item_id)
     {
         $item = Item::with(['categories', 'comments.user.profile', 'sold'])
             ->withCount('likes')
-            ->findOrFail($id);
+            ->findOrFail($item_id);
 
         if (Auth::user()) {
             $liked = Like::where('user_id', Auth::id())
-                ->where('item_id', $id)
+                ->where('item_id', $item_id)
                 ->exists();
         } else {
             $liked = false;

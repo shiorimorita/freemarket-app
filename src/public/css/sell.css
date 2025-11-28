@@ -7,10 +7,26 @@
     margin-bottom: 43px;
 }
 
-.sell-images {
+.sell__images {
     margin-bottom: 70px;
 }
 
+.sell__image-group {
+    height: 160px;
+    border: 1px dotted #5f5f5f;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sell__img-button {
+    width: 165px;
+    line-height: 43px;
+    font-size: 16px;
+}
+
+/* 画像が表示されたときに適用 */
 .sell__image {
     height: 150px;
     width: 150px;
@@ -20,12 +36,12 @@
     border: 1px solid #000;
 }
 
-/* 画像が選択されたとき*/
+/* 画像が選択されたときに適用*/
 .sell__image.has-image {
     display: block;
 }
 
-.sell-images__legend {
+.sell__images-legend {
     font-weight: bold;
     line-height: 36px;
 }
@@ -49,22 +65,6 @@
     margin-bottom: 65px;
 }
 
-.sell__image-group {
-    height: 160px;
-    border: 1px dotted #5f5f5f;
-    border-radius: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.sell__img-button {
-    width: 165px;
-    line-height: 43px;
-    font-size: 16px;
-}
-
 .sell__detail {
     margin-bottom: 69px;
 }
@@ -79,14 +79,19 @@
     margin-bottom: 7px;
 }
 
-.chips {
+.sell__select {
+    line-height: 45px;
+}
+
+.sell__chips {
     display: flex;
     flex-wrap: wrap;
     gap: 30px 24px;
     padding-left: 8px;
 }
 
-.chip {
+.sell__chip-label {
+    display: block;
     cursor: pointer;
     line-height: 32px;
     border: 2px solid #FF5655;
@@ -97,12 +102,12 @@
     user-select: none;
 }
 
-.chip-check:checked+.chip {
+.sell__chip-input:checked+.sell__chip-label {
     background: #FF5655;
     color: #fff;
 }
 
-.chip-check {
+.sell__chip-input {
     display: none;
 }
 
@@ -149,8 +154,4 @@
     height: 60px;
     font-size: 26px;
     border-radius: 5px;
-}
-
-.sell__select {
-    line-height: 45px;
 }

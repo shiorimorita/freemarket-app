@@ -24,14 +24,18 @@ class LikeToggleTest extends TestCase
         $user = User::factory()->withProfile()->create();
         $this->actingAs($user);
 
-        $response = $this->get("item/{$item->id}");
-        $response->assertStatus(200);
-        $this->post("item/{$item->id}/like");
+        $response = $this->get("item/{$item->id}")->assertStatus(200);
+        $response->assertSee('<span class="like__count">0</span>', false);
+
+        $response = $this->post("item/{$item->id}/like");
 
         $this->assertDatabaseHas('likes', [
             'user_id' => $user->id,
             'item_id' => $item->id,
         ]);
+
+        $response = $this->get("item/{$item->id}")->assertStatus(200);
+        $response->assertSee('<span class="like__count">1</span>', false);
     }
 
     /* 追加済みのアイコンは色が変化する */
@@ -42,13 +46,12 @@ class LikeToggleTest extends TestCase
         $user = User::factory()->withProfile()->create();
         $this->actingAs($user);
 
-        $response = $this->get("item/{$item->id}");
-        $response->assertStatus(200);
-        $response->assertSee('fill="none"', false);
+        $response = $this->get("item/{$item->id}")->assertStatus(200);
+        $response->assertDontSee('is-liked', false);
 
         $this->post("item/{$item->id}/like");
-        $response = $this->get("item/{$item->id}");
-        $response->assertSee('fill="red"', false);
+        $response = $this->get("item/{$item->id}")->assertStatus(200);
+        $response->assertSee('is-liked', false);
     }
 
     /* 再度いいねアイコンを押下することによって、いいねを解除することができる。 */
@@ -58,18 +61,21 @@ class LikeToggleTest extends TestCase
         $user = User::factory()->withProfile()->create();
         $this->actingAs($user);
 
-        $response = $this->get("item/{$item->id}");
-        $response->assertStatus(200);
+        $response = $this->get("item/{$item->id}")->assertStatus(200);
         $response->assertSee('<span class="like__count">0</span>', false);
 
+        /* いいねをする */
         $this->post("item/{$item->id}/like");
         $this->assertDatabaseHas('likes', ['user_id' => $user->id, 'item_id' => $item->id]);
         $response = $this->get("item/{$item->id}");
         $response->assertSee('<span class="like__count">1</span>', false);
+        $response->assertSee('is-liked', false);
 
+        /* いいねを解除 */
         $this->post("item/{$item->id}/like");
         $this->assertDatabaseMissing('likes', ['user_id' => $user->id, 'item_id' => $item->id]);
         $response = $this->get("item/{$item->id}");
         $response->assertSee('<span class="like__count">0</span>', false);
+        $response->assertDontSee('is-liked', false);
     }
 }

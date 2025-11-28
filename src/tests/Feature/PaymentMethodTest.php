@@ -26,11 +26,11 @@ class PaymentMethodTest extends TestCase
         $buyer = User::factory()->withProfile()->create();
         $this->actingAs($buyer);
 
-        $response = $this->get("/purchase/{$item->id}");
+        $response = $this->get("/purchase/{$item->id}")->assertStatus(200);
         $response->assertDontSee('<dd class="checkout__detail-term" id="selected_payment">コンビニ払い</dd>', false);
 
-        $response = $this->post("/purchase/method/{$item->id}", ['method' => 'コンビニ払い']);
-        $response = $this->get("/purchase/{$item->id}");
+        $this->post("/purchase/method/{$item->id}", ['method' => 'コンビニ払い']);
+        $response = $this->get("/purchase/{$item->id}")->assertStatus(200);
         $response->assertSee('<dd class="checkout__detail-term" id="selected_payment">コンビニ払い</dd>', false);
     }
 }

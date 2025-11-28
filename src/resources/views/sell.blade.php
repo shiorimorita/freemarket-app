@@ -1,21 +1,24 @@
 @extends('layouts.common')
 @section('css')
 <link rel="stylesheet" href="{{asset('css/sell.css')}}">
+@endsection
+@section('js')
 <script src="{{asset('js/common.js')}}" defer></script>
 @endsection
+
 @section('content')
 <main class="sell">
     <form action="/sell" method="post" class="sell__form" enctype="multipart/form-data">
         @csrf
         <h2 class="sell__title common-sub-title">商品の出品</h2>
-        <fieldset class="sell-images">
-            <legend class="sell-images__legend">商品画像</legend>
+        <fieldset class="sell__images">
+            <legend class="sell__images-legend">商品画像</legend>
             <div class="sell__image-group">
-                <img src="" class="sell__image common-img-preview">
-                <input type="file" name="image_path" class="sell__img-input common__img-input">
-                <label class="sell__img-button common__img-button">画像を選択する</label>
+                <img src="" class="sell__image js-img-preview">
+                <input type="file" name="image_path" class="common-img-input">
+                <button class="sell__img-button common-img-button" type="button">画像を選択する</button>
             </div>
-            <p class="sell__error input-error">
+            <p class="input-error">
                 @error('image_path')
                 {{ $message }}
                 @enderror
@@ -26,13 +29,15 @@
                 <legend class="sell__sub-title">商品の詳細</legend>
                 <div class="sell__group-category">
                     <span class="sell__label--category sell__label">カテゴリー</span>
-                    <div class="chips">
+                    <div class="sell__chips">
                         @foreach($categories as $category)
-                        <input type="checkbox" name="category_ids[]" class="chip-check" id="{{$category->id}}" value="{{$category->id}}" {{(is_array(old('category_ids')) && in_array($category->id,old('category_ids'))) ? 'checked': ''}}>
-                        <label for="{{$category->id}}" class="chip">{{$category->name}}</label>
+                        <label for="{{$category->id}}" class="sell__chip">
+                            <input type="checkbox" name="category_ids[]" class="sell__chip-input" id="{{$category->id}}" value="{{$category->id}}" {{(is_array(old('category_ids')) && in_array($category->id,old('category_ids'))) ? 'checked': ''}}>
+                            <span class="sell__chip-label">{{$category->name}}</span>
+                        </label>
                         @endforeach
                     </div>
-                    <p class="sell__error input-error">
+                    <p class="input-error">
                         @error('category_ids')
                         {{ $message }}
                         @enderror
@@ -49,7 +54,7 @@
                             <option value="状態が悪い" {{old('condition')==='状態が悪い' ? 'selected' : '' }}>状態が悪い</option>
                         </select>
                     </div>
-                    <p class="sell__error input-error">
+                    <p class="input-error">
                         @error('condition')
                         {{ $message }}
                         @enderror
@@ -62,7 +67,7 @@
             <div class="sell__group-input">
                 <label for="name" class="sell__label">商品名</label>
                 <input type="text" name="name" class="sell__input" id="name" value="{{old('name')}}">
-                <p class="sell__error input-error">
+                <p class="input-error">
                     @error('name')
                     {{ $message }}
                     @enderror
@@ -75,7 +80,7 @@
             <div class="sell__group-input">
                 <label for="description" class="sell__label">商品の説明</label>
                 <textarea name="description" id="description" class="sell__textarea" cols="27">{{old('description')}}</textarea>
-                <p class="sell__error input-error">
+                <p class="input-error">
                     @error('description')
                     {{ $message }}
                     @enderror
@@ -86,7 +91,7 @@
                 <div class="price-wrapper">
                     <input type="text" name="price" class="sell__input--price sell__input" value="{{old('price')}}" id="price">
                 </div>
-                <p class="sell__error input-error">
+                <p class="input-error">
                     @error('price')
                     {{ $message }}
                     @enderror

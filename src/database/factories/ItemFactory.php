@@ -14,12 +14,14 @@ class ItemFactory extends Factory
      */
     public function definition()
     {
+        $num = $this->faker->unique()->numberBetween(1, 9999);
+
         return [
-            'name' => $this->faker->word(),
+            'name' => "FACTORY_ITEM_{$num}",
             'price' => $this->faker->numberBetween(300, 50000),
-            'brand' => $this->faker->word(),
-            'description' => $this->faker->sentence(),
-            'image_path' => 'images/default.jpg',
+            'brand' => "FACTORY_BRAND_{$num}",
+            'description' =>  "FACTORY_DESC_{$num}",
+            'image_path' => "images/商品画像_{$num}.jpg",
             'condition' => '良好',
             'user_id' => User::factory(),
         ];

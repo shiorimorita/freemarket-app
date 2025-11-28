@@ -12,6 +12,7 @@ use App\Models\Sold;
 class LikeTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * A basic feature test example.
      *
@@ -24,23 +25,20 @@ class LikeTest extends TestCase
         $user = User::factory()->withProfile()->create();
         $this->actingAs($user);
 
-        $likeItem = Item::factory()->create([
-            'name' => 'LIKE_TEST_ITEM_001',
-        ]);
+        $likeItem = Item::factory()->create();
         Like::factory()->create([
             'user_id' => $user->id,
             'item_id' => $likeItem->id,
         ]);
 
-        $notLikeItem = Item::factory()->create([
-            'name' => 'NOT_LIKED_TEST_ITEM_001',
-        ]);
+        $notLikeItem = Item::factory()->create();
 
-        $response = $this->get('/?tab=mylist');
-        $response->assertStatus(200);
+        $response = $this->get('/?tab=mylist')->assertStatus(200);
 
         $response->assertSee($likeItem->name);
-        $response->assertDontSee($notLikeItem);
+        $response->assertSee($likeItem->image_path);
+        $response->assertDontSee($notLikeItem->name);
+        $response->assertDontSee($notLikeItem->image_path);
     }
 
     /* 購入済み商品は「Sold」と表示される */
@@ -49,27 +47,29 @@ class LikeTest extends TestCase
         $user = User::factory()->withProfile()->create();
         $this->actingAs($user);
 
-        $item = Item::factory()->create(['name' => 'TEST_MYLIST_SOLD_ITEM_001']);
+        $item = Item::factory()->create();
         Like::factory()->create(['user_id' => $user->id, 'item_id' => $item->id]);
+
+        $response = $this->get('/?tab=mylist')->assertStatus(200);
+        $response->assertDontSee('<span class="sold-badge--list sold-badge">Sold</span>', false);
+
         Sold::factory()->create(['user_id' => $user->id, 'item_id' => $item->id]);
 
-        $response = $this->get('/?tab=mylist');
-        $response->assertStatus(200);
-
-        $response->assertSee($item->name);
-        $response->assertSee('Sold');
+        $response = $this->get('/?tab=mylist')->assertStatus(200);
+        $response->assertSee($item->image_path, false);
+        $response->assertSee('<span class="sold-badge--list sold-badge">Sold</span>', false);
+        $response->assertSee($item->name, false);
     }
 
     /* 未認証の場合は何も表示されない */
     public function test_mylist_shows_no_items_for_guest()
     {
-        $item = Item::factory()->create([
-            'name' => 'TEST_ITEM_001'
-        ]);
+        $items = Item::factory()->count(3)->create();
+        $response = $this->get('/?tab=mylist')->assertStatus(200);
 
-        $response = $this->get('/?tab=mylist');
-        $response->assertStatus(200);
-
-        $response->assertDontSee($item->name);
+        foreach ($items as $item) {
+            $response->assertDontSee($item->name);
+            $response->assertDontSee($item->image_path);
+        }
     }
 }

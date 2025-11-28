@@ -2,6 +2,7 @@
 @section('css')
 <link rel="stylesheet" href="{{asset('css/login.css')}}">
 @endsection
+
 @section('content')
 <main class="login">
     <form action="/login" method="post" class="login__form">
@@ -10,7 +11,7 @@
         <div class="login__group">
             <label for="email" class="login__label">メールアドレス</label>
             <input type="mail" name="email" id="email" class="login__input" value="{{old('email')}}">
-            <p class="login__error input-error">
+            <p class="input-error">
                 @error('email')
                 {{ $message }}
                 @enderror
@@ -19,7 +20,7 @@
         <div class="login__group">
             <label for="password" class="login__label">パスワード</label>
             <input type="password" name="password" id="password" class="login__input">
-            <p class="login__error input-error">
+            <p class="input-error">
                 @error('password')
                 {{ $message }}
                 @enderror

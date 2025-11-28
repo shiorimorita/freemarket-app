@@ -67,7 +67,6 @@ textarea {
     color: #FFF;
 }
 
-/* 購入不可リンクボタン */
 .btn--disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -76,11 +75,11 @@ textarea {
     color: #FFF;
 }
 
-.common__img-input {
+.common-img-input {
     display: none;
 }
 
-.common__img-button {
+.common-img-button {
     color: #FF5555;
     border: 2px solid #FF5555;
     border-radius: 10px;
@@ -122,7 +121,6 @@ select option {
     padding-left: 8px;
 }
 
-/* Windows Chrome/Edge では効くが macOS/Linux では無効になることが多いので参考用に残します */
 select option:hover {
     background-color: #5599EB;
 }
@@ -178,7 +176,7 @@ select option:hover {
     line-height: 47px;
 }
 
-.header__nav-link--sell {
+.header__sell-link {
     background: #FFF;
     display: block;
     width: 100px;

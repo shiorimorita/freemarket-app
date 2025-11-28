@@ -26,19 +26,19 @@ class PurchaseTest extends TestCase
         $buyer = User::factory()->withProfile()->create();
         $this->actingAs($buyer);
 
-        //配送先をセッションに保存
+        $this->get("/purchase/{$item->id}")->assertStatus(200);
+
+        //配送先・支払い方法をセッションに保存し、post
         $this->post("/purchase/address/{$item->id}", [
             'post_code' => '123-4567',
             'address' => '東京都渋谷区1-2-3',
             'building' => 'テストA101号室'
         ]);
 
-        // 支払い方法をセッションに保存
         $this->post("/purchase/method/{$item->id}", [
             'method' => 'コンビニ払い'
         ]);
 
-        // 購入実行
         $this->post("/purchase/{$item->id}");
 
         // Sold登録確認
@@ -56,8 +56,10 @@ class PurchaseTest extends TestCase
 
         $user = User::factory()->withProfile()->create();
         $this->actingAs($user);
-        $response = $this->get('/');
-        $response->assertDontSee('Sold');
+        $response = $this->get('/')->assertStatus(200);
+        $response->assertDontSee('<span class="sold-badge--list sold-badge">Sold</span>', false);
+
+        $this->get("/purchase/{$item->id}")->assertStatus(200);
 
         $this->post("/purchase/address/{$item->id}", [
             'post_code' => '123-4567',
@@ -71,35 +73,43 @@ class PurchaseTest extends TestCase
 
         $this->post("/purchase/{$item->id}");
 
-        $response = $this->get('/');
-        $response->assertSee('Sold');
+        $response = $this->get('/')->assertStatus(200);
+        $response->assertSee($item->name);
+        $response->assertSee($item->image_path);
+        $response->assertSee('<span class="sold-badge--list sold-badge">Sold</span>', false);
     }
 
     /* 「プロフィール/購入した商品一覧」に追加されている */
     public function test_purchase_item_confirm()
     {
         $seller = User::factory()->withProfile()->create();
-        $item = Item::factory()->create(['user_id' => $seller->id, 'name' => 'TEST_0001']);
+        $item = Item::factory()->create(['user_id' => $seller->id]);
 
         $buyer = User::factory()->withProfile()->create();
         $this->actingAs($buyer);
 
-        $response = $this->get('/mypage?page=buy');
+        $response = $this->get('/mypage?page=buy')->assertStatus(200);
         $response->assertDontSee($item->name);
+        $response->assertDontSee($item->image_path);
+        $response->assertDontSee('<span class="sold-badge sold-badge--mypage">Sold</span>', false);
 
-        /* セッションに保存 */
+        $this->get("/purchase/{$item->id}")->assertStatus(200);
+
         $this->post("/purchase/address/{$item->id}", [
             'post_code' => '123-4567',
             'address' => '東京都渋谷区1-2-3',
             'building' => 'テストA101号室'
         ]);
+
         $this->post("/purchase/method/{$item->id}", [
             'method' => 'コンビニ払い'
         ]);
 
         $this->post("/purchase/{$item->id}");
 
-        $response = $this->get('/mypage?page=buy');
-        $response->assertSee('TEST_0001');
+        $response = $this->get('/mypage?page=buy')->assertStatus(200);
+        $response->assertSee($item->name);
+        $response->assertSee($item->image_path);
+        $response->assertSee('<span class="sold-badge sold-badge--mypage">Sold</span>', false);
     }
 }

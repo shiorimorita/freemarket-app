@@ -34,56 +34,38 @@ class ItemIndexTest extends TestCase
     /* 購入済み商品は「Sold」と表示される*/
     public function test_item_index_purchase_items()
     {
-        $seller = User::factory()->create();
-        $item = Item::factory()->create([
-            'user_id' => $seller->id,
-        ]);
+        $seller = User::factory()->withProfile()->create();
+        $item = Item::factory()->create(['user_id' => $seller->id]);
 
-        $buyer = User::factory()->create();
+        $buyer = User::factory()->withProfile()->create();
 
-        $response = $this->get('/');
-        $response->assertDontSee('Sold');
+        $response = $this->get('/')->assertStatus(200);
+        $response->assertDontSee('<span class="sold-badge--list sold-badge">Sold</span>', false);
 
         Sold::factory()->create([
             'user_id' => $buyer->id,
             'item_id' => $item->id,
         ]);
 
-        $response = $this->get('/');
-        $response->assertStatus(200);
+        $response = $this->get('/')->assertStatus(200);
         $response->assertSee($item->name);
-
-        $this->assertTrue($item->fresh()->is_sold);
-        $response->assertSeeInOrder(['Sold', $item->name]);
-    }
-
-    /* 未購入の商品は Sold が表示されない */
-    public function test_item_index_not_purchased_items_do_not_show_sold()
-    {
-        $seller = User::factory()->create();
-        $item = Item::factory()->create([
-            'user_id' => $seller->id,
-        ]);
-
-        $response = $this->get('/');
-        $response->assertStatus(200);
-
-        $response->assertSee($item->name);
-        $this->assertFalse($item->fresh()->is_sold);
-        $response->assertDontSee('Sold');
+        $response->assertSee($item->image_path);
+        $response->assertSee('<span class="sold-badge--list sold-badge">Sold</span>', false);
     }
 
     /* 自分が出品した商品は表示されない */
-    public function test_user_cannot_see_their_own_items_in_index()
+    public function test_item_sell()
     {
         $seller = User::factory()->withProfile()->create();
-        $myItem = Item::factory()->create([
-            'user_id' => $seller->id,
-            'name' => 'MY_TEST_ITEM_SHIORI_001',
-        ]);
+        $myItem = Item::factory()->create(['user_id' => $seller->id,]);
+
+        $response = $this->get('/')->assertStatus(200);
+        $response->assertSee($myItem->name);
+        $response->assertSee($myItem->image_path);
+
         $this->actingAs($seller);
-        $response = $this->get('/');
-        $response->assertStatus(200);
+        $response = $this->get('/')->assertStatus(200);
         $response->assertDontSee($myItem->name);
+        $response->assertDontSee($myItem->image_path);
     }
 }

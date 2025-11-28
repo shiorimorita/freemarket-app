@@ -34,7 +34,7 @@ class PurchaseRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            $itemId = $this->route('id');
+            $itemId = $this->route('item_id');
 
             $method = session("method_{$itemId}");
             $delivery = session("delivery_temp_{$itemId}");

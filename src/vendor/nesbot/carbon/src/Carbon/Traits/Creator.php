@@ -921,12 +921,23 @@ trait Creator
     /**
      * Set last errors.
      *
-     * @param array $lastErrors
+     * @param array|false $lastErrors
      *
      * @return void
      */
-    private static function setLastErrors(array $lastErrors)
+    private static function setLastErrors($lastErrors)
     {
+        if ($lastErrors === false) {
+            static::$lastErrors = [
+                'warning_count' => 0,
+                'warnings' => [],
+                'error_count' => 0,
+                'errors' => [],
+            ];
+
+            return;
+        }
+
         static::$lastErrors = $lastErrors;
     }
 

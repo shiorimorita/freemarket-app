@@ -16,7 +16,6 @@ class ProfileFactory extends Factory
         return [
             'post_code' => '123-4567',
             'address' => '東京都渋谷区1-1-1',
-            'building' => null,
         ];
     }
 }

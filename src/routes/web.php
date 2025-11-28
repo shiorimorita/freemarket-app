@@ -22,7 +22,7 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', [ItemController::class, 'index'])->middleware('user.onboarded');
-Route::get('/item/{id}', [ItemController::class, 'detail']);
+Route::get('/item/{item_id}', [ItemController::class, 'detail']);
 
 /* 会員のみプロフィールの作成、編集ができる */
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -50,17 +50,16 @@ Route::middleware('auth', 'verified', 'user.onboarded')->group(function () {
     Route::get('/mypage', [ProfileController::class, 'mypage']);
     Route::get('/sell', [ItemController::class, 'create']);
     Route::post('/sell', [ItemController::class, 'store']);
-    Route::post('/item/{id}/comment', [CommentController::class, 'comment']);
-    Route::post('/item/{id}/like', [LikeController::class, 'like']);
-    Route::get('/purchase/address/{id}', [DeliveryController::class, 'create']);
-    Route::post('/purchase/address/{id}', [DeliveryController::class, 'store']);
-    Route::get('/purchase/{id}', [CheckoutController::class, 'showCheckout'])
+    Route::post('/item/{item_id}/comment', [CommentController::class, 'comment']);
+    Route::post('/item/{item_id}/like', [LikeController::class, 'like']);
+    Route::get('/purchase/address/{item_id}', [DeliveryController::class, 'create']);
+    Route::post('/purchase/address/{item_id}', [DeliveryController::class, 'store']);
+    Route::get('/purchase/{item_id}', [CheckoutController::class, 'showCheckout'])
         ->name('purchase.show');
-    Route::post('/purchase/{id}', [CheckoutController::class, 'purchase'])
+    Route::post('/purchase/{item_id}', [CheckoutController::class, 'purchase'])
         ->name('purchase');
-    Route::get('/pay/konbini/{id}', [CheckoutController::class, 'purchaseKonbini'])
-        ->name('pay.konbini');
-    Route::get('/pay/card/{id}', [CheckoutController::class, 'purchaseCard'])
-        ->name('stripe.card');
-    Route::post('/purchase/method/{id}', [CheckoutController::class, 'method'])->name('paymentMethod');
+    Route::get('/purchase/{item_id}/success', [CheckoutController::class, 'success'])
+        ->name('card.success')
+        ->middleware('auth');
+    Route::post('/purchase/method/{item_id}', [CheckoutController::class, 'method'])->name('paymentMethod');
 });

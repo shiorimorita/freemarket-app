@@ -26,20 +26,24 @@ class DeliveryController extends Controller
         return view('delivery_address', compact('delivery', 'item'));
     }
 
-    public function store(DeliveryRequest $request, $id)
+    public function store(DeliveryRequest $request, $item_id)
     {
-        $item = Item::findOrFail($id);
+        $item = Item::findOrFail($item_id);
 
-        if ($item->is_sold || $item->user_id === Auth::id()) {
-            abort(403, 'こちらの商品の配送先は変更できません');
+        if ($item->is_sold) {
+            return redirect('/')->with('error', 'こちらの商品は売り切れました');
+        }
+
+        if ($item->user->id === Auth::id()) {
+            return redirect('/')->with('error', '自分の商品は購入できません');
         }
 
         $delivery = $request->only(['post_code', 'address', 'building']);
 
         session([
-            "delivery_temp_{$id}" => $delivery
+            "delivery_temp_{$item_id}" => $delivery
         ]);
 
-        return redirect("/purchase/{$id}");
+        return redirect("/purchase/{$item_id}");
     }
 }

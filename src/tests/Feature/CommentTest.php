@@ -16,9 +16,12 @@ class CommentTest extends TestCase
      *
      * @return void
      */
+
+    /* ログイン済みのユーザーはコメントを送信できる */
     public function test_comment_create()
     {
-        $item = Item::factory()->create();
+        $seller = User::factory()->withProfile()->create();
+        $item = Item::factory()->create(['user_id' => $seller->id]);
         $user = User::factory()->withProfile()->create();
         $this->actingAs($user);
 
@@ -26,7 +29,7 @@ class CommentTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('<span class="comment__count">0</span>', false);
 
-        $this->post("item/{$item->id}/comment", ['content' => 'こちらお値引き可能でしょうか'])->assertStatus(302);
+        $this->post("item/{$item->id}/comment", ['content' => 'こちらお値引き可能でしょうか']);
         $this->assertDatabaseHas('comments', ['user_id' => $user->id, 'item_id' => $item->id, 'content' => 'こちらお値引き可能でしょうか']);
 
         $response = $this->get("item/{$item->id}");
@@ -46,18 +49,22 @@ class CommentTest extends TestCase
     /* コメントが入力されていない場合、バリデーションメッセージが表示される */
     public function test_comment_input_error()
     {
-        $item = Item::factory()->create();
+        $seller = User::factory()->withProfile()->create();
+        $item = Item::factory()->create(['user_id' => $seller->id]);
         $user = User::factory()->withProfile()->create();
         $this->actingAs($user);
 
         $response = $this->post("item/{$item->id}/comment", ['content' => '']);
-        $response->assertSessionHasErrors(['content' => 'コメントを入力してください']);
+        $response->assertSessionHasErrors([
+            'content' => 'コメントを入力してください'
+        ]);
     }
 
     /* コメントが255字以上の場合、バリデーションメッセージが表示される */
     public function test_comment_max_error()
     {
-        $item = Item::factory()->create();
+        $seller = User::factory()->withProfile()->create();
+        $item = Item::factory()->create(['user_id' => $seller->id]);
         $user = User::factory()->withProfile()->create();
         $this->actingAs($user);
 

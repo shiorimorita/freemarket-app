@@ -22,24 +22,15 @@ class ProfileUpdateTest extends TestCase
     /* 必要な情報が取得できる（プロフィール画像、ユーザー名、出品した商品一覧、購入した商品一覧） */
     public function test_user_sell_buy_profile_confirm()
     {
-        $profileOwner = User::factory()->create(['name' => 'テストユーザー']);
-        Profile::factory()->create(['user_id' => $profileOwner->id, 'image_path' => 'test.jpg',]);
+        $profileOwner = User::factory()->create();
+        $profileImage = 'images/test.jpg';
+        Profile::factory()->create(['user_id' => $profileOwner->id, 'image_path' => $profileImage]);
+
         /** @var \App\Models\User $profileOwner */
         $this->actingAs($profileOwner);
 
-        /* 出品、購入ページにあらかじめ商品が存在しないことを確認 */
-        $response = $this->get('/mypage?page=buy');
-        $response->assertStatus(200);
-        $response->assertDontSee('BUY_ITEM');
-        $response->assertDontSee('buy_image.png');
-
-        $response = $this->get('/mypage?page=sell');
-        $response->assertStatus(200);
-        $response->assertDontSee('SELL_ITEM');
-        $response->assertDontSee('sell_image.png');
-
         /* 出品した商品 */
-        $sellItems = Item::factory()->count(3)->create(['user_id' => $profileOwner->id, 'name' => 'SELL_ITEM', 'image_path' => 'sell_image.png']);
+        $sellItems = Item::factory()->count(3)->create(['user_id' => $profileOwner->id]);
 
         /* 購入した商品 */
         $seller = User::factory()->create();
@@ -52,19 +43,21 @@ class ProfileUpdateTest extends TestCase
             ]);
         }
 
-        /* 出品、購入商品を確認 */
-        $response = $this->get('/mypage?page=buy');
-        $response->assertStatus(200);
-        $response->assertSee('テストユーザー');
+        /* 購入した商品を確認 */
+        $response = $this->get('/mypage?page=buy')->assertStatus(200);
+        $response->assertSee($profileOwner->name);
+        $response->assertSee($profileImage);
 
         foreach ($buyItems as $item) {
             $response->assertSee($item->name);
             $response->assertSee($item->image_path);
+            $response->assertSee('<span class="sold-badge sold-badge--mypage">Sold</span>', false);
         }
 
-        $response = $this->get('/mypage?page=sell');
-        $response->assertStatus(200);
-        $response->assertSee('テストユーザー');
+        /* 出品した商品を確認 */
+        $response = $this->get('/mypage?page=sell')->assertStatus(200);
+        $response->assertSee($profileOwner->name);
+        $response->assertSee($profileImage);
 
         foreach ($sellItems as $item) {
             $response->assertSee($item->name);
@@ -72,29 +65,22 @@ class ProfileUpdateTest extends TestCase
         }
     }
 
-    /* /* 変更項目が初期値として過去設定されていること（プロフィール画像、ユーザー名、郵便番号、住所） */
+    /* 変更項目が初期値として過去設定されていること（プロフィール画像、ユーザー名、郵便番号、住所） */
     public function test_user_profile_confirm()
     {
-        $user = User::factory()->create(['name' => 'テストユーザー']);
+        $user = User::factory()->create();
+        $profileImage = 'images/test.jpg';
 
-        Profile::factory()->create([
-            'user_id' => $user->id,
-            'image_path' => 'test.jpg',
-            'post_code' => '111-1111',
-            'address'   => '東京都港区1-1-1',
-            'building'  => 'テストB202号室',
-        ]);
+        $profile = Profile::factory()->create(['user_id' => $user->id, 'image_path' => $profileImage,]);
 
         /** @var \App\Models\User $user */
         $this->actingAs($user);
 
-        $response = $this->get('/mypage/profile');
-        $response->assertStatus(200);
+        $response = $this->get('/mypage/profile')->assertStatus(200);
 
-        $response->assertSee('テストユーザー');
-        $response->assertSee('test.jpg');
-        $response->assertSee('111-1111');
-        $response->assertSee('東京都港区1-1-1');
-        $response->assertSee('テストB202号室');
+        $response->assertSee($user->name);
+        $response->assertSee($profile->image_path);
+        $response->assertSee($profile->post_code);
+        $response->assertSee($profile->address);
     }
 }

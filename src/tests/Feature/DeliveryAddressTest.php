@@ -24,29 +24,31 @@ class DeliveryAddressTest extends TestCase
         $seller = User::factory()->withProfile()->create();
         $item = Item::factory()->create(['user_id' => $seller->id]);
 
+        $delivery = [
+            'post_code' => '111-1111',
+            'address'   => '東京都港区1-1-1',
+            'building'  => 'テストB202号室',
+        ];
+
         /** @var \App\Models\User $buyer */
-        $buyer = User::factory()
-            ->has(Profile::factory()->state([
-                'post_code' => '111-1111',
-                'address'   => '東京都港区1-1-1',
-                'building'  => 'テストB202号室',
-            ]))
-            ->create();
+        $buyer = User::factory()->has(Profile::factory()->state($delivery))->create();
         $this->actingAs($buyer);
 
-        $response = $this->get("/purchase/{$item->id}");
-        $response->assertStatus(200);
-        $response->assertSee('111-1111');
-        $response->assertSee('東京都港区1-1-1');
-        $response->assertSee('テストB202号室');
+        /* デフォルトのプロフィール住所が設定されているか確認 */
+        $response = $this->get("/purchase/{$item->id}")->assertStatus(200);
+        $response->assertSee($delivery['post_code']);
+        $response->assertSee($delivery['address']);
+        $response->assertSee($delivery['building']);
 
-        $this->post("/purchase/address/{$item->id}", ['post_code' => '123-4567', 'address' => '東京都渋谷区1-2-3', 'building' => 'テストA101号室']);
+        $deliveryUpdate = ['post_code' => '123-4567', 'address' => '東京都渋谷区1-2-3', 'building' => 'テストA101号室'];
 
-        $response = $this->get("/purchase/{$item->id}");
-        $response->assertStatus(200);
-        $response->assertSee('123-4567');
-        $response->assertSee('東京都渋谷区1-2-3');
-        $response->assertSee('テストA101号室');
+        /* 送付先住所変更を変更 */
+        $this->post("/purchase/address/{$item->id}", $deliveryUpdate)->assertRedirect("/purchase/{$item->id}");
+        $response = $this->get("/purchase/{$item->id}")->assertStatus(200);
+
+        $response->assertSee($deliveryUpdate['post_code']);
+        $response->assertSee($deliveryUpdate['address']);
+        $response->assertSee($deliveryUpdate['building']);
     }
 
     /* 購入した商品に送付先住所が紐づいて登録される */
@@ -58,9 +60,12 @@ class DeliveryAddressTest extends TestCase
         $buyer = User::factory()->withProfile()->create();
         $this->actingAs($buyer);
 
+        $delivery = ['post_code' => '123-4567', 'address' => '東京都渋谷区1-2-3', 'building' => 'テストA101号室'];
+        $method = ['method' => 'コンビニ払い'];
+
         /* 配送先、支払方法を保存 */
-        $this->post("/purchase/address/{$item->id}", ['post_code' => '123-4567', 'address' => '東京都渋谷区1-2-3', 'building' => 'テストA101号室']);
-        $this->post("/purchase/method/{$item->id}", ['method' => 'コンビニ払い']);
+        $this->post("/purchase/address/{$item->id}", $delivery);
+        $this->post("/purchase/method/{$item->id}", $method);
 
         /* 商品を購入する */
         $this->post("/purchase/{$item->id}");
@@ -69,10 +74,10 @@ class DeliveryAddressTest extends TestCase
         $this->assertDatabaseHas('solds', [
             'item_id' => $item->id,
             'user_id' => $buyer->id,
-            'method' => 'コンビニ払い',
-            'post_code' => '123-4567',
-            'address' => '東京都渋谷区1-2-3',
-            'building' => 'テストA101号室',
+            'method' => $method['method'],
+            'post_code' => $delivery['post_code'],
+            'address' => $delivery['address'],
+            'building' => $delivery['building'],
         ]);
     }
 }

@@ -2,12 +2,13 @@
 @section('css')
 <link rel="stylesheet" href="{{asset('css/mypage.css')}}">
 @endsection
+
 @section('content')
 <div class="mypage">
     <div class="mypage__profile-info">
         <img src="{{ optional($user->profile)->image_path ? asset('storage/' . optional($user->profile)->image_path) : '' }}" alt="" class="mypage__profile-img">
         <p class="mypage__profile-user">{{$user->name}}</p>
-        <a href="/mypage/profile" class="mypage__profile-edit common__img-button">プロフィール編集</a>
+        <a href="/mypage/profile" class="mypage__profile-edit common-img-button">プロフィール編集</a>
     </div>
     <nav class="mypage__profile-links">
         <ul class="mypage__profile-list">
@@ -22,11 +23,11 @@
     <div class="mypage__items">
         @foreach($items as $item)
         <div class="mypage__item">
-            <div class="mypage__item-wrapper">
+            <div class="mypage__item-image-wrapper">
                 <a href="/item/{{$item->id}}" class="mypage__item-link">
-                    <img src="{{asset('storage/' . $item->image_path)}}" alt="商品名" class="mypage__item-img">
+                    <img src="{{asset('storage/' . $item->image_path)}}" alt="{{$item->name}}" class="mypage__item-img">
                     @if($item->is_sold)
-                    <span class="sold-badge  sold-badge--mypage">Sold</span>
+                    <span class="sold-badge sold-badge--mypage">Sold</span>
                     @endif
                 </a>
             </div>

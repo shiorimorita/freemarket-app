@@ -19,15 +19,11 @@ class LogoutTest extends TestCase
     /* ログアウトができる */
     public function test_logout_success()
     {
-        $user = User::factory()->create([
-            'name' => 'テストユーザー',
-            'email' => 'test0000@example.com',
-            'password' => bcrypt('password'),
-            'email_verified_at' => now(),
-        ]);
+        $user = User::factory()->create();
 
         /** @var \App\Models\User $user */
         $this->actingAs($user);
+
         $response = $this->post('/logout');
         $response->assertRedirect('/');
         $this->assertGuest();

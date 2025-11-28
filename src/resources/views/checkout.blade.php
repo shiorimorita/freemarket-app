@@ -2,6 +2,7 @@
 @section('css')
 <link rel="stylesheet" href="{{asset('css/checkout.css')}}">
 @endsection
+
 @section('content')
 <main class="checkout">
     <form action="/purchase/{{$item->id}}" method="post" class="checkout__form" id="pay-form">
@@ -9,7 +10,7 @@
         <div class="checkout__left">
             <div class="checkout__item">
                 <div class="checkout__item-img">
-                    <img src="{{asset('storage/'. $item->image_path)}}" alt="商品の画像" class="checkout__item-image">
+                    <img src="{{asset('storage/'. $item->image_path)}}" alt="{{$item->name}}" class="checkout__item-image">
                 </div>
                 <div class="checkout__item-info">
                     <h2 class="checkout__item-name">{{$item->name}}</h2>
@@ -26,7 +27,7 @@
                     <option value="コンビニ払い" {{session("method_{$item->id}")==='コンビニ払い' ? 'selected' : ''}}>コンビニ払い</option>
                     <option value="カード払い" {{session("method_{$item->id}")==='カード払い' ? 'selected' : ''}}>カード払い</option>
                 </select>
-                <p class="checkout__error input-error">
+                <p class="input-error">
                     @error('method')
                     {{ $message }}
                     @enderror
@@ -35,7 +36,7 @@
             <div class="checkout__delivery">
                 <div class="checkout__delivery-info">
                     <p class="checkout__delivery-label">配送先</p>
-                    <a href="/purchase/address/{{$item->id}}" class="checkout__delivery-link common-link">変更する</a>
+                    <a href="/purchase/address/{{$item->id}}" class="common-link">変更する</a>
                 </div>
                 <div class="checkout__delivery-address">
                     <div class="checkout__post-code-wrapper">
@@ -45,7 +46,7 @@
                     <p class="checkout__delivery-text">{{$delivery['address']}}</p>
                     <p class="checkout__delivery-text">{{$delivery['building']}}</p>
                 </div>
-                <p class="checkout__error input-error">
+                <p class="input-error">
                     @error('delivery')
                     {{ $message }}
                     @enderror
@@ -55,16 +56,16 @@
         <div class="checkout__right">
             <dl class="checkout__detail">
                 <dt class="checkout__detail-title">商品代金</dt>
-                <dd class="checkout__detail-term">¥ {{ number_format($item->price)}}</dd>
+                <dd class="checkout__detail-term">¥ {{number_format($item->price)}}</dd>
                 <dt class="checkout__detail-title">支払い方法</dt>
                 <dd class="checkout__detail-term" id="selected_payment">{{$method}}</dd>
             </dl>
-            @if($item->is_sold)
-            <button type="button" class="checkout__button btn--disabled">売り切れのため購入できません</button>
-            @elseif($item->user_id===Auth::id())
+            @if(Auth::id() === $item->user_id)
             <button type="button" class="checkout__button btn--disabled">自分の商品は購入できません</button>
+            @elseif($item->is_sold)
+            <button type="button" class="checkout__button btn--disabled">売り切れのため購入できません</button>
             @else
-            <button type="submit" class="checkout__button common-btn">購入する</button>
+            <button type="submit" class="checkout__button common-btn" id="purchase-button">購入する</button>
             @endif
         </div>
     </form>
@@ -75,7 +76,7 @@
     const itemId = "{{ $item->id }}";
     const selectedPayment = document.getElementById('selected_payment');
 
-    // 支払い方法選択→リアルタイム表示
+    // 支払方法選択後にpost
     method.addEventListener('change', function () {
 
         const data = new FormData();
@@ -91,15 +92,15 @@
         selectedPayment.textContent = this.value;
     });
 
+    // 購入確定ボタンの連打を制御
+    document.addEventListener('DOMContentLoaded', () => {
+        const button = document.querySelector('#purchase-button');
 
-    /* コンビニ払い 別タブ表示 */
-    form.addEventListener('submit', function (e) {
-
-        if (method.value === 'コンビニ払い') {
-
-            const konbiniUrl = `/pay/konbini/${itemId}`;
-            window.open(konbiniUrl, '_blank');
-        }
-    });
+        button.addEventListener('click', function () {
+            this.disabled = true;
+            this.innerText = '処理中...';
+            this.form.submit();
+        });
+    })
 </script>
 @endsection
