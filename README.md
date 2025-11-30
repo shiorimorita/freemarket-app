@@ -24,6 +24,8 @@ git clone git@github.com:shiorimorita/freemarket-app.git
 docker-compose up -d --build
 ```
 
+上記コマンドを実行することで、 実行後すぐに `http://localhost:8025/` から MailHog を起動できます。
+
 ※ Mac の M1・M2 チップの PC の場合、no matching manifest for linux/arm64/v8 in the manifest list entries のメッセージが表示されビルドができないことがあります。 エラーが発生する場合は、docker-compose.yml ファイルの「mysql」内に「platform」の項目を追加で記載してください
 
 ```yaml
@@ -98,9 +100,27 @@ php artisan db:seed
 - Laravel 8.83.8
 - MySQL 8.0.26
 
+## 購入フロー
+
+Stripe 決済を利用した商品購入時のステータス更新について、以下のように制御しています。
+
+1. **カード決済**
+
+   - 購入者がカード情報を入力し Stripe の決済が完了した直後に、商品状態を `sold` に変更します。
+
+   - これにより、決済完了前後のタイミングであっても、他ユーザーが同じ商品を購入することができず、二重購入を防止できます。
+
+   - Stripe のテストでは「4242 4242 4242 4242」のダミーカード番号を使用すると即決済成功となります。
+     ※詳細は公式ドキュメント（[Stripe テストカード一覧](https://stripe.com/docs/testing#international-cards)）をご参照ください。
+
+2. **コンビニ払い**
+
+   - コンビニ払いを選択した時点で、対象商品を即座に `sold` ステータスへ切り替えます。
+   - 決済処理が完了する前でも他ユーザーからの購入を拒否するため、同一商品の二重購入を防いでいます。
+
 ## ER 図
 
-<img width="941" height="1521" alt="Image" src="https://github.com/user-attachments/assets/2e6b8262-6b6f-42f6-9aaa-d56918475dcf" />
+<img width="941" height="1521" alt="Image" src="https://github.com/user-attachments/assets/2ecc3507-2ad5-4913-9e09-41a217c59dd4" />
 
 ## URL
 

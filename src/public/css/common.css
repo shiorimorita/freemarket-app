@@ -31,15 +31,6 @@ button {
     width: 100%;
 }
 
-fieldset {
-    border: none;
-}
-
-legend {
-    width: 100%;
-    display: block;
-}
-
 label {
     display: block;
     font-weight: bold;

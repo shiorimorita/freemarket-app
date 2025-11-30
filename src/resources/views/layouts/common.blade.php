@@ -20,10 +20,12 @@
                     <img src="{{ asset('storage/images/logo.svg') }}" alt="Coachtech freemarket ロゴ" class="header__logo-img">
                 </a>
             </h1>
-            @unless (request()->is('login','register','verify-email'))
+            @unless (request()->is('login', 'register', 'verify-email'))
             <form class="header__search-form" action="/" method="get">
-                <input id="keyword" type="search" name="keyword" class="header__search-input" placeholder="なにをお探しですか？" value="{{$keyword ?? ''}}">
-                <input type="hidden" name="tab" value="{{$tab ?? 'recommend'}}">
+                <input id="keyword" type="search" name="keyword" class="header__search-input" placeholder="なにをお探しですか？" value="{{request('keyword')}}">
+                @if(!empty($tab)&& $tab !=='recommend')
+                <input type="hidden" name="tab" value="{{ $tab }}">
+                @endif
             </form>
             <nav class="header__nav">
                 <ul class="header__nav-list">

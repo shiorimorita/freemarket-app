@@ -40,6 +40,8 @@ class ItemController extends Controller
             } else {
                 session(['search.keyword' => $request->keyword]);
             }
+        } elseif (!$request->has('tab')) {
+            session()->forget('search.keyword');
         }
 
         $keyword = session('search.keyword');
@@ -50,6 +52,7 @@ class ItemController extends Controller
                 $items = collect();
             } else {
                 $items = $user->likesItem()
+                    ->with('sold')
                     ->orderByPivot('created_at', 'desc')
                     ->searchKeyword($keyword)
                     ->get();

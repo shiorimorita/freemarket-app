@@ -1,22 +1,22 @@
 @extends('layouts.common')
 @section('css')
-<link rel="stylesheet" href="{{asset('css/checkout.css')}}">
+<link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
 @endsection
 
 @section('content')
 <main class="checkout">
-    <form action="/purchase/{{$item->id}}" method="post" class="checkout__form" id="pay-form">
+    <form action="/purchase/{{ $item->id }}" method="post" class="checkout__form" id="pay-form">
         @csrf
         <div class="checkout__left">
             <div class="checkout__item">
                 <div class="checkout__item-img">
-                    <img src="{{asset('storage/'. $item->image_path)}}" alt="{{$item->name}}" class="checkout__item-image">
+                    <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}" class="checkout__item-image">
                 </div>
                 <div class="checkout__item-info">
-                    <h2 class="checkout__item-name">{{$item->name}}</h2>
+                    <h2 class="checkout__item-name">{{ $item->name }}</h2>
                     <p class="checkout__item-price">
                         <span class="checkout__item-symbol">¥</span>
-                        <span class="checkout__item-value">{{number_format($item->price)}}</span>
+                        <span class="checkout__item-value">{{ number_format($item->price) }}</span>
                     </p>
                 </div>
             </div>
@@ -24,8 +24,8 @@
                 <label class="checkout__method-label">支払い方法</label>
                 <select name="method" class="checkout__method-select" id="payment_method">
                     <option disabled selected hidden>選択してください</option>
-                    <option value="コンビニ払い" {{session("method_{$item->id}")==='コンビニ払い' ? 'selected' : ''}}>コンビニ払い</option>
-                    <option value="カード払い" {{session("method_{$item->id}")==='カード払い' ? 'selected' : ''}}>カード払い</option>
+                    <option value="コンビニ払い" {{ session("method_{$item->id}") === 'コンビニ払い' ? 'selected' : '' }}>コンビニ払い</option>
+                    <option value="カード払い" {{ session("method_{$item->id}") === 'カード払い' ? 'selected' : '' }}>カード払い</option>
                 </select>
                 <p class="input-error">
                     @error('method')
@@ -36,15 +36,15 @@
             <div class="checkout__delivery">
                 <div class="checkout__delivery-info">
                     <p class="checkout__delivery-label">配送先</p>
-                    <a href="/purchase/address/{{$item->id}}" class="common-link">変更する</a>
+                    <a href="/purchase/address/{{ $item->id }}" class="common-link">変更する</a>
                 </div>
                 <div class="checkout__delivery-address">
                     <div class="checkout__post-code-wrapper">
                         <span class="checkout__post-code-prefix">〒</span>
-                        <p class="checkout__delivery-post-code">{{$delivery['post_code']}}</p>
+                        <p class="checkout__delivery-post-code">{{ $delivery['post_code'] }}</p>
                     </div>
-                    <p class="checkout__delivery-text">{{$delivery['address']}}</p>
-                    <p class="checkout__delivery-text">{{$delivery['building']}}</p>
+                    <p class="checkout__delivery-text">{{ $delivery['address'] }}</p>
+                    <p class="checkout__delivery-text">{{ $delivery['building'] }}</p>
                 </div>
                 <p class="input-error">
                     @error('delivery')
@@ -56,11 +56,11 @@
         <div class="checkout__right">
             <dl class="checkout__detail">
                 <dt class="checkout__detail-title">商品代金</dt>
-                <dd class="checkout__detail-term">¥ {{number_format($item->price)}}</dd>
+                <dd class="checkout__detail-term">¥ {{ number_format($item->price) }}</dd>
                 <dt class="checkout__detail-title">支払い方法</dt>
-                <dd class="checkout__detail-term" id="selected_payment">{{$method}}</dd>
+                <dd class="checkout__detail-term" id="selected_payment">{{ $method }}</dd>
             </dl>
-            @if(Auth::id() === $item->user_id)
+            @if (Auth::id() === $item->user_id)
             <button type="button" class="checkout__button btn--disabled">自分の商品は購入できません</button>
             @elseif($item->is_sold)
             <button type="button" class="checkout__button btn--disabled">売り切れのため購入できません</button>
@@ -82,8 +82,9 @@
         const data = new FormData();
         data.append('method', this.value);
 
-        fetch(`/purchase/method/{{$item->id}}`, {
-            method: "POST", headers: {
+        fetch(`/purchase/method/{{ $item->id }}`, {
+            method: "POST",
+            headers: {
                 "X-CSRF-TOKEN": "{{ csrf_token() }}"
             },
             body: data

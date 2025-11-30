@@ -5,24 +5,24 @@
 
 @section('content')
 <main class="register">
+    <h2 class="register__title common-sub-title">会員登録</h2>
     <form action="/register" method="post" class="register__form">
         @csrf
-        <h2 class="register__title common-sub-title">会員登録</h2>
         <div class="register__group">
             <label for="name" class="register__label">ユーザー名</label>
-            <input type="text" name="name" id="name" class="register__input" value="{{old('name')}}">
+            <input type="text" name="name" id="name" class="register__input" value="{{ old('name') }}">
             <p class="input-error">
                 @error('name')
-                {{$message}}
+                {{ $message }}
                 @enderror
             </p>
         </div>
         <div class="register__group">
             <label for="email" class="register__label">メールアドレス</label>
-            <input type="mail" name="email" id="email" class="register__input" value="{{old('email')}}">
+            <input type="mail" name="email" id="email" class="register__input" value="{{ old('email') }}">
             <p class="input-error">
                 @error('email')
-                {{$message}}
+                {{ $message }}
                 @enderror
             </p>
         </div>
@@ -31,7 +31,7 @@
             <input type="password" name="password" id="password" class="register__input">
             <p class="input-error">
                 @error('password')
-                {{$message}}
+                {{ $message }}
                 @enderror
             </p>
         </div>
@@ -40,7 +40,7 @@
             <input type="password" name="password_confirmation" class="register__input" id="password_confirmation">
             <p class="input-error">
                 @error('password_confirmation')
-                {{$message}}
+                {{ $message }}
                 @enderror
             </p>
         </div>

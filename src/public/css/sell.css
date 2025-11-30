@@ -155,3 +155,12 @@
     font-size: 26px;
     border-radius: 5px;
 }
+
+fieldset {
+    border: none;
+}
+
+legend {
+    width: 100%;
+    display: block;
+}
