@@ -81,8 +81,8 @@ php artisan db:seed
 
    **必ずテストキー（pk_test / sk_test）を使用してください。**
 
-- 公開可能キー（pk_test）
-- 秘密キー（sk_test）
+- 公開可能キー（STRIPE_KEY）
+- 秘密キー（STRIPE_SECRET）
   <img width="1920" height="198" alt="Image" src="https://github.com/user-attachments/assets/308bc7cb-16e5-40c6-96fe-7f0a37f3d183" />
 
 1. .env の設定
