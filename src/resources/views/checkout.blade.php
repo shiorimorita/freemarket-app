@@ -99,7 +99,6 @@
 
         button.addEventListener('click', function () {
             this.disabled = true;
-            this.innerText = '処理中...';
             this.form.submit();
         });
     })

@@ -18,15 +18,12 @@
     color: #FF0000;
 }
 
-.product-card {
-    margin-bottom: 77px;
-}
-
 .product-list {
     margin: 69px 77px;
     display: grid;
     grid-template-columns: repeat(4, 290px);
     justify-content: space-between;
+    row-gap: 77px;
 }
 
 .product-card__image {

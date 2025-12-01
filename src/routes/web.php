@@ -54,12 +54,11 @@ Route::middleware('auth', 'verified', 'user.onboarded')->group(function () {
     Route::post('/item/{item_id}/like', [LikeController::class, 'like']);
     Route::get('/purchase/address/{item_id}', [DeliveryController::class, 'create']);
     Route::post('/purchase/address/{item_id}', [DeliveryController::class, 'store']);
+    Route::post('/purchase/method/{item_id}', [CheckoutController::class, 'method'])->name('paymentMethod');
     Route::get('/purchase/{item_id}', [CheckoutController::class, 'showCheckout'])
         ->name('purchase.show');
     Route::post('/purchase/{item_id}', [CheckoutController::class, 'purchase'])
         ->name('purchase');
     Route::get('/purchase/{item_id}/success', [CheckoutController::class, 'success'])
-        ->name('card.success')
-        ->middleware('auth');
-    Route::post('/purchase/method/{item_id}', [CheckoutController::class, 'method'])->name('paymentMethod');
+        ->name('card.success');
 });

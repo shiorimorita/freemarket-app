@@ -100,6 +100,7 @@ select {
     font-weight: bold;
 }
 
+/* select については chrome で適用を確認済み */
 select,
 ::picker(select) {
     appearance: base-select;

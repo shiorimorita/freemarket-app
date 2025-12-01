@@ -44,7 +44,7 @@ class CheckoutController extends Controller
         return view('checkout', compact('item', 'delivery', 'method'));
     }
 
-    /** バリデーションエラー表示のため、PurchaseRequest を設定 */
+    /* バリデーションエラー表示のため、PurchaseRequest を設定 */
     public function purchase(PurchaseRequest $request, $item_id)
     {
         $item = Item::findOrFail($item_id);
@@ -120,7 +120,6 @@ class CheckoutController extends Controller
         }
     }
 
-    /* カード決済成功時にsoldデータを作成 */
     public function success($item_id)
     {
         $item = Item::findOrFail($item_id);

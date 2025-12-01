@@ -14,13 +14,25 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        $categories =[
-            'ファッション','家電','インテリア','レディース','メンズ','コスメ','本','ゲーム','スポーツ','キッチン','ハンドメイド','アクセサリー','おもちゃ','ベビー・キッズ'
+        $categories = [
+            'ファッション',
+            '家電',
+            'インテリア',
+            'レディース',
+            'メンズ',
+            'コスメ',
+            '本',
+            'ゲーム',
+            'スポーツ',
+            'キッチン',
+            'ハンドメイド',
+            'アクセサリー',
+            'おもちゃ',
+            'ベビー・キッズ'
         ];
 
-        foreach($categories as $name)
-        {
-            Category::firstOrCreate(['name'=>$name]);
+        foreach ($categories as $name) {
+            Category::firstOrCreate(['name' => $name]);
         }
     }
 }
