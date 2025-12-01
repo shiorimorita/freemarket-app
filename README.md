@@ -89,7 +89,7 @@ php artisan db:seed
    取得したキーを `.env` に設定します。
 
 ```
-   STRIPE_KEY=pk_test_xxxxxxxxxxxxxxxxx
+   STRIPE_PUBLIC=pk_test_xxxxxxxxxxxxxxxxx
    STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxx
 ```
 
