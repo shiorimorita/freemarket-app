@@ -172,6 +172,7 @@
     height: 70px;
     width: 70px;
     object-fit: cover;
+    border: 1px solid #ddd;
 }
 
 /* 画像無しユーザー */

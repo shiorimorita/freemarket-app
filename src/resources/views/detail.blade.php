@@ -70,7 +70,7 @@
             @foreach ($item->comments as $comment)
             <div class="item-comment__inner">
                 <div class="item-comment__user">
-                    @if (optional($comment->user->profile)->image_path)
+                    @if ($comment->user->profile->image_path)
                     <img src="{{ asset('storage/' . $comment->user->profile->image_path) }}" alt="コメント投稿者の画像" class="comment-user__image" />
                     @else
                     <div class="comment-user__image comment__no-img-bg"></div>

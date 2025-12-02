@@ -60,13 +60,7 @@
                 <dt class="checkout__detail-title">支払い方法</dt>
                 <dd class="checkout__detail-term" id="selected_payment">{{ $method }}</dd>
             </dl>
-            @if (Auth::id() === $item->user_id)
-            <button type="button" class="checkout__button btn--disabled">自分の商品は購入できません</button>
-            @elseif($item->is_sold)
-            <button type="button" class="checkout__button btn--disabled">売り切れのため購入できません</button>
-            @else
             <button type="submit" class="checkout__button common-btn" id="purchase-button">購入する</button>
-            @endif
         </div>
     </form>
 </main>

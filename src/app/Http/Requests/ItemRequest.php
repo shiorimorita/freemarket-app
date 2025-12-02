@@ -41,7 +41,7 @@ class ItemRequest extends FormRequest
             'description.max' => '詳細は255文字以内で入力してください',
             'image_path.required' => '画像を選択してください',
             'image_path.mimes' => '画像は .jpeg または .png 形式のファイルを選択してください。',
-            'condition.required' => '状態を入力してください',
+            'condition.required' => '状態を選択してください',
             'price.required' => '価格を入力してください',
             'price.integer' => '価格は数値で入力してください',
             'price.min' => '価格は0円以上で入力してください',

@@ -6,7 +6,11 @@
 @section('content')
 <div class="mypage">
     <div class="mypage__profile-info">
-        <img src="{{ optional($user->profile)->image_path ? asset('storage/' . optional($user->profile)->image_path) : '' }}" alt="" class="mypage__profile-img">
+        @if($user->profile->image_path)
+        <img src="{{ asset('storage/' . $user->profile->image_path)}}" alt="{{$user->name}} さんのプロフィール画像" class="mypage__profile-img">
+        @else
+        <img src="" alt="" class="mypage__profile-no-img">
+        @endif
         <p class="mypage__profile-user">{{ $user->name }}</p>
         <a href="/mypage/profile" class="mypage__profile-edit common-img-button">プロフィール編集</a>
     </div>

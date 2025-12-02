@@ -234,7 +234,7 @@ return array(
     'Database\\Factories\\ProfileFactory' => $baseDir . '/database/factories/ProfileFactory.php',
     'Database\\Factories\\SoldFactory' => $baseDir . '/database/factories/SoldFactory.php',
     'Database\\Factories\\UserFactory' => $baseDir . '/database/factories/UserFactory.php',
-    'Database\\Seeders\\CategoryItemPivotSeeder' => $baseDir . '/database/seeders/CategoryItemPivotSeeder.php',
+    'Database\\Seeders\\CategoryItemSeeder' => $baseDir . '/database/seeders/CategoryItemSeeder.php',
     'Database\\Seeders\\CategorySeeder' => $baseDir . '/database/seeders/CategorySeeder.php',
     'Database\\Seeders\\DatabaseSeeder' => $baseDir . '/database/seeders/DatabaseSeeder.php',
     'Database\\Seeders\\ItemSeeder' => $baseDir . '/database/seeders/ItemSeeder.php',

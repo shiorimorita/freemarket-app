@@ -20,6 +20,10 @@ class CheckoutController extends Controller
     {
         $item = Item::findOrFail($item_id);
 
+        if ($item->user->id === Auth::id()) {
+            return redirect('/')->with('error', '自身の商品は購入することができません');
+        }
+
         if ($item->is_sold && $item->sold->user_id === Auth::id()) {
             return redirect('/')->with('success', '既に購入が完了しております。マイページより購入した商品をご確認ください。');
         }
@@ -52,19 +56,17 @@ class CheckoutController extends Controller
         $delivery = session("delivery_temp_{$item_id}");
         $method = session("method_{$item_id}");
 
-        /* 自分の商品は購入禁止 */
+        /* 購入アクセス制御 */
         if ($item->user_id === Auth::id()) {
             return redirect('/')->with('error', '自分の商品は購入できません');
         }
 
-        /* 売り切れ商品の場合 */
         if ($item->is_sold) {
             return redirect('/')->with('error', 'こちらの商品は売り切れのため購入できません');
         }
 
         /* カード決済 */
         if ($method === 'カード払い') {
-
             \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
             $session = \Stripe\Checkout\Session::create([
                 'mode' => 'payment',
@@ -77,7 +79,10 @@ class CheckoutController extends Controller
                     ],
                     'quantity' => 1,
                 ]],
-                'success_url' => route('card.success', ['item_id' => $item_id]),
+                'payment_intent_data' => [
+                    'capture_method' => 'manual',
+                ],
+                'success_url' => route('card.success', ['item_id' => $item_id]) . '?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url'  => url('/purchase/' . $item_id),
             ]);
 
@@ -120,18 +125,36 @@ class CheckoutController extends Controller
         }
     }
 
-    public function success($item_id)
+    public function success(Request $request, $item_id)
     {
-        $item = Item::findOrFail($item_id);
+        $session_id = $request->query('session_id');
 
-        /* 二重購入禁止用 */
-        if ($item->is_sold) {
-            return redirect('/')->with('error', 'こちらの商品は売り切れのため購入できません');
+        if (!$session_id) {
+            return redirect('/')->with('error', '決済情報が取得できませんでした。');
         }
 
+        $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
+
+        $session = $stripe->checkout->sessions->retrieve($session_id, []);
+        $paymentIntent = $stripe->paymentIntents->retrieve($session->payment_intent, []);
+
+        $item     = Item::findOrFail($item_id);
         $delivery = session("delivery_temp_{$item_id}");
         $method   = session("method_{$item_id}");
 
+        if ($item->is_sold) {
+            $stripe->paymentIntents->cancel($paymentIntent->id, []);
+            return redirect('/')
+                ->with('error', '売り切れのため購入できませんでした。決済はキャンセルされました。');
+        }
+
+        try {
+            $stripe->paymentIntents->capture($paymentIntent->id, []);
+        } catch (\Exception $e) {
+            return redirect('/')->with('error', '決済確定に失敗しました。');
+        }
+
+        // Capture 成功後に Sold登録
         Sold::create([
             'user_id' => Auth::id(),
             'item_id' => $item_id,
@@ -144,6 +167,7 @@ class CheckoutController extends Controller
         session()->forget("delivery_temp_{$item_id}");
         session()->forget("method_{$item_id}");
 
-        return redirect('/')->with('success', '決済が完了しました！マイページより購入した商品をご確認ください。');
+        return redirect('/')
+            ->with('success', '決済が完了しました！マイページより購入した商品をご確認ください。');
     }
 }

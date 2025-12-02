@@ -44,9 +44,7 @@ class PurchaseRequest extends FormRequest
             }
 
             if (
-                !$delivery ||
-                empty($delivery['post_code']) ||
-                empty($delivery['address'])
+                !$delivery || empty($delivery['post_code']) || empty($delivery['address'])
             ) {
                 $validator->errors()->add('delivery', '配送先住所を登録してください');
             }

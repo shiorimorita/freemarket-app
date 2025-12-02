@@ -774,7 +774,7 @@ class ComposerStaticInitfc04f61d430f7d541f752743f7a908fc
         'Database\\Factories\\ProfileFactory' => __DIR__ . '/../..' . '/database/factories/ProfileFactory.php',
         'Database\\Factories\\SoldFactory' => __DIR__ . '/../..' . '/database/factories/SoldFactory.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
-        'Database\\Seeders\\CategoryItemPivotSeeder' => __DIR__ . '/../..' . '/database/seeders/CategoryItemPivotSeeder.php',
+        'Database\\Seeders\\CategoryItemSeeder' => __DIR__ . '/../..' . '/database/seeders/CategoryItemSeeder.php',
         'Database\\Seeders\\CategorySeeder' => __DIR__ . '/../..' . '/database/seeders/CategorySeeder.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
         'Database\\Seeders\\ItemSeeder' => __DIR__ . '/../..' . '/database/seeders/ItemSeeder.php',
