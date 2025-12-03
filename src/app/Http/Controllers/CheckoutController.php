@@ -21,7 +21,7 @@ class CheckoutController extends Controller
         $item = Item::findOrFail($item_id);
 
         if ($item->user->id === Auth::id()) {
-            return redirect('/')->with('error', '自身の商品は購入することができません');
+            return redirect('/')->with('error', '自分の商品は購入することができません');
         }
 
         if ($item->is_sold && $item->sold->user_id === Auth::id()) {
@@ -57,12 +57,16 @@ class CheckoutController extends Controller
         $method = session("method_{$item_id}");
 
         /* 購入アクセス制御 */
-        if ($item->user_id === Auth::id()) {
-            return redirect('/')->with('error', '自分の商品は購入できません');
+        if ($item->user->id === Auth::id()) {
+            return redirect('/')->with('error', '自分の商品は購入することができません');
         }
 
-        if ($item->is_sold) {
-            return redirect('/')->with('error', 'こちらの商品は売り切れのため購入できません');
+        if ($item->is_sold && $item->sold->user_id === Auth::id()) {
+            return redirect('/')->with('success', '既に購入が完了しております。マイページより購入した商品をご確認ください。');
+        }
+
+        if ($item->is_sold && $item->sold->user_id !== Auth::id()) {
+            return redirect('/')->with('error', 'こちらの商品は売り切れのため購入できません。');
         }
 
         /* カード決済 */
@@ -154,7 +158,7 @@ class CheckoutController extends Controller
             return redirect('/')->with('error', '決済確定に失敗しました。');
         }
 
-        // Capture 成功後に Sold登録
+        // Capture 成功後に Sold 登録
         Sold::create([
             'user_id' => Auth::id(),
             'item_id' => $item_id,
@@ -167,7 +171,6 @@ class CheckoutController extends Controller
         session()->forget("delivery_temp_{$item_id}");
         session()->forget("method_{$item_id}");
 
-        return redirect('/')
-            ->with('success', '決済が完了しました！マイページより購入した商品をご確認ください。');
+        return redirect('/')->with('success', '決済が完了しました！マイページより購入した商品をご確認ください。');
     }
 }

@@ -49,8 +49,8 @@
     border-bottom: 1px solid #000;
 }
 
-.checkout__method-label,
-.checkout__delivery-label {
+.checkout__method-title,
+.checkout__delivery-title {
     font-size: 20px;
     font-weight: bold;
     padding: 33px 0;

@@ -23,7 +23,7 @@
             @unless (request()->is('login', 'register', 'verify-email'))
             <form class="header__search-form" action="/" method="get">
                 <input id="keyword" type="search" name="keyword" class="header__search-input" placeholder="なにをお探しですか？" value="{{request('keyword')}}">
-                @if(!empty($tab)&& $tab !=='recommend')
+                @if (!empty($tab) && $tab==='mylist')
                 <input type="hidden" name="tab" value="{{ $tab }}">
                 @endif
             </form>

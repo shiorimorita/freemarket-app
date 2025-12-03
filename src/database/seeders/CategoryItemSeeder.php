@@ -15,9 +15,9 @@ class CategoryItemSeeder extends Seeder
     public function run()
     {
         $mapping = [
-            1 => [1, 5],   // Item ID 1 → カテゴリ 1,5
-            2 => [2],      // Item ID 2 → 2
-            3 => [10],     // Item ID 3 → 10
+            1 => [1, 5],
+            2 => [2],
+            3 => [10],
             4 => [1, 5],
             5 => [2],
             6 => [2],

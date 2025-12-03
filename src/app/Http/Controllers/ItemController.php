@@ -26,7 +26,7 @@ class ItemController extends Controller
         $item = Item::create($data);
         $item->categories()->attach($request->category_ids);
 
-        return redirect('/');
+        return redirect('/')->with('success', '出品が完了しました。出品した商品はマイページよりご確認ください。');
     }
 
     public function index(Request $request)
@@ -73,7 +73,7 @@ class ItemController extends Controller
     public function detail($item_id)
     {
         $item = Item::with(['categories', 'comments.user.profile', 'sold'])
-            ->withCount('likes')
+            ->withCount('likes', 'comments')
             ->findOrFail($item_id);
 
         if (Auth::user()) {

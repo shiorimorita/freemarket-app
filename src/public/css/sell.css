@@ -33,7 +33,7 @@
     margin-right: 32px;
     border-radius: 5px;
     display: none;
-    border: 1px solid #000;
+    border: 1px solid #ddd;
 }
 
 /* 画像が選択されたときに適用*/
@@ -102,6 +102,7 @@
     user-select: none;
 }
 
+/* カテゴリー選択時の色 */
 .sell__chip-input:checked+.sell__chip-label {
     background: #FF5655;
     color: #fff;
@@ -154,13 +155,4 @@
     height: 60px;
     font-size: 26px;
     border-radius: 5px;
-}
-
-fieldset {
-    border: none;
-}
-
-legend {
-    width: 100%;
-    display: block;
 }

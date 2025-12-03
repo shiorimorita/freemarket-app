@@ -2,6 +2,7 @@
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/detail.css') }}" />
 @endsection
+
 @section('content')
 <main class="item-detail">
     <div class="item-detail__left">
@@ -34,7 +35,7 @@
             </div>
             <div class="comment">
                 <img src="{{ asset('storage/images/comment.png') }}" alt="コメント数のアイコン" class="comment__icon-img" />
-                <span class="comment__count">{{ $item->comments->count() }}</span>
+                <span class="comment__count">{{ $item->comments_count }}</span>
             </div>
         </div>
         <div class="purchase">
@@ -65,7 +66,7 @@
         </div>
         <div class="item-comment">
             <h2 class="item-detail__section-title item-comment__title">コメント
-                <span class="item-comment__count">({{ $item->comments->count() }})</span>
+                <span class="item-comment__count">({{ $item->comments_count }})</span>
             </h2>
             @foreach ($item->comments as $comment)
             <div class="item-comment__inner">

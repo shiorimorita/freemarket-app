@@ -10,7 +10,7 @@
         @csrf
         <div class="delivery__group">
             <label for="post_code" class="delivery__label">郵便番号</label>
-            <input type="text" name="post_code" id="post_code" class="delivery__input" value="{{ old('post_code', $delivery->post_code) }}">
+            <input type="text" name="post_code" id="post_code" class="delivery__input" value="{{ old('post_code', $delivery['post_code']) }}">
             <p class="input-error">
                 @error('post_code')
                 {{ $message }}
@@ -19,7 +19,7 @@
         </div>
         <div class="delivery__group">
             <label for="address" class="delivery__label">住所</label>
-            <input type="text" name="address" id="address" class="delivery__input" value="{{ old('address', $delivery->address) }}">
+            <input type="text" name="address" id="address" class="delivery__input" value="{{ old('address', $delivery['address']) }}">
             <p class="input-error">
                 @error('address')
                 {{ $message }}
@@ -28,15 +28,9 @@
         </div>
         <div class="delivery__group">
             <label for="building" class="delivery__label">建物名</label>
-            <input type="text" name="building" id="building" class="delivery__input" value="{{ old('building', $delivery->building) }}">
+            <input type="text" name="building" id="building" class="delivery__input" value="{{ old('building', $delivery['building']) }}">
         </div>
-        @if ($item->user_id === Auth::id())
-        <button type="button" class="delivery__button btn--disabled">自分の商品は配送先の設定ができません</button>
-        @elseif ($item->is_sold)
-        <button type="button" class="delivery__button btn--disabled">配送先を変更できません</button>
-        @else
         <button type="submit" class="delivery__button common-btn">更新する</button>
-        @endif
     </form>
 </main>
 @endsection

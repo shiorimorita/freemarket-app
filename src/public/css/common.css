@@ -42,6 +42,15 @@ textarea {
     display: block;
 }
 
+fieldset {
+    border: none;
+}
+
+legend {
+    width: 100%;
+    display: block;
+}
+
 .input-error {
     color: #FF5555;
     font-size: 20px;

@@ -10,8 +10,21 @@ class DeliveryController extends Controller
 {
     public function create($item_id)
     {
-        $user = Auth::user();
         $item = Item::findOrFail($item_id);
+
+        if ($item->user->id === Auth::id()) {
+            return redirect('/')->with('error', '自分の商品の配送先住所は設定することができません');
+        }
+
+        if ($item->is_sold && $item->sold->user_id === Auth::id()) {
+            return redirect('/')->with('success', '既に購入が完了しております。マイページより購入した商品をご確認ください。');
+        }
+
+        if ($item->is_sold && $item->sold->user_id !== Auth::id()) {
+            return redirect('/')->with('error', 'こちらの商品は売り切れのため購入できません。');
+        }
+
+        $user = Auth::user();
         $delivery = session("delivery_temp_{$item_id}");
 
         if (!$delivery) {
@@ -22,7 +35,6 @@ class DeliveryController extends Controller
             ];
         }
 
-        $delivery = (object)$delivery;
         return view('delivery_address', compact('delivery', 'item'));
     }
 
@@ -30,12 +42,16 @@ class DeliveryController extends Controller
     {
         $item = Item::findOrFail($item_id);
 
-        if ($item->is_sold) {
-            return redirect('/')->with('error', 'こちらの商品は売り切れました');
+        if ($item->user->id === Auth::id()) {
+            return redirect('/')->with('error', '自分の商品の配送先住所は設定することができません');
         }
 
-        if ($item->user->id === Auth::id()) {
-            return redirect('/')->with('error', '自分の商品は購入できません');
+        if ($item->is_sold && $item->sold->user_id === Auth::id()) {
+            return redirect('/')->with('success', '既に購入が完了しております。マイページより購入した商品をご確認ください。');
+        }
+
+        if ($item->is_sold && $item->sold->user_id !== Auth::id()) {
+            return redirect('/')->with('error', 'こちらの商品は売り切れのため購入できません。');
         }
 
         $delivery = $request->only(['post_code', 'address', 'building']);

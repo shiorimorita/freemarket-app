@@ -21,11 +21,11 @@
                 </div>
             </div>
             <div class="checkout__method">
-                <label class="checkout__method-label">支払い方法</label>
+                <p class="checkout__method-title">支払い方法</p>
                 <select name="method" class="checkout__method-select" id="payment_method">
                     <option disabled selected hidden>選択してください</option>
-                    <option value="コンビニ払い" {{ session("method_{$item->id}") === 'コンビニ払い' ? 'selected' : '' }}>コンビニ払い</option>
-                    <option value="カード払い" {{ session("method_{$item->id}") === 'カード払い' ? 'selected' : '' }}>カード払い</option>
+                    <option value="コンビニ払い" {{ $method==='コンビニ払い' ? 'selected' : '' }}>コンビニ払い</option>
+                    <option value="カード払い" {{ $method==='カード払い' ? 'selected' : '' }}>カード払い</option>
                 </select>
                 <p class="input-error">
                     @error('method')
@@ -35,7 +35,7 @@
             </div>
             <div class="checkout__delivery">
                 <div class="checkout__delivery-info">
-                    <p class="checkout__delivery-label">配送先</p>
+                    <p class="checkout__delivery-title">配送先</p>
                     <a href="/purchase/address/{{ $item->id }}" class="common-link">変更する</a>
                 </div>
                 <div class="checkout__delivery-address">

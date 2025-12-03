@@ -102,14 +102,14 @@
     line-height: 74px;
 }
 
-.item-detail__info .item-detail__section-title {
+.item-detail__info .item-detail__section-title,
+.item-comment__title,
+.product-info__list:nth-of-type(2) {
     line-height: 100px;
 }
 
-.item-comment__title,
-.item-comment__count {
+.item-comment__title {
     color: #5F5F5F;
-    line-height: 100px;
 }
 
 .item-detail__description-text {
@@ -122,17 +122,17 @@
     display: grid;
     align-items: center;
     grid-template-columns: 180px 1fr 1fr;
+    /* 各行の縦方向の間隔（カテゴリーが複数列に並ぶ場合） */
     row-gap: 20px;
 }
 
-/* 商品状態は、2カラムに調整 */
+/* 商品状態は、2カラムに調整 (商品状態の文字数による崩れを防ぐため) */
 .product-info__list:nth-of-type(2) {
     grid-template-columns: 180px 1fr;
 }
 
 .product-info__term {
     font-weight: bold;
-    white-space: nowrap;
 }
 
 .product-info__desc {
@@ -147,12 +147,9 @@
     width: fit-content;
 }
 
+/* カテゴリーが複数列に並ぶ場合の設定 */
 .product-info__desc:nth-of-type(odd) {
     grid-column: 2;
-}
-
-.product-info__list:nth-of-type(2) {
-    line-height: 100px;
 }
 
 .item-comment__user {
