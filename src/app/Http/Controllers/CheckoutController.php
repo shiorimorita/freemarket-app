@@ -10,6 +10,28 @@ use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
+    public function __construct()
+    {
+        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+    }
+
+    private function validatePurchaseAccess(Item $item)
+    {
+        if ($item->user_id === Auth::id()) {
+            return redirect('/')->with('error', '自分の商品は購入することができません');
+        }
+
+        if ($item->is_sold && $item->sold->user_id === Auth::id()) {
+            return redirect('/')->with('success', '既に購入が完了しております。マイページより購入した商品をご確認ください。');
+        }
+
+        if ($item->is_sold && $item->sold->user_id !== Auth::id()) {
+            return redirect('/')->with('error', 'こちらの商品は売り切れのため購入できません。');
+        }
+
+        return null;
+    }
+
     public function method(Request $request, $item_id)
     {
         session(["method_{$item_id}" => $request->input('method')]);
@@ -20,16 +42,8 @@ class CheckoutController extends Controller
     {
         $item = Item::findOrFail($item_id);
 
-        if ($item->user->id === Auth::id()) {
-            return redirect('/')->with('error', '自分の商品は購入することができません');
-        }
-
-        if ($item->is_sold && $item->sold->user_id === Auth::id()) {
-            return redirect('/')->with('success', '既に購入が完了しております。マイページより購入した商品をご確認ください。');
-        }
-
-        if ($item->is_sold && $item->sold->user_id !== Auth::id()) {
-            return redirect('/')->with('error', 'こちらの商品は売り切れのため購入できません。');
+        if ($redirect = $this->validatePurchaseAccess($item)) {
+            return $redirect;
         }
 
         $delivery = session("delivery_temp_{$item_id}");
@@ -53,25 +67,14 @@ class CheckoutController extends Controller
     {
         $item = Item::findOrFail($item_id);
 
+        if ($redirect = $this->validatePurchaseAccess($item)) {
+            return $redirect;
+        }
+
         $delivery = session("delivery_temp_{$item_id}");
         $method = session("method_{$item_id}");
 
-        /* 購入アクセス制御 */
-        if ($item->user->id === Auth::id()) {
-            return redirect('/')->with('error', '自分の商品は購入することができません');
-        }
-
-        if ($item->is_sold && $item->sold->user_id === Auth::id()) {
-            return redirect('/')->with('success', '既に購入が完了しております。マイページより購入した商品をご確認ください。');
-        }
-
-        if ($item->is_sold && $item->sold->user_id !== Auth::id()) {
-            return redirect('/')->with('error', 'こちらの商品は売り切れのため購入できません。');
-        }
-
-        /* カード決済 */
         if ($method === 'カード払い') {
-            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
             $session = \Stripe\Checkout\Session::create([
                 'mode' => 'payment',
                 'payment_method_types' => ['card'],
@@ -86,13 +89,13 @@ class CheckoutController extends Controller
                 'payment_intent_data' => [
                     'capture_method' => 'manual',
                 ],
-                'success_url' => route('card.success', ['item_id' => $item_id]) . '?session_id={CHECKOUT_SESSION_ID}',
+                'success_url' => url("/purchase/{$item_id}/success") . '?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url'  => url('/purchase/' . $item_id),
             ]);
 
             return redirect($session->url);
         }
-        // コンビニ払い
+
         if ($method === 'コンビニ払い') {
             Sold::create([
                 'user_id' => Auth::id(),
@@ -106,7 +109,6 @@ class CheckoutController extends Controller
             session()->forget("delivery_temp_{$item_id}");
             session()->forget("method_{$item_id}");
 
-            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
             $session = \Stripe\Checkout\Session::create([
                 'mode' => 'payment',
                 'payment_method_types' => ['konbini'],

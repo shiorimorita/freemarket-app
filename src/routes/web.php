@@ -23,14 +23,11 @@ use Illuminate\Http\Request;
 
 Route::get('/', [ItemController::class, 'index'])->middleware('user.onboarded');
 Route::get('/item/{item_id}', [ItemController::class, 'detail']);
-
-/* 会員のみプロフィールの作成、編集ができる */
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/mypage/profile', [ProfileController::class, 'create']);
     Route::post('/mypage/profile', [ProfileController::class, 'store']);
 });
 
-/* メール認証 */
 Route::middleware('auth')->group(function () {
     Route::get('/email/verify', fn() => view('auth.verify-email'))
         ->name('verification.notice');
@@ -45,7 +42,6 @@ Route::middleware('auth')->group(function () {
     })->middleware('throttle:6,1')->name('verification.send');
 });
 
-/* 会員登録済みかつ、プロフィール作成ユーザーが表示できる画面 */
 Route::middleware('auth', 'verified', 'user.onboarded')->group(function () {
     Route::get('/mypage', [ProfileController::class, 'mypage']);
     Route::get('/sell', [ItemController::class, 'create']);
@@ -54,11 +50,8 @@ Route::middleware('auth', 'verified', 'user.onboarded')->group(function () {
     Route::post('/item/{item_id}/like', [LikeController::class, 'like']);
     Route::get('/purchase/address/{item_id}', [DeliveryController::class, 'create']);
     Route::post('/purchase/address/{item_id}', [DeliveryController::class, 'store']);
-    Route::post('/purchase/method/{item_id}', [CheckoutController::class, 'method'])->name('paymentMethod');
-    Route::get('/purchase/{item_id}', [CheckoutController::class, 'showCheckout'])
-        ->name('purchase.show');
-    Route::post('/purchase/{item_id}', [CheckoutController::class, 'purchase'])
-        ->name('purchase');
-    Route::get('/purchase/{item_id}/success', [CheckoutController::class, 'success'])
-        ->name('card.success');
+    Route::post('/purchase/method/{item_id}', [CheckoutController::class, 'method']);
+    Route::get('/purchase/{item_id}', [CheckoutController::class, 'showCheckout']);
+    Route::post('/purchase/{item_id}', [CheckoutController::class, 'purchase']);
+    Route::get('/purchase/{item_id}/success', [CheckoutController::class, 'success']);
 });

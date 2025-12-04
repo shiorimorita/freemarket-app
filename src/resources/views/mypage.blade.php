@@ -17,10 +17,10 @@
     <nav class="mypage__profile-links">
         <ul class="mypage__profile-list">
             <li class="mypage__profile-item">
-                <a href="/mypage?page=sell" class="mypage__profile-link {{ $page == 'sell' ? 'mypage__profile-link--active' : '' }}">出品した商品</a>
+                <a href="/mypage?page=sell" class="mypage__profile-link {{ $page === 'sell' ? 'mypage__profile-link--active' : '' }}">出品した商品</a>
             </li>
             <li class="mypage__profile-item">
-                <a href="/mypage?page=buy" class="mypage__profile-link {{ $page == 'buy' ? 'mypage__profile-link--active' : '' }}">購入した商品</a>
+                <a href="/mypage?page=buy" class="mypage__profile-link {{ $page === 'buy' ? 'mypage__profile-link--active' : '' }}">購入した商品</a>
             </li>
         </ul>
     </nav>
