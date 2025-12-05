@@ -1,12 +1,5 @@
 # freemarket-app
 
-## テストユーザー（Seeder）
-
-- test@example.com / password
-  ※出品者として商品を 10 件登録済みです。
-
-- test02@example.com / password
-
 ## 環境構築
 
 ### Doker ビルド
@@ -109,6 +102,39 @@ Stripe 決済を利用した商品購入時のステータス更新について�
 
    - コンビニ払いを選択し、購入画面にて "購入する" ボタンを押下した時点で、対象商品を即座に `sold` ステータスへ切り替えます。
 
+## テストユーザー情報（Seeder）
+
+以下のテスト用アカウントが Seeder により自動生成されます。
+ログイン後、購入・いいねなどユーザー操作の確認が可能です。
+
+1. 出品者用アカウント
+
+メールアドレス：test@example.com
+パスワード：password
+商品 10 件を登録済みの状態です
+
+2. 購入者用アカウント
+
+メールアドレス：test02@example.com
+パスワード：password
+
+### テスト実行（確認手順）
+
+1. テストユーザーでログイン
+
+出品者 test@example.com / password
+
+購入者 test02@example.com / password
+
+2. 確認項目
+
+Seeder により商品 10 件が表示される
+ユーザーは新規商品登録が可能
+他ユーザーの商品を購入できる
+購入後、商品状態が Sold と表示される
+カテゴリー検索/いいね機能が動作する
+売却済み商品は購入不可になる
+
 ## ER 図
 
 <img width="942" height="1521" alt="Image" src="https://github.com/user-attachments/assets/05e439ab-58c4-46ad-a256-034d56b15117" />
@@ -117,7 +143,7 @@ Stripe 決済を利用した商品購入時のステータス更新について�
 
 - PHP 8.1.33
 - Laravel 8.83.8
-- MySQL 11.8.3
+- MySQL 8.0.26
 
 ## URL
 
