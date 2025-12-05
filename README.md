@@ -119,6 +119,7 @@ php artisan db:seed
 本アプリでは、一部機能について自動テスト（Feature テスト）を実装しています。
 
 ```
+docker-compose exec php bash
 php artisan test
 ```
 
