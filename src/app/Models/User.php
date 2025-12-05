@@ -67,7 +67,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Sold::class);
     }
 
-    /* ユーザーがいいねした商品、いいねした日時を取得 */
     public function likesItem()
     {
         return $this->belongsToMany(Item::class, 'likes', 'user_id', 'item_id')

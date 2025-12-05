@@ -9,14 +9,12 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-    /* profile view */
     public function create()
     {
         $user = Auth::user();
         return view('profile', compact('user'));
     }
 
-    /* profile store*/
     public function store(ProfileRequest $request)
     {
         $user = Auth::user();
@@ -38,7 +36,6 @@ class ProfileController extends Controller
         return redirect('/');
     }
 
-    /* mypage view */
     public function mypage(Request $request)
     {
         if (! $request->has('page')) {

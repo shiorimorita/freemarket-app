@@ -126,7 +126,6 @@
     row-gap: 20px;
 }
 
-/* 商品状態は、2カラムに調整 (商品状態の文字数による崩れを防ぐため) */
 .product-info__list:nth-of-type(2) {
     grid-template-columns: 180px 1fr;
 }
@@ -164,15 +163,18 @@
     font-weight: bold;
 }
 
-.comment-user__image {
+.comment-user__image,
+.comment__no-img-bg {
     border-radius: 50%;
     height: 70px;
     width: 70px;
-    object-fit: cover;
-    border: 1px solid #ddd;
 }
 
-/* 画像無しユーザー */
+.comment-user__image {
+    border: 1px solid #ddd;
+    object-fit: cover;
+}
+
 .comment__no-img-bg {
     background: #D9D9D9;
 }

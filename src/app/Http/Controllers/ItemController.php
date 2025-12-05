@@ -46,7 +46,6 @@ class ItemController extends Controller
 
         $keyword = session('search.keyword');
 
-        /* マイリストタブ */
         if ($tab === 'mylist') {
             if (!$user) {
                 $items = collect();
@@ -58,7 +57,6 @@ class ItemController extends Controller
                     ->get();
             }
         } else {
-            /* おすすめタブ */
             $items = Item::with(['sold'])
                 ->withCount('likes')
                 ->when($user, fn($q) => $q->where('user_id', '!=', $user->id))

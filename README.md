@@ -81,7 +81,7 @@ php artisan db:seed
 
    **必ずテストキー（pk_test / sk_test）を使用してください。**
 
-- 公開可能キー（STRIPE_KEY）
+- 公開可能キー（STRIPE_PUBLIC）
 - 秘密キー（STRIPE_SECRET）
   <img width="1920" height="198" alt="Image" src="https://github.com/user-attachments/assets/308bc7cb-16e5-40c6-96fe-7f0a37f3d183" />
 
@@ -93,12 +93,6 @@ php artisan db:seed
    STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxx
 ```
 
-## 使用技術(実行環境)
-
-- PHP 8.1.33
-- Laravel 8.83.8
-- MySQL 8.0.26
-
 ## 購入フロー
 
 Stripe 決済を利用した商品購入時のステータス更新について、以下のように制御しています。
@@ -108,7 +102,8 @@ Stripe 決済を利用した商品購入時のステータス更新について�
    - 購入者がカード情報を入力し Stripe の決済が完了した直後に、商品状態を `sold` に変更します。
 
    - Stripe のテストでは「4242 4242 4242 4242」のダミーカード番号を使用すると即決済成功となります。
-     ※詳細は公式ドキュメント（[Stripe テストカード一覧](https://stripe.com/docs/testing#international-cards)）をご参照ください。
+
+※詳細は公式ドキュメント（[Stripe テストカード一覧](https://stripe.com/docs/testing#international-cards)）をご参照ください。
 
 2. **コンビニ払い**
 
@@ -117,6 +112,12 @@ Stripe 決済を利用した商品購入時のステータス更新について�
 ## ER 図
 
 <img width="941" height="1521" alt="Image" src="https://github.com/user-attachments/assets/2ecc3507-2ad5-4913-9e09-41a217c59dd4" />
+
+## 使用技術(実行環境)
+
+- PHP 8.1.33
+- Laravel 8.83.8
+- MySQL 11.8.3
 
 ## URL
 

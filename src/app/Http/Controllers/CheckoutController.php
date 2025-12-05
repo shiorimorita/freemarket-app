@@ -10,9 +10,10 @@ use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
-    public function __construct()
+    public function method(Request $request, $item_id)
     {
-        \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+        session(["method_{$item_id}" => $request->input('method')]);
+        return response()->json(['status' => 'ok']);
     }
 
     private function validatePurchaseAccess(Item $item)
@@ -30,12 +31,6 @@ class CheckoutController extends Controller
         }
 
         return null;
-    }
-
-    public function method(Request $request, $item_id)
-    {
-        session(["method_{$item_id}" => $request->input('method')]);
-        return response()->json(['status' => 'ok']);
     }
 
     public function showCheckout($item_id)
@@ -67,14 +62,15 @@ class CheckoutController extends Controller
     {
         $item = Item::findOrFail($item_id);
 
+        $delivery = session("delivery_temp_{$item_id}");
+        $method = session("method_{$item_id}");
+
         if ($redirect = $this->validatePurchaseAccess($item)) {
             return $redirect;
         }
 
-        $delivery = session("delivery_temp_{$item_id}");
-        $method = session("method_{$item_id}");
-
         if ($method === 'カード払い') {
+            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
             $session = \Stripe\Checkout\Session::create([
                 'mode' => 'payment',
                 'payment_method_types' => ['card'],
@@ -109,6 +105,7 @@ class CheckoutController extends Controller
             session()->forget("delivery_temp_{$item_id}");
             session()->forget("method_{$item_id}");
 
+            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
             $session = \Stripe\Checkout\Session::create([
                 'mode' => 'payment',
                 'payment_method_types' => ['konbini'],
@@ -160,7 +157,6 @@ class CheckoutController extends Controller
             return redirect('/')->with('error', '決済確定に失敗しました。');
         }
 
-        // Capture 成功後に Sold 登録
         Sold::create([
             'user_id' => Auth::id(),
             'item_id' => $item_id,

@@ -74,7 +74,7 @@
                     @if ($comment->user->profile->image_path)
                     <img src="{{ asset('storage/' . $comment->user->profile->image_path) }}" alt="コメント投稿者の画像" class="comment-user__image" />
                     @else
-                    <div class="comment-user__image comment__no-img-bg"></div>
+                    <div class="comment__no-img-bg"></div>
                     @endif
                     <p class="comment-user__name">{{ $comment->user->name }}</p>
                 </div>

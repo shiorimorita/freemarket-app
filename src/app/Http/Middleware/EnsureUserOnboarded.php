@@ -20,12 +20,10 @@ class EnsureUserOnboarded
     {
         $user = Auth::user();
 
-        // 未ログインは完全スルー（/ は誰でも見れる）
         if (!$user) {
             return $next($request);
         }
 
-        // メール未認証
         if (!$user->hasVerifiedEmail()) {
             return redirect('/email/verify');
         }
