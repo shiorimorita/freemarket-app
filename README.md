@@ -106,24 +106,20 @@ Stripe 決済を利用した商品購入時のステータス更新について�
 
 以下のテスト用アカウントが Seeder により自動生成されます。
 
-1. 出品者用アカウント
+**アカウント A**
 
 - メールアドレス：test@example.com
 - パスワード：password
 - 商品 10 件を登録済みの状態です
 
-2. 購入者用アカウント
+**アカウント B**
 
 - メールアドレス：test02@example.com
 - パスワード：password
 
 ### テスト実行（確認手順）
 
-1. テストユーザーでログイン
-
-- 出品者 test@example.com / password
-
-- 購入者 test02@example.com / password
+1. テスト用ユーザーでログイン
 
 2. 確認項目
 
