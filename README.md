@@ -111,7 +111,7 @@ Stripe 決済を利用した商品購入時のステータス更新について�
 
 ## ER 図
 
-<img width="941" height="1521" alt="Image" src="https://github.com/user-attachments/assets/2ecc3507-2ad5-4913-9e09-41a217c59dd4" />
+<img width="942" height="1521" alt="Image" src="https://github.com/user-attachments/assets/05e439ab-58c4-46ad-a256-034d56b15117" />
 
 ## 使用技術(実行環境)
 
